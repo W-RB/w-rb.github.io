@@ -370,7 +370,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2020-11-04 20:06:36 / 修改时间：20:07:32" itemprop="dateCreated datePublished" datetime="2020-11-04T20:06:36+08:00">2020-11-04</time>
+      <time title="创建时间：2020-11-04 20:06:36 / 修改时间：20:09:50" itemprop="dateCreated datePublished" datetime="2020-11-04T20:06:36+08:00">2020-11-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -396,24 +396,14 @@
 <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p><a target="_blank" rel="noopener" href="http://noip.ybtoj.com.cn/problem/20025">戳这里</a></p>
 <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>一天小明坐在沙滩上玩石子，但是过了一会儿小明就玩腻了，于是他给自己出了一道难题：如果有一个棋盘，在棋盘外放置一粒石子，可以将其理解为第$0$个格子，然后需要在第一个格子里放入若干个石子，之后每一个格子放入前两个格子的石子数之和的石子，并且要满足第$a$个格子放$x$粒石子，并求出第$b$个格子有多少个石子。</p>
 <p>当然小明没有那么聪明，他给你的条件可能是错误的（就是第$a$个格子可能没有$x$粒石子），所以当条件是错误的时候你要告诉小明这个条件不成立。</p>
-<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>该题有多组数据，请读到文件末结束。</p>
-<p>对于每一组数据仅一行，$3$个正整数$a,x,b$，分别表示第$a$个格子放了$x$粒石子，以及你所需要计算的是第$b$个格子的石子数量。</p>
-<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>对于每一次询问，仅$1$个整数，为第$b$个格子的石子数量，若小明说的情况不存在，那么请输出**-1**。</p>
-<h2 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h2><p>对于$50%$的数据：如果答案存在，那么$p\leq50$ 。</p>
-<p>对于$100%$的数据：$1\leq$数据组数$\leq10^4$，$1\leq a,b\leq20$，数据保证如果答案存在，那么$1\leq p\leq10^6$ 。(注: $p$是第一格放置的石子数)。</p>
-<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>这道题嘛……很明显，就是一个斐波那契数列，<del>虽然我考试的时候不是这么写的</del></p>
-<p>这里我们有一个更简洁，好用，简单的算法————</p>
-<p><font size = 15><font color = purple> 打表 </font></font></p>
-<p>是的没错，就是打表</p>
-<p>我们看一下数据范围：$1\leq a,b\leq20$。那没事儿啊<del>这么点数据范围心里瞬间有底了</del></p>
-<p>那我们就可以打表啦~</p>
-<p>我们先找一下规律：</p>
-<p>设第一个格放了$x$个石子</p>
-<p>就会变成这个亚子：</p>
-<p><img src="https://img2020.cnblogs.com/blog/2114343/202011/2114343-20201102123813189-969753142.png"></p>
-<p>然后我们只要判断给出的数 减去 相对应的常数 取模 相对应的单项式</p>
-<p>若 不等于 $0$，就直接输出**-1**</p>
-<h1 id="AC-Code"><a href="#AC-Code" class="headerlink" title="AC Code"></a>AC Code</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> y[<span class="number">21</span>] = &#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">13</span>,<span class="number">21</span>,<span class="number">34</span>,<span class="number">55</span>,<span class="number">89</span>,<span class="number">144</span>,<span class="number">233</span>,<span class="number">377</span>,<span class="number">610</span>,<span class="number">987</span>,<span class="number">1597</span>,<span class="number">2584</span>,<span class="number">4181</span>&#125;;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> z[<span class="number">21</span>] = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">13</span>,<span class="number">21</span>,<span class="number">34</span>,<span class="number">55</span>,<span class="number">89</span>,<span class="number">144</span>,<span class="number">233</span>,<span class="number">377</span>,<span class="number">610</span>,<span class="number">987</span>,<span class="number">1597</span>,<span class="number">2584</span>,<span class="number">4181</span>,<span class="number">6765</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	freopen(<span class="string">&quot;kela.in&quot;</span>, <span class="string">&quot;r&quot;</span>, <span class="built_in">stdin</span>);</span><br><span class="line">	freopen(<span class="string">&quot;kela.out&quot;</span>, <span class="string">&quot;w&quot;</span>, <span class="built_in">stdout</span>);</span><br><span class="line">	<span class="keyword">long</span> <span class="keyword">long</span> a, x, b;</span><br><span class="line">	<span class="keyword">while</span>(~<span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld%lld&quot;</span>, &amp;a, &amp;x, &amp;b))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>((x - y[a]) % z[a] == <span class="number">0</span>)</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, z[b] * ((x - y[a]) / z[a]) + y[b]);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;-1\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/04/YbtOJ20025/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -463,7 +453,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2020-11-04 20:03:16 / 修改时间：20:06:23" itemprop="dateCreated datePublished" datetime="2020-11-04T20:03:16+08:00">2020-11-04</time>
+      <time title="创建时间：2020-11-04 20:03:16 / 修改时间：20:09:39" itemprop="dateCreated datePublished" datetime="2020-11-04T20:03:16+08:00">2020-11-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -488,58 +478,14 @@
           <p>小w又来氵题解啦~~</p>
 <h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p><a target="_blank" rel="noopener" href="http://noip.ybtoj.com.cn/problem/20001">戳这里</a></p>
 <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给出一个质数 ，要求你判断这个质数是否是两个立方数的差，即判断是否存在正整数$a,b$满足$a^3-b^3=p$。</p>
-<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>从文件<strong>cubicp.in</strong>中读入数据。</p>
-<p>多组数据。</p>
-<p>第一行给出一个$T$ ，表示有$T$组数据。</p>
-<p>接下来$T$行，每行一个质数$p$。</p>
-<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出到文件<strong>cubicp.out</strong>中。</p>
-<p>输出$T$行，对于每个数如果是立方差数，输出<strong>YES</strong>，否则输出<strong>NO</strong>。</p>
-<h3 id="样例？不想放了"><a href="#样例？不想放了" class="headerlink" title="样例？不想放了"></a>样例？不想放了</h3><h2 id="数据范围"><a href="#数据范围" class="headerlink" title="数据范围"></a>数据范围</h2><p>对于$30%$的数据,$2≤p≤100$;</p>
-<p>对于$60%$的数据,$2≤p≤10^6$</p>
-<p>对于$100%$的数据$2≤p≤10^{12}$,$1≤T≤100$,并且保证每个$p$均为质数。</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>看了这道题……很明显，这是一道数学题（你这不是废话吗）。</p>
-<p>首先，这里有一个立方差。</p>
-<p>由立方差公式：$a^3-b^3=(a-b)(a^2+ab+b^3)$</p>
-<p>可得：$p=a^3-b^3=(a-b)(a^2+ab+b^3)$ （字母都一样啊喂！）</p>
-<p>∵ $p$ 为质数</p>
-<p>∴ $(a-b)=1$</p>
-<p>这里小w解释一下：因为题目中已经说$p$是质数了，所以$(a-b)$和$(a^2+ab+b^2)$肯定有一个为$1$（要是有其他的就不是质数了对吧）</p>
-<p>而要是$(a^2+ab+b^2)=1$的话，我们就会明显地发现：$a^3-b^3=a-b$</p>
-<p>明显不成立</p>
-<p>所以这里只能让$(a-b)=1$了</p>
-<p>接着继续：</p>
-<p>∴ $b=a-1$</p>
-<p>这个也不用多说了吧？简易方程五年级下学期谢谢。</p>
-<p>然后我们就只需要枚举一个$a$到$\frac{p}{2}$。因为$p$最大为$10^{12}$，所以这里也就是$10^6$。</p>
-<p>这样的话，单次时间复杂度为$O(\frac{p}{2})$，总共为$O(\frac{pt}{2})$</p>
-<p>贴下代码：</p>
-<h1 id="Code1："><a href="#Code1：" class="headerlink" title="Code1："></a>Code1：</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> p;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> t;</span><br><span class="line"><span class="keyword">bool</span> flag;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">long</span> <span class="keyword">long</span> <span class="title">read</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> x = <span class="number">0</span>, f = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">char</span> ch = getchar();</span><br><span class="line">    <span class="keyword">while</span> (ch &lt; <span class="string">&#x27;0&#x27;</span> || ch &gt; <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ch == <span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">            f = <span class="number">-1</span>;</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">        x = (x &lt;&lt; <span class="number">1</span>) + (x &lt;&lt; <span class="number">3</span>) + (ch ^ <span class="number">48</span>);</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    freopen(<span class="string">&quot;cubicp.in&quot;</span>, <span class="string">&quot;r&quot;</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    freopen(<span class="string">&quot;cubicp.out&quot;</span>, <span class="string">&quot;w&quot;</span>, <span class="built_in">stdout</span>);</span><br><span class="line">    t = read();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= t; i++) &#123;</span><br><span class="line">        flag = <span class="literal">false</span>;</span><br><span class="line">        p = read();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">long</span> <span class="keyword">long</span> i = <span class="number">1</span>; i &lt;= <span class="number">1000000</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (p == (i - <span class="number">1</span>) * (i - <span class="number">1</span>) + i * i + i * (i - <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;YES\n&quot;</span>);</span><br><span class="line">                flag = <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (flag == <span class="literal">true</span>)</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;NO\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>但是！这还远远没有完。虽然刚刚我们的时间复杂度已经可以通过这道题了，但我们可以把单次时间压缩为$O(1)$！</p>
-<p>这个想法来自于lmt（%%%），他写出了比标程还快的程序！</p>
-<p>刚刚我们已经推到了$p=(a^2+ab+b^2)$，并且$b=a-1$</p>
-<p>那么$p=(a^2-2ab+b^2+3ab)$</p>
-<p>由完全平方公式$a^2-2ab+b^2=(a-b)^2$</p>
-<p>可得：$p=(a-b)^2+3ab$</p>
-<p>∵ $(a-b)=1$</p>
-<p>∴ $p=1+3ab$</p>
-<p>∵ $b=a-1$</p>
-<p>∴ $p=1+3a(a-1)$</p>
-<p>这样的话，如果$(p-1)%3≠0$，也就是说$p-1$并不是$3$的倍数，这就意味着这个肯定不成立，可以直接输出<strong>NO</strong></p>
-<p>若成立，那么$p=3a(a-1)$</p>
-<p>那么$\lfloor \sqrt{p} \rfloor=a-1$</p>
-<p>那么有人就一脸懵逼了：</p>
-<p>？？？？？</p>
-<p>这是什么鬼操作？？？</p>
-<p>首先，我们已知$p=a(a-1)$</p>
-<p>那么$(a-1)＜\sqrt{p}＜a$</p>
-<p>此时$\lfloor \sqrt{p} \rfloor=a-1$</p>
-<p>还可以得出$\lfloor \sqrt{p} \rfloor +1=a$</p>
-<p>这样，我们就无须枚举$a$，成功把时间降到线性。单次时间复杂度$O(1)$，总共为$O(t)$</p>
-<h1 id="Code2"><a href="#Code2" class="headerlink" title="Code2"></a>Code2</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> p;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    freopen(<span class="string">&quot;cubicp.in&quot;</span>, <span class="string">&quot;r&quot;</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    freopen(<span class="string">&quot;cubicp.out&quot;</span>, <span class="string">&quot;w&quot;</span>, <span class="built_in">stdout</span>);</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; p;</span><br><span class="line">        p -= <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (p % <span class="number">3</span> != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;NO&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            p /= <span class="number">3</span>;</span><br><span class="line">            <span class="keyword">long</span> <span class="keyword">long</span> f = <span class="built_in">sqrt</span>(p);</span><br><span class="line">            <span class="keyword">if</span> (f * (f + <span class="number">1</span>) == p) &#123;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;YES&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;NO&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>至此，这篇题解就氵完了</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/04/YbtOJ20001/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
