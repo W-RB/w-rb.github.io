@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"kanorena.cn","root":"/","scheme":"Muse","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"بحث...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+
+  <meta name="description" content="学校里要做课上操，上去播放好麻烦的哦……于是—— AutoPlay System诞生了！AutoPlay System(自动播放系统)为W-RB独立制作，基于.NET Framework 4.7.2，用C# Winform写的一个小软件，以便于不用每次去找视频播放了。是不是很心动呢？那我们开始吧~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【乱搞系列】自动播放系统">
+<meta property="og:url" content="https://kanorena.cn/2020/11/05/Autoplay/index.html">
+<meta property="og:site_name" content="W-RB&#39;s Blog">
+<meta property="og:description" content="学校里要做课上操，上去播放好麻烦的哦……于是—— AutoPlay System诞生了！AutoPlay System(自动播放系统)为W-RB独立制作，基于.NET Framework 4.7.2，用C# Winform写的一个小软件，以便于不用每次去找视频播放了。是不是很心动呢？那我们开始吧~">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-05T10:52:07.907Z">
+<meta property="article:modified_time" content="2020-11-04T12:42:01.230Z">
+<meta property="article:author" content="W-RB">
+<meta property="article:tag" content="C#">
+<meta property="article:tag" content="Visual Studio">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://kanorena.cn/2020/11/05/Autoplay/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-cn'
+  };
+</script>
+
+  <title>【乱搞系列】自动播放系统 | W-RB's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="تشغيل شريط التصفح">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">W-RB's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">「永不言弃，不悔华年」</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section">معلومات</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section">الوسوم</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section">التصنيفات</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives" rel="section">الأرشيفات</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links" rel="section">友链</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          المحتويات
+        </li>
+        <li class="sidebar-nav-overview">
+          عام
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AutoPlay-System%E8%AF%9E%E7%94%9F%E4%BA%86%EF%BC%81"><span class="nav-number">1.</span> <span class="nav-text">AutoPlay System诞生了！</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3"><span class="nav-number">2.</span> <span class="nav-text">主要思想</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%8E%AF%E5%A2%83"><span class="nav-number">3.</span> <span class="nav-text">代码环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AD%A3%E5%BC%8F%E5%88%B6%E4%BD%9C%EF%BC%81"><span class="nav-number">4.</span> <span class="nav-text">正式制作！</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="nav-number">5.</span> <span class="nav-text">#写入注册表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E8%8E%B7%E5%8F%96"><span class="nav-number">6.</span> <span class="nav-text">#时间获取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%A4%E6%96%AD-amp-%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">#判断&amp;打开文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%8D%E6%80%AA%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A"><span class="nav-number">8.</span> <span class="nav-text">才怪啊啊啊啊</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#While%E5%BE%AA%E7%8E%AF"><span class="nav-number">9.</span> <span class="nav-text">#While循环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#While%E5%BE%AA%E7%8E%AF%E5%8A%A0%E5%9C%A8%E5%93%AA%E9%87%8C%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A"><span class="nav-number">10.</span> <span class="nav-text">While循环加在哪里啊啊啊啊</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">11.</span> <span class="nav-text">#多线程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%8D%E6%80%AA%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A-1"><span class="nav-number">12.</span> <span class="nav-text">才怪啊啊啊啊</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C"><span class="nav-number">13.</span> <span class="nav-text">#后台运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%A8%E9%83%A8%E4%BB%A3%E7%A0%81"><span class="nav-number">14.</span> <span class="nav-text">#全部代码</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="W-RB"
+      src="/uploads/avatar.png">
+  <p class="site-author-name" itemprop="name">W-RB</p>
+  <div class="site-description" itemprop="description">「OI万年，蒟蒻不变」</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">المقالات</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">التصنيفات</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">الوسوم</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/w-rb" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;w-rb" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/3234108056@qq.com" title="E-Mail → 3234108056@qq.com"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-cn">
+    <link itemprop="mainEntityOfPage" href="https://kanorena.cn/2020/11/05/Autoplay/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="W-RB">
+      <meta itemprop="description" content="「OI万年，蒟蒻不变」">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W-RB's Blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【乱搞系列】自动播放系统
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">نُشر في</span>
+
+      <time title="أُنشأ: 2020-11-05 18:52:07" itemprop="dateCreated datePublished" datetime="2020-11-05T18:52:07+08:00">2020-11-05</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">عُدل في</span>
+        <time title="عُدل: 2020-11-04 20:42:01" itemprop="dateModified" datetime="2020-11-04T20:42:01+08:00">2020-11-04</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">في</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>学校里要做课上操，上去播放好麻烦的哦……于是——</p>
+<h1 id="AutoPlay-System诞生了！"><a href="#AutoPlay-System诞生了！" class="headerlink" title="AutoPlay System诞生了！"></a>AutoPlay System诞生了！</h1><p>AutoPlay System(自动播放系统)为W-RB独立制作，基于.NET Framework 4.7.2，用C# Winform写的一个小软件，以便于不用每次去找视频播放了。是不是很心动呢？那我们开始吧~</p>
+<a id="more"></a>
+<h1 id="主要思想"><a href="#主要思想" class="headerlink" title="主要思想"></a>主要思想</h1><p>新建线程，每隔几秒获取新一次时间并判断是否到达时间，若到达则打开.mp4文件。写入注册表实现开机自启动，隐藏进入托盘实现后台运行。</p>
+<h1 id="代码环境"><a href="#代码环境" class="headerlink" title="代码环境"></a>代码环境</h1><p>C# Winform</p>
+<p>Visual Studio 2019</p>
+<p>Windows 10系统。</p>
+<h1 id="正式制作！"><a href="#正式制作！" class="headerlink" title="正式制作！"></a>正式制作！</h1><p>首先，我们先创建一个C# Winform项目。这里过程就先略去了。</p>
+<h1 id="写入注册表"><a href="#写入注册表" class="headerlink" title="#写入注册表"></a>#写入注册表</h1><p>然后进入代码界面。我们先来写入注册表，代码如下：</p>
+<pre><code>path = Application.ExecutablePath;
+RegistryKey rk = Registry.LocalMachine;
+RegistryKey rk2 = rk.CreateSubKey(@&quot;SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;);//注册表路径
+rk2.SetValue(&quot;AutoPlay_System&quot;, path);//此处的&quot;AutoPlay_System&quot;可以自行起名
+rk2.Close();
+rk.Close();
+</code></pre><p><strong>此段代码应写在public Form1()内，InitializeComponent();之前。</strong></p>
+<p>别忘了还要定义一个string，用于存放路径：</p>
+<pre><code>public string path;
+</code></pre><p>至此，注册表写入已经完成，接着我们来做时间的获取：</p>
+<h1 id="时间获取"><a href="#时间获取" class="headerlink" title="#时间获取"></a>#时间获取</h1><p>首先我们定义一个字符串TTimes，它是应播放的时间点，用于判断。</p>
+<pre><code>public string TTimes = &quot;9:45&quot;;
+</code></pre><p>这里的时间可以随意填，格式为<strong>小时:分钟</strong></p>
+<p><strong>注意：这里的冒号必须用英文格式。</strong></p>
+<p>然后再定义一个字符串Times，用于获取时间。</p>
+<pre><code>public string Times = DateTime.Now.ToShortTimeString().ToString();
+</code></pre><p>DateTime.Now.ToShortTimeString().ToString();的作用是获取当前时间，返回格式是<strong>小时:分钟</strong>。</p>
+<p>然后加入判断与打开文件：</p>
+<h1 id="判断-amp-打开文件"><a href="#判断-amp-打开文件" class="headerlink" title="#判断&amp;打开文件"></a>#判断&amp;打开文件</h1><pre><code>if (Times == TTimes)
+&#123;
+    System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);//打开文件
+&#125;
+</code></pre><p>一切看起来都那么的美好。本文章到此结束了。</p>
+<h1 id="才怪啊啊啊啊"><a href="#才怪啊啊啊啊" class="headerlink" title="才怪啊啊啊啊"></a><font color=#FF0000>才怪啊啊啊啊</font></h1><p>刚保存完文件，我才想起来，我还没加循环怎么一直判断啊啊啊啊</p>
+<p>然后我们加上while循环：</p>
+<h1 id="While循环"><a href="#While循环" class="headerlink" title="#While循环"></a>#While循环</h1><pre><code>while (true)
+&#123;
+    if (Times == TTimes)
+    &#123;
+        System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);
+    &#125;
+&#125;
+</code></pre><p>不错，但是我们还意识到了一个问题：</p>
+<h1 id="While循环加在哪里啊啊啊啊"><a href="#While循环加在哪里啊啊啊啊" class="headerlink" title="While循环加在哪里啊啊啊啊"></a><font color=#FF0000>While循环加在哪里啊啊啊啊</font></h1><p>这个问题似乎很好解决，我们可以新开一个线程(RIGHT)</p>
+<h1 id="多线程"><a href="#多线程" class="headerlink" title="#多线程"></a>#多线程</h1><pre><code>Thread che = new Thread(new ThreadStart(Check));
+che.Start();
+</code></pre><p>那……这个Check怎么报错啊？</p>
+<p>其实这个Check是个函数，线程的运行函数。我们写一个函数：</p>
+<pre><code>private void Check()
+&#123;
+    while (true)
+    &#123;        
+        if (Times == TTimes)
+        &#123;
+            System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);
+            Thread.Sleep(100000);//停止线程1分钟防止屡次打开
+        &#125;
+        Thread.Sleep(5000);//停止线程5000ms，防止CPU炸掉
+&#125;
+</code></pre><p>很完美，这篇文章结束了。</p>
+<h1 id="才怪啊啊啊啊-1"><a href="#才怪啊啊啊啊-1" class="headerlink" title="才怪啊啊啊啊"></a><font color=#FF0000>才怪啊啊啊啊</font></h1><p>怎么开了多线程还是判断不好啊啊啊啊</p>
+<p>这时，我灵机一动！我一直没用更新现在时间欸</p>
+<p>于是：</p>
+<pre><code>private void Check()
+&#123;
+    while (true)
+    &#123;
+        Times = DateTime.Now.ToShortTimeString().ToString();
+        if (Times == TTimes)
+        &#123;
+            System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);
+            Thread.Sleep(100000);//停止线程1分钟防止屡次打开
+        &#125;
+        Thread.Sleep(5000);//停止线程5000ms，防止CPU炸掉
+&#125;
+</code></pre><p>至此，判断已经做好，接下来我们做后台~</p>
+<h1 id="后台运行"><a href="#后台运行" class="headerlink" title="#后台运行"></a>#后台运行</h1><p>我是自己做了个button。首先先拖一个button</p>
+<pre><code>private void button2_Click(object sender, EventArgs e)
+&#123;
+    closs();
+&#125;
+</code></pre><p>然后写个closs函数</p>
+<pre><code>private void closs()
+&#123;
+    this.Visible = false;
+    this.ShowInTaskbar = false;
+    notifyIcon1.Visible = true;
+&#125;
+</code></pre><p>那么……notifyIcon1是个啥？</p>
+<p>我们拖一个notifyIcon控件，再拖一个contextNemuStrip。</p>
+<p>notifyIcon1在属性栏Icon里随便弄一个，然后把ContextNemuStrip挂到刚刚拖出来的contextNemuStrip1.</p>
+<p>然后点击contextNemuStrip1，可以看到上面有一点白边。我们加入”显示”和”退出”</p>
+<p>然后分别双击”显示”和”退出”，写下代码。</p>
+<pre><code>private void 显示ToolStripMenuItem_Click_1(object sender, EventArgs e)
+&#123;
+    this.Visible = true;
+&#125;
+</code></pre><p>注意：这个好像通过退出无法退出，我们可以加一个提示让他从任务管理器退出</p>
+<pre><code>private void 退出ToolStripMenuItem_Click_1(object sender, EventArgs e)
+&#123;
+    if (MessageBox.Show(&quot;是否确认退出程序？&quot;, &quot;退出&quot;, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+    &#123;
+        MessageBox.Show(&quot;本按钮无法退出程序\n请从任务管理器中关闭&quot;, &quot;提示&quot;, MessageBoxButtons.OK, MessageBoxIcon.Information);
+    &#125;
+&#125;
+</code></pre><p>这样就差不多了，可以自己在搞一搞。</p>
+<p>最后放上我的全部代码：</p>
+<h1 id="全部代码"><a href="#全部代码" class="headerlink" title="#全部代码"></a>#全部代码</h1><pre><code>using System;
+using Microsoft.Win32;
+using System.Windows.Forms;
+using System.Threading;
+
+namespace AutoPlay_System
+&#123;
+    public partial class Form1 : Form
+    &#123;
+        public string Times = DateTime.Now.ToShortTimeString().ToString();
+        public string TTimes = &quot;9:45&quot;;
+        public string path;
+        public Form1()
+        &#123;
+            path = Application.ExecutablePath;
+            RegistryKey rk = Registry.LocalMachine;
+            RegistryKey rk2 = rk.CreateSubKey(@&quot;SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;);
+            rk2.SetValue(&quot;AutoPlay_System&quot;, path);
+            rk2.Close();
+            rk.Close();
+            Thread che = new Thread(new ThreadStart(Check));
+            che.Start();
+            InitializeComponent();
+        &#125;
+
+        private void Check()
+        &#123;
+            while (true)
+            &#123;
+                Times = DateTime.Now.ToShortTimeString().ToString();
+                if (Times == TTimes)
+                &#123;
+                    System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);
+                    Thread.Sleep(100000);
+                &#125;
+                Thread.Sleep(5000);
+            &#125;
+
+        &#125;
+
+        private void Form1_Load(object sender, EventArgs e)
+        &#123;
+            MessageBox.Show(&quot;AutoPlay System已启动！&quot;, &quot;提示&quot;, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        &#125;
+
+        private void button2_Click(object sender, EventArgs e)
+        &#123;
+            closs();
+        &#125;
+
+        private void closs()
+        &#123;
+            this.Visible = false;
+            this.ShowInTaskbar = false;
+            notifyIcon1.Visible = true;
+        &#125;
+
+        private void 显示ToolStripMenuItem_Click_1(object sender, EventArgs e)
+        &#123;
+            this.Visible = true;
+        &#125;
+
+        private void 退出ToolStripMenuItem_Click_1(object sender, EventArgs e)
+        &#123;
+            if (MessageBox.Show(&quot;是否确认退出程序？&quot;, &quot;退出&quot;, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            &#123;
+                MessageBox.Show(&quot;本按钮无法退出程序\n请从任务管理器中关闭&quot;, &quot;提示&quot;, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"># C#</a>
+              <a href="/tags/Visual-Studio/" rel="tag"># Visual Studio</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/11/05/CSPkaoshicelue/" rel="prev" title="【敲黑板】CSP考试策略">
+                  <i class="fa fa-chevron-left"></i> 【敲黑板】CSP考试策略
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/11/05/20CSP-Jchusai/" rel="next" title="【有惊无险】CSP-J初赛游记">
+                  【有惊无险】CSP-J初赛游记 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+  
+  
+  
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">W-RB</span>
+</div>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
