@@ -312,6 +312,20 @@
     </span>
 
   
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/11/05/wrbmafeng/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/11/05/wrbmafeng/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 </div>
 
         </div>
@@ -465,6 +479,7 @@ int main()
 
 
       
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -593,6 +608,17 @@ int main()
     
 
   
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: "/2020/11/05/wrbmafeng/",
+    }, {"enable":true,"appId":"WKxXY7H8j3cJ54xFw6NrLnTu-gzGzoHsz","appKey":"JOD2cGII0Be3TUPIu9xvBgMV","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
 
 </body>
 </html>
