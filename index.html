@@ -373,8 +373,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2020-11-14 20:06:26" itemprop="dateCreated datePublished" datetime="2020-11-14T20:06:26+08:00">2020-11-14</time>
+      <time title="创建时间：2020-11-14 20:06:26 / 修改时间：20:09:30" itemprop="dateCreated datePublished" datetime="2020-11-14T20:06:26+08:00">2020-11-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -398,46 +399,14 @@
     <div class="post-body" itemprop="articleBody">
           <p>作为今天<del>膜你抄</del>模拟赛上唯一切掉的题目，小w在此氵一篇题解。</p>
 <h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p><a target="_blank" rel="noopener" href="https://www.ybtoj.com.cn/contest/63/problem/1">比赛中的题目，题库还没有</a></p>
-<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>有一个长度为$n$的实数序列，下标从$1$开始，其中第$k$个位置的实数为$p\cdot(sin(a\cdot k+b)+cos(c\cdot +d)+2)$，$sin$和$cos$采用弧度制，其中$p,a,b,c,d$均为给定的整数。</p>
-<p>你需要从这个序列中选择两个位置（可以相同），使前边的位置上的数字减去后边的位置上的数字最大。</p>
-<p>如果选择了两个相同的位置，那么差为$0$。</p>
-<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>从文件<strong>weight.in</strong>中读入数据。</p>
-<p>一行六个整数$p,a,b,c,d,n$。</p>
-<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出到文件<strong>weight.out</strong>中。</p>
-<p>一行一个实数表示最大的差值，保留六位小数。</p>
-<h2 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h2><p>小w破天荒地给了样例。</p>
-<h3 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">100</span> <span class="number">432</span> <span class="number">406</span> <span class="number">867</span> <span class="number">60</span> <span class="number">1000</span></span><br></pre></td></tr></table></figure>
-<h3 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">399.303813</span></span><br></pre></td></tr></table></figure>
-<h3 id="数据范围与提示"><a href="#数据范围与提示" class="headerlink" title="数据范围与提示"></a>数据范围与提示</h3><p>对于$30\%$的数据，$1\leq p,a,b,c,d\leq 1000$，$1\leq n \leq 1000$；</p>
-<p>对于$100\%$的数据，$1\leq p,a,b,c,d\leq 1000$，$1\leq n \leq 10^6$。</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>这道题居然后$sin$和$cos$！小w哭了，于是试了试<code>cmath</code></p>
-<p>发现，果然有可以！</p>
-<p>那我们就读入，然后处理，最后<code>sort</code>一遍排个序，用最大值减去最小值就好了呗~</p>
-<h1 id="Code-1"><a href="#Code-1" class="headerlink" title="$Code$ $1$"></a>$Code$ $1$</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 1000007</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> qwq[MAXN] = &#123;<span class="number">0.000000</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> p, a, b, c, d, n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    freopen(<span class="string">&quot;weight.in&quot;</span>, <span class="string">&quot;r&quot;</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    freopen(<span class="string">&quot;weight.out&quot;</span>, <span class="string">&quot;w&quot;</span>, <span class="built_in">stdout</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d%d%d%d&quot;</span>, &amp;p, &amp;a, &amp;b, &amp;c, &amp;d, &amp;n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        qwq[i] = p * (<span class="built_in">sin</span>(a * i + b) + <span class="built_in">cos</span>(c * i + d) + <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sort(qwq + <span class="number">1</span>, qwq + <span class="number">1</span> + n);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%0.6lf&quot;</span>, qwq[n] - qwq[<span class="number">1</span>]);</span><br><span class="line">    fclose(<span class="built_in">stdin</span>);</span><br><span class="line">    fclose(<span class="built_in">stdout</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>复杂度$O(nlogn)$</p>
-<p>一切看起来都是辣么完美。</p>
-<font size = 5>
-
-但是！
-
-但是
-
-</font>
-
-<p><code>使前边的位置上的数字减去后边的位置上的数字最大</code></p>
-<p><strong>也就是说，顺序并不能打乱！</strong></p>
-<p><strong>也就是说，不能用<code>sort</code>！</strong></p>
-<p>那么，我们换个思路</p>
-<h1 id="思路-2"><a href="#思路-2" class="headerlink" title="思路 $2$"></a>思路 $2$</h1><p>我们先考虑打暴力，直接两重循环枚举每两个数的差然后取最大值。</p>
-<h1 id="Code-2"><a href="#Code-2" class="headerlink" title="$Code$ $2$"></a>$Code$ $2$</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 1000007</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> qwq[MAXN] = &#123;<span class="number">0.000000</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> p, a, b, c, d, n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    freopen(<span class="string">&quot;weight.in&quot;</span>, <span class="string">&quot;r&quot;</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    freopen(<span class="string">&quot;weight.out&quot;</span>, <span class="string">&quot;w&quot;</span>, <span class="built_in">stdout</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d%d%d%d&quot;</span>, &amp;p, &amp;a, &amp;b, &amp;c, &amp;d, &amp;n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        qwq[i] = p * (<span class="built_in">sin</span>(a * i + b) + <span class="built_in">cos</span>(c * i + d) + <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">double</span> maxn = -MAXN;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt;= n; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (qwq[i] - qwq[j] &gt; maxn)</span><br><span class="line">            &#123;</span><br><span class="line">                maxn = qwq[i] - qwq[j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%0.6lf&quot;</span>, maxn);</span><br><span class="line">    fclose(<span class="built_in">stdin</span>);</span><br><span class="line">    fclose(<span class="built_in">stdout</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样的话……复杂度$O(n^2)$</p>
-<p>太慢了啊喂！</p>
-<h1 id="思路-3"><a href="#思路-3" class="headerlink" title="思路 $3$"></a>思路 $3$</h1><p>这时，小w灵机一动！我们可以直接把处理放到预处理中！</p>
-<p>我们在预处理的循环中，找出<strong>目前最大值的下标</strong>，然后用<strong>目前最大值</strong>减去目前的值，若<strong>比之前最大值减目前的值大</strong>，就更新，最后输出。</p>
-<h1 id="Code-3-AC"><a href="#Code-3-AC" class="headerlink" title="$Code$ $3(AC)$"></a>$Code$ $3(AC)$</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 1000007</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> qwq[MAXN] = &#123; <span class="number">0.000000</span> &#125;;</span><br><span class="line"><span class="keyword">double</span> maxn = -MAXN;</span><br><span class="line"><span class="keyword">int</span> p, a, b, c, d, n, awa;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    freopen(<span class="string">&quot;weight.in&quot;</span>, <span class="string">&quot;r&quot;</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    freopen(<span class="string">&quot;weight.out&quot;</span>, <span class="string">&quot;w&quot;</span>, <span class="built_in">stdout</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d%d%d%d&quot;</span>, &amp;p, &amp;a, &amp;b, &amp;c, &amp;d, &amp;n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        qwq[i] = p * (<span class="built_in">sin</span>(a * i + b) + <span class="built_in">cos</span>(c * i + d) + <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">if</span> (qwq[awa] - qwq[i] &gt; maxn)</span><br><span class="line">        &#123;</span><br><span class="line">            maxn = qwq[awa] - qwq[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (qwq[i] &gt; qwq[awa])</span><br><span class="line">        &#123;</span><br><span class="line">            awa = i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%0.6lf&quot;</span>, maxn);</span><br><span class="line">    fclose(<span class="built_in">stdin</span>);</span><br><span class="line">    fclose(<span class="built_in">stdout</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样，复杂度成功降到$O(n)$！</p>
-<p>题解 · 完</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/14/YbtOJ20029/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -487,7 +456,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2020-11-14 19:36:32 / 修改时间：19:36:27" itemprop="dateCreated datePublished" datetime="2020-11-14T19:36:32+08:00">2020-11-14</time>
+      <time title="创建时间：2020-11-14 19:36:32 / 修改时间：20:09:45" itemprop="dateCreated datePublished" datetime="2020-11-14T19:36:32+08:00">2020-11-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -514,37 +483,14 @@
 <p>TG组没有来，应该是明天上午来，也就没能见到各位学长。不过好像也有TG组来了？</p>
 <p>宾馆大床必须好评！</p>
 <p>吃完饭大约8:00就去睡觉了，结果翻来覆去一直到九点多才睡着。</p>
-<h1 id="Day-1-Morning"><a href="#Day-1-Morning" class="headerlink" title="$Day$ $1$ $Morning$"></a>$Day$ $1$ $Morning$</h1><p>早上六点起床了，打了个卡发现是大吉$:)$</p>
-<p>然后我很悲催的发现：我$Dijkstra$板子居然又忘干净了QwQ(&lt;-学习Menci大佬)</p>
-<p>没时间背了，直接就坐着大巴车去了考场。</p>
-<p>去到发现早了近乎一个小时啊qwq</p>
-<p>设备好评！大显示器加上手感不错的键盘，感觉很好。</p>
-<p>然后，打开试题。$T1$，优秀的拆分。</p>
-<p>优秀的拆分？？？</p>
-<p>优秀的拆分？？？</p>
-<p><img src="https://img2020.cnblogs.com/blog/2114343/202011/2114343-20201107175318481-1586757286.png" alt=""></p>
-<p>？？？？？</p>
-<p>看了一眼，感觉不会，下一题。</p>
-<p>$T2$，看起来还可以，码了一个$O(n^2logn)$ $85$分走了。</p>
-<p>$T3$，后缀表达式？？？后来才知道要用栈，我都没想到……骗了个分走了。</p>
-<p>$T4$，做了一年……想写大暴搜却发现……我居然不会写暴搜啊啊啊</p>
-<p>居然没有图论$:)$我就图论不熟</p>
-<p>眼看最后半小时了，一直在写T4的大暴搜。时间一分一秒地流逝，最终还是没写出来。</p>
-<p>时间终于到了。</p>
-<p>出了考场，整个人都不好了。咕分$60+80+0+10=150$，直接无缘省一。</p>
-<h1 id="Day-1-Afternoon"><a href="#Day-1-Afternoon" class="headerlink" title="$Day$ $1$ $Afternoon$"></a>$Day$ $1$ $Afternoon$</h1><p>下午阻击TG学长，结果只遇见了lzy和ss学长$:($</p>
-<p>zzy说：</p>
-<blockquote>
-<p>这不是日照通往临沂的车，这是OI通往whk的车。</p>
-</blockquote>
-<p>窝表示很赞同</p>
-<blockquote>
-<p>无论这次如何，我们都是TG组的人了。</p>
-<p>过去的考试只能代表过去的一切.</p>
-<p>就算这一次考差，也并不能算什么。</p>
-</blockquote>
-<p>PJ爆零记，完</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/14/CSP-J2-2020/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
