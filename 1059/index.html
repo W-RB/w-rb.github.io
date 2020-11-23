@@ -22,18 +22,22 @@
     var CONFIG = {"hostname":"kanorena.cn","root":"/","scheme":"Muse","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="「OI万年，蒟蒻不变」">
-<meta property="og:type" content="website">
-<meta property="og:title" content="W-RB&#39;s Blog">
-<meta property="og:url" content="https://kanorena.cn/archives/page/2/index.html">
+  <meta name="description" content="注：本题解写给和本蒟蒻一样的萌新看，不喜者请略过。另欢迎各位大佬提出意见！ 这题其实很H₂O，因为数据较小(N≤100)，用for循环就可以A掉。但是，在这里我们用一个简单且快速的方法： STL库！(STL大法好)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LuoguP1059 明明的随机数">
+<meta property="og:url" content="https://kanorena.cn/1059/index.html">
 <meta property="og:site_name" content="W-RB&#39;s Blog">
-<meta property="og:description" content="「OI万年，蒟蒻不变」">
+<meta property="og:description" content="注：本题解写给和本蒟蒻一样的萌新看，不喜者请略过。另欢迎各位大佬提出意见！ 这题其实很H₂O，因为数据较小(N≤100)，用for循环就可以A掉。但是，在这里我们用一个简单且快速的方法： STL库！(STL大法好)">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-05T10:52:07.907Z">
+<meta property="article:modified_time" content="2020-11-04T12:41:11.831Z">
 <meta property="article:author" content="W-RB">
+<meta property="article:tag" content="STL">
+<meta property="article:tag" content="洛谷">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://kanorena.cn/archives/page/2/">
+<link rel="canonical" href="https://kanorena.cn/1059/">
 
 
 <script class="page-configurations">
@@ -41,12 +45,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | W-RB's Blog</title>
+  <title>LuoguP1059 明明的随机数 | W-RB's Blog</title>
   
 
 
@@ -177,7 +181,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -189,6 +193,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#STL%E5%BA%93%EF%BC%81-STL%E5%A4%A7%E6%B3%95%E5%A5%BD"><span class="nav-number">1.</span> <span class="nav-text">STL库！(STL大法好)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%87%BD%E6%95%B0-sort"><span class="nav-number">1.1.</span> <span class="nav-text">排序函数 sort</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%BB%E9%87%8D%E5%87%BD%E6%95%B0-unique"><span class="nav-number">1.2.</span> <span class="nav-text">去重函数 unique</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AC%E4%BB%A3%E7%A0%81%EF%BC%81"><span class="nav-number">2.</span> <span class="nav-text">AC代码！</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -252,160 +257,190 @@
 </noscript>
 
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
       
 
       
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 16 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kanorena.cn/1059/">
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="W-RB">
+      <meta itemprop="description" content="「OI万年，蒟蒻不变」">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W-RB's Blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LuoguP1059 明明的随机数
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-05 18:52:07" itemprop="dateCreated datePublished" datetime="2020-11-05T18:52:07+08:00">2020-11-05</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-11-04 20:41:11" itemprop="dateModified" datetime="2020-11-04T20:41:11+08:00">2020-11-04</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index"><span itemprop="name">题解</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/1059/" class="post-meta-item leancloud_visitors" data-flag-title="LuoguP1059 明明的随机数" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/1059/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/1059/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>注：本题解写给和本蒟蒻一样的萌新看，不喜者请略过。另欢迎各位大佬提出意见！</p>
+<p>这题其实很H₂O，因为数据较小(N≤100)，用for循环就可以A掉。但是，在这里我们用一个简单且快速的方法：</p>
+<h1 id="STL库！-STL大法好"><a href="#STL库！-STL大法好" class="headerlink" title="STL库！(STL大法好)"></a>STL库！<del>(STL大法好)</del></h1><a id="more"></a>
+<p>首先我们来认识一下这两个函数：</p>
+<h2 id="排序函数-sort"><a href="#排序函数-sort" class="headerlink" title="排序函数 sort"></a>排序函数 sort</h2><p>sort是C++STL库里的排序函数，属于十分常用的函数之一，可以节省一些手写的时间 <del>(懒人福音)</del>，缺点就是运行起来没有手写的快(STL都这一个特性)。</p>
+<p>sort函数的格式是这样的：</p>
+<pre><code class="lang-cpp">sort(数组名称,数组名称+数组元素个数);
+</code></pre>
+<p>举个例子：</p>
+<pre><code class="lang-cpp">int a[15];
+sort(a,a+15);
+</code></pre>
+<p>然后你就会发现，它已经帮你排好序了！</p>
+<h2 id="去重函数-unique"><a href="#去重函数-unique" class="headerlink" title="去重函数 unique"></a>去重函数 unique</h2><p>unique也是C++STL库里的常用函数之一，用来给一个已经</p>
+<p><strong>排！好！序！的！</strong><br>数组去重。unique的原理其实是把重复的元素用后面的元素代替掉。</p>
+<p>unique函数的用法是这样的：</p>
+<pre><code class="lang-cpp">unique(数组名称,数组名称+数组元素个数)
+</code></pre>
+<p>当然它还有一个十分神奇的用法：</p>
+<pre><code>int n = unique(数组名称,数组名称+数组元素个数);
+</code></pre><p>这样，你就会惊喜的发现，不但数组已经去重，还得到了去重后的数组元素数量！</p>
+<p>需要注意的是：</p>
+<p><strong>如果你输入数据时for循环喜欢写i=1，那么sort和unique应该相应的变为(数组名称+1，数组名称+数组元素个数+1)</strong></p>
+<p>当然，不要忘记了头文件：</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><algorithm></h2><p>好了，直接献上</p>
+<h1 id="AC代码！"><a href="#AC代码！" class="headerlink" title="AC代码！"></a>AC代码！</h1><pre><code class="lang-cpp">#include&lt;cstdio&gt;
+#include&lt;algorithm&gt;  //头文件记得加上哦
+using namespace std;
+int n,a[107],t;
+int main()
+&#123;
+    scanf(&quot;%d&quot;,&amp;n);  //用scanf和printf读写速度会比cout和cin快，所以建议使用scanf和printf
+    for(int i=0;i&lt;n;i++)
+        scanf(&quot;%d&quot;,&amp;a[i]);
+    sort(a,a+n);
+    t=(unique(a,a+n)-a);
+    printf(&quot;%d\n&quot;,t);
+    for(int i=0;i&lt;t;i++)
+        printf(&quot;%d &quot;,a[i]);
+    return 0;
+&#125;
+</code></pre>
+<p>另附i=1的写法：</p>
+<pre><code class="lang-cpp">#include&lt;cstdio&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+int n,a[107],t;
+int main()
+&#123;
+    scanf(&quot;%d&quot;,&amp;n);
+    for(int i=1;i&lt;=n;i++)
+        scanf(&quot;%d&quot;,&amp;a[i]);
+    sort(a+1,a+n+1);
+    t=(unique(a+1,a+n+1)-a-1);
+    printf(&quot;%d\n&quot;,t);
+    for(int i=1;i&lt;=t;i++)
+        printf(&quot;%d &quot;,a[i]);
+    return 0;
+&#125;
+</code></pre>
+<p>好了，这篇题解就这样结束了</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-11-05T18:52:07+08:00"
-              content="2020-11-05">
-          11-05
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/1706/" itemprop="url">
-            <span itemprop="name">LuoguP1706 小玉家的电费</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/STL/" rel="tag"># STL</a>
+              <a href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag"># 洛谷</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/1706/" rel="prev" title="LuoguP1706 小玉家的电费">
+                  <i class="fa fa-chevron-left"></i> LuoguP1706 小玉家的电费
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/xiangliang/" rel="next" title="【水沝淼㵘】向量略解">
+                  【水沝淼㵘】向量略解 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-11-05T18:52:07+08:00"
-              content="2020-11-05">
-          11-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/20gqyouji/" itemprop="url">
-            <span itemprop="name">【游记】qbxt国庆游记</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-11-05T18:52:07+08:00"
-              content="2020-11-05">
-          11-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/20CSP-Jchusai/" itemprop="url">
-            <span itemprop="name">【有惊无险】CSP-J初赛游记</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-11-05T18:52:07+08:00"
-              content="2020-11-05">
-          11-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/Autoplay/" itemprop="url">
-            <span itemprop="name">【乱搞系列】自动播放系统</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-11-05T18:52:07+08:00"
-              content="2020-11-05">
-          11-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/CSPkaoshicelue/" itemprop="url">
-            <span itemprop="name">【敲黑板】CSP考试策略</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2020-11-05T18:52:07+08:00"
-              content="2020-11-05">
-          11-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/hello-world/" itemprop="url">
-            <span itemprop="name">Hello World</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-
-    </div>
-  </div>
   
   
   
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-  </nav>
-
 
 
       
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -539,7 +574,7 @@ NexT.utils.loadComments('#valine-comments', () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
     new Valine(Object.assign({
       el  : '#valine-comments',
-      path: "/archives/page/2/",
+      path: "/1059/",
     }, {"enable":true,"appId":"WKxXY7H8j3cJ54xFw6NrLnTu-gzGzoHsz","appKey":"JOD2cGII0Be3TUPIu9xvBgMV","placeholder":"在这里留下您的评论吧","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":true,"requiredFields":["nick","mail"]}
     ));
   }, window.Valine);
