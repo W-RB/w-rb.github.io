@@ -22,12 +22,12 @@
     var CONFIG = {"hostname":"kanorena.cn","root":"/","scheme":"Muse","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="WARNING:长文警告  链接戳这里 题目题目描述给定$M$种颜色的珠子，每种颜色珠子的个数均不限，将这些珠子做成长度为$N$的项链。 问能做成多少种不重复的项链。 两条项链相同，当且仅当两条项链通过旋转或是翻转后能重合在一起，且对应珠子的颜色相同。 输入格式从文件necklace.in中读入数据。 一行两个整数分别表示$M,N$。 输出格式输出到文件necklace.out中。 一行一个整数表">
+  <meta name="description" content="WARNING:长文警告  链接戳这里 题目题目描述给定$M$种颜色的珠子，每种颜色珠子的个数均不限，将这些珠子做成长度为$N$的项链。 问能做成多少种不重复的项链。 两条项链相同，当且仅当两条项链通过旋转或是翻转后能重合在一起，且对应珠子的颜色相同。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="YbtOJ20030 连珠风暴">
 <meta property="og:url" content="https://kanorena.cn/YbtOJ20030/index.html">
 <meta property="og:site_name" content="W-RB&#39;s Blog">
-<meta property="og:description" content="WARNING:长文警告  链接戳这里 题目题目描述给定$M$种颜色的珠子，每种颜色珠子的个数均不限，将这些珠子做成长度为$N$的项链。 问能做成多少种不重复的项链。 两条项链相同，当且仅当两条项链通过旋转或是翻转后能重合在一起，且对应珠子的颜色相同。 输入格式从文件necklace.in中读入数据。 一行两个整数分别表示$M,N$。 输出格式输出到文件necklace.out中。 一行一个整数表">
+<meta property="og:description" content="WARNING:长文警告  链接戳这里 题目题目描述给定$M$种颜色的珠子，每种颜色珠子的个数均不限，将这些珠子做成长度为$N$的项链。 问能做成多少种不重复的项链。 两条项链相同，当且仅当两条项链通过旋转或是翻转后能重合在一起，且对应珠子的颜色相同。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212133843%E8%BD%A8%E9%81%93-%E7%A8%B3%E5%AE%9A%E5%AD%90%E5%AE%9A%E7%90%86%E8%AF%81%E6%98%8E.png">
 <meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212133700Burnside%E5%BC%95%E7%90%86%E8%AF%81%E6%98%8E.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212143345%E5%9B%9B%E8%BE%B92.png">
 <meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212143333%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C.png">
 <meta property="article:published_time" content="2020-12-12T14:38:33.480Z">
-<meta property="article:modified_time" content="2020-12-12T14:40:41.557Z">
+<meta property="article:modified_time" content="2020-12-12T14:44:17.037Z">
 <meta property="article:author" content="W-RB">
 <meta property="article:tag" content="数论">
 <meta property="article:tag" content="Polya定理">
@@ -301,7 +301,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2020-12-12 22:38:33 / 修改时间：22:40:41" itemprop="dateCreated datePublished" datetime="2020-12-12T22:38:33+08:00">2020-12-12</time>
+      <time title="创建时间：2020-12-12 22:38:33 / 修改时间：22:44:17" itemprop="dateCreated datePublished" datetime="2020-12-12T22:38:33+08:00">2020-12-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -350,6 +350,7 @@
 <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定$M$种颜色的珠子，每种颜色珠子的个数均不限，将这些珠子做成长度为$N$的项链。</p>
 <p>问能做成多少种不重复的项链。</p>
 <p>两条项链相同，当且仅当两条项链通过<strong>旋转</strong>或是<strong>翻转</strong>后能重合在一起，且对应珠子的颜色相同。</p>
+<a id="more"></a>
 <h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>从文件<strong>necklace.in</strong>中读入数据。</p>
 <p>一行两个整数分别表示$M,N$。</p>
 <h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出到文件<strong>necklace.out</strong>中。</p>
@@ -446,6 +447,11 @@
 <p>然后你就可以以十个测试点$60ms$的极速$A$掉这题了</p>
 <p><img src="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212143333%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C.png" alt="最终结果"></p>
 <h1 id="The-End"><a href="#The-End" class="headerlink" title="$The\ End$"></a>$The\ End$</h1><p>说句闲话，这道题题解给的正解是暴搜。</p>
+<p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/Soulist/solution-p4980">题解 P4980 【【模板】Polya定理】
+</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cyx0406/p/burnside_and_polya.html#_label5_0">【学习笔记】Burnside引理和Polya定理</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/63639510">Polya定理</a></p>
 
     </div>
 
