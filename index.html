@@ -204,7 +204,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -217,7 +217,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -367,6 +367,200 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://kanorena.cn/YbtOJ20030/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="W-RB">
+      <meta itemprop="description" content="「OI万年，蒟蒻不变」">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W-RB's Blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/YbtOJ20030/" class="post-title-link" itemprop="url">YbtOJ20030 连珠风暴</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-12 22:38:33" itemprop="dateCreated datePublished" datetime="2020-12-12T22:38:33+08:00">2020-12-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index"><span itemprop="name">题解</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/YbtOJ20030/" class="post-meta-item leancloud_visitors" data-flag-title="YbtOJ20030 连珠风暴" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/YbtOJ20030/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/YbtOJ20030/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <font color = red><font size = 5>WARNING:长文警告</font></font>
+
+<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p><a target="_blank" rel="noopener" href="https://www.ybtoj.com.cn/problem/20030">戳这里</a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定$M$种颜色的珠子，每种颜色珠子的个数均不限，将这些珠子做成长度为$N$的项链。</p>
+<p>问能做成多少种不重复的项链。</p>
+<p>两条项链相同，当且仅当两条项链通过<strong>旋转</strong>或是<strong>翻转</strong>后能重合在一起，且对应珠子的颜色相同。</p>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>从文件<strong>necklace.in</strong>中读入数据。</p>
+<p>一行两个整数分别表示$M,N$。</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出到文件<strong>necklace.out</strong>中。</p>
+<p>一行一个整数表示答案。</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><font color = red><font size = 5> $P\acute{o}lya$定理 </font></font>
+
+<p>首先，在讲这个复杂的定理前，我们先讲一些前置芝士</p>
+<font color = yellow><font size = 5> 大型定理的铺垫——前置芝士 </font></font>
+
+<h2 id="前置芝士"><a href="#前置芝士" class="headerlink" title="前置芝士"></a>前置芝士</h2><ul>
+<li>群</li>
+<li>置换</li>
+<li>置换群</li>
+<li>群作用</li>
+<li>轨道-稳定子定理</li>
+</ul>
+<h3 id="群"><a href="#群" class="headerlink" title="群"></a>群</h3><p><strong>群</strong>是什么呢？正规解释是这样的：</p>
+<p>定义集合$G$和作用与集合$G$的二元运算$\times$</p>
+<p>若其满足以下$4$个性质，则称其为一个群$(Group)$，记为 $(G,\times)$</p>
+<ol>
+<li><p>封闭性$(Closure)$</p>
+<p>若存在$a$和$b$满足$a\in G,b\in G$，则有$a\times b\in G$;</p>
+</li>
+<li><p>结合律$(Associativity)$</p>
+<p> 对于任意$a,b,c$有$(a\times b)\times c = a\times (b\times c)$</p>
+</li>
+<li><p>单位元$(Identity)$</p>
+<p> 存在$e\in G$，满足对于任意$a\in G$有：$a\times e = e\times a$</p>
+<p> 这样的$e$被称为单位元。单位元唯一</p>
+</li>
+<li><p>逆元$(Inverse)$</p>
+<p> 对于任意$a\in G$存在$a’\in G$ 满足$a\times a’ = a’\times a = e$，$a’$唯一。</p>
+</li>
+</ol>
+<p>可以简要理解为一个比较高级的<strong>集合</strong></p>
+<h3 id="置换"><a href="#置换" class="headerlink" title="置换"></a>置换</h3><p>对于置换，我们通常用<strong>双行表示法</strong>表示。</p>
+<p>例如：</p>
+<script type="math/tex; mode=display">\sigma = \left( \begin{matrix}
+1 & 2 & 3 & 4 & 5 & 6\\
+6 & 3 & 4 & 5 & 1 & 2 
+\end{matrix} \right)</script><p>相当于把第一行的元素替换为第二行的元素，写作$\sigma(a)$</p>
+<h3 id="置换群"><a href="#置换群" class="headerlink" title="置换群"></a>置换群</h3><p>简单地说，一个群多种置换组成的群，就是置换群</p>
+<p>它同群一样，有封闭性、结合律、单位元、逆元</p>
+<h3 id="群作用"><a href="#群作用" class="headerlink" title="群作用"></a>群作用</h3><p>对于一个集合$M$和一个群$G$</p>
+<p>如果二元函数$\varphi(v,k)$，$v$为群中的元素，$k$为集合中的元素，且有：</p>
+<script type="math/tex; mode=display">\varphi(e,k) = k (e为单位元)</script><script type="math/tex; mode=display">\varphi(g,\varphi(s,k)) = \varphi(g \times s,k)</script><p>就称群$G$作用与集合$M$</p>
+<h3 id="轨道-稳定子定理"><a href="#轨道-稳定子定理" class="headerlink" title="轨道-稳定子定理"></a>轨道-稳定子定理</h3><h4 id="轨道"><a href="#轨道" class="headerlink" title="轨道"></a>轨道</h4><p>一个作用在$X$上的群$G$，$X$中的一个元素$x$的轨道为$x$通过$G$中的元素可以转移到的元素的集合。</p>
+<p>可以形象地理解为一个火车所走的元素形成的集合。</p>
+<p>$x$的轨道被记为$G(x)$，我们可以用$g(x)$表示群$G$元素$g$所用于$x$的群作用的返回值，即</p>
+<script type="math/tex; mode=display">g(x) = \varphi(g,x)</script><h4 id="稳定子"><a href="#稳定子" class="headerlink" title="稳定子"></a>稳定子</h4><p>先上定义：</p>
+<script type="math/tex; mode=display">G^x=\{g|g\in G,g(x)=x\}</script><p>简要地用语言描述一下，就是群$G$中满足$g(x)=x$的所有元素$g$所构成的集合</p>
+<h4 id="轨道-稳定子定理-1"><a href="#轨道-稳定子定理-1" class="headerlink" title="轨道-稳定子定理"></a>轨道-稳定子定理</h4><p>先上公式：</p>
+<script type="math/tex; mode=display">|G^x|\times|G(x)|=|G|</script><p>证明略微繁琐，感兴趣的同学可以自己搜一下</p>
+<p><img src="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212133843%E8%BD%A8%E9%81%93-%E7%A8%B3%E5%AE%9A%E5%AD%90%E5%AE%9A%E7%90%86%E8%AF%81%E6%98%8E.png" alt="轨道-稳定子定理证明"></p>
+<font color = yellow><font size = 5> 预备工作完成——正片开始 </font></font>
+
+<h2 id="Burnside-引理"><a href="#Burnside-引理" class="headerlink" title="$Burnside$引理"></a>$Burnside$引理</h2><script type="math/tex; mode=display">|X/G|=\frac{1}{|G|}\sum_{|G|}|X^g|</script><p>$|X/G|$为$X$关于$G$的<strong>轨道数</strong></p>
+<p>其中$X^g=\{x|g(x)=x,x\in X\}$，我们称$X^g$是$X$在置换$g$下的<strong>不动点</strong>集合。</p>
+<p>什么是不动点？就是经过置换后仍然不动的点。</p>
+<p>举例：对于置换群$\sigma = \left( \begin{matrix}<br>1 &amp; 2 &amp; 3 \\<br>2 &amp; 1 &amp; 3<br>\end{matrix} \right)$，显然$3$就是不动点</p>
+<p>文字描述：$X$关于置换群$G$的轨道数，等于$G$中每个置换下不动点的个数的平均数。</p>
+<p>证明较繁琐，故此略去</p>
+<p><img src="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212133700Burnside%E5%BC%95%E7%90%86%E8%AF%81%E6%98%8E.png" alt="Burnside引理证明"></p>
+<font color = yellow><font size = 5> 终极结论—$P\acute{o}lya$定理 </font></font>
+
+<h2 id="P-acute-o-lya-定理"><a href="#P-acute-o-lya-定理" class="headerlink" title="$P\acute{o}lya$定理"></a>$P\acute{o}lya$定理</h2><p>$P\acute{o}lya$定理其实是$Burnside$引理的一种特殊形式。</p>
+<p>$Burnside$引理已经给出了等价类个数的表达式，$Polya$定理进一步具体到染色问题上，给出了本质不同的染色方案数的表达式。</p>
+<p>在使用$Burnside$解决染色问题的时候，我们需要求的是不动点的数量，而对于上述的置换，假设我们令每个$i$向$a_i$连一条边容易发现会得到若干个环，仔细思考，每个环的颜色应当相同。</p>
+<p>令$c(g)$为置换$g$所包含的循环个数</p>
+<p>将这个等式代入Burnside引理中，得到总的染色方案数为</p>
+<script type="math/tex; mode=display">\frac{1}{|G|}\sum_{g\in G}m^{c(g)}</script><p>这就是$P\acute{o}lya$定理！</p>
+<font color = yellow><font size = 5> 苦难后的幸福——进入问题 </font></font>
+
+<h2 id="切入问题"><a href="#切入问题" class="headerlink" title="切入问题"></a>切入问题</h2><p>那我们考虑一下这道题，是一个明显的$P\acute{o}lya$计数问题。它重叠的方案有几种呢？显然，两种——旋转和翻转</p>
+<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>将环顺时针旋转$i$格后，循环节个数为$gcd(n,i)$，利用$P\acute{o}lya$定理，显然染色方案为$\Sigma c^{gcd(n,i)}$</p>
+<h3 id="翻转"><a href="#翻转" class="headerlink" title="翻转"></a>翻转</h3><p>这里得考虑两种情况，奇数与偶数</p>
+<ul>
+<li><h4 id="奇数"><a href="#奇数" class="headerlink" title="奇数"></a>奇数</h4><p>当$n$为奇数时，共有$n$个循环节个数为$(n/2+1)$的循环群，染色方案为$n*c^(n/2+1)$</p>
+<p>那为什么循环群的个数为$(n/2+1)$呢？诸位可以自己举例理解一下。</p>
+</li>
+<li><h4 id="偶数"><a href="#偶数" class="headerlink" title="偶数"></a>偶数</h4><p>当$n$为偶数时，共有$n$个循环群，其中有$n/2$个的循环节个数为$（n/2 +1)$， 有$n/2$个的循环节个数为$(n/2)$。</p>
+<p>拿正方形为例，四个顶点编号$A,B,C,D$.  </p>
+</li>
+<li><p>当以对角的两个顶点连线为对称轴时,这样对称轴有2个$(n/2)$，经过翻转，$C,B$重合，$A,A$重合，$D,D$重合，那么循环节的个数为$3$, 即$(n/2+1)$。染色方案为  $(n/2)*c^{(n/2+1)}$</p>
+</li>
+</ul>
+<p><img src="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212143339%E5%9B%9B%E8%BE%B91.png" alt="四边1"></p>
+<ul>
+<li>当以两条相对平行的边的中点连线所在直线为对称轴时，这样的对称轴也有两个$(n/2)$，经过翻转，$A,B$重合，$C,D$重合，循环节的个数为2，即$(n/2)$染色方案为$(n/2)*c^{(n/2)}$</li>
+</ul>
+<p><img src="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212143345%E5%9B%9B%E8%BE%B92.png" alt="四边2"></p>
+<p>最终累加所有方案得到ans，再除以置换群的个数$2<em>n$，即 $ans/(2</em>n)$为最后答案。</p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="$Code$"></a>$Code$</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LL long long</span></span><br><span class="line"></span><br><span class="line">LL m, n, x, y, ans;</span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">gcd</span><span class="params">(LL a, LL b)</span>  <span class="comment">//辗转相除</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> b == <span class="number">0</span> ? a : gcd(b, a % b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LL <span class="title">power</span><span class="params">(LL p, LL n)</span>  <span class="comment">//幂运算</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LL ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (n--) ans *= p;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld&quot;</span>, &amp;m, &amp;n);</span><br><span class="line">    <span class="keyword">for</span> (LL i = <span class="number">1</span>; i &lt;= n; i++)  <span class="comment">//旋转</span></span><br><span class="line">    &#123;</span><br><span class="line">        ans += power(m, gcd(n, i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (n % <span class="number">2</span> == <span class="number">1</span>)  <span class="comment">//翻转奇数</span></span><br><span class="line">    &#123;</span><br><span class="line">        ans += (n * power(m, n / <span class="number">2</span> + <span class="number">1</span>));</span><br><span class="line">    &#125; <span class="keyword">else</span>  <span class="comment">//翻转偶数</span></span><br><span class="line">    &#123;</span><br><span class="line">        ans += ((n / <span class="number">2</span> * power(m, n / <span class="number">2</span> + <span class="number">1</span>)) + (n / <span class="number">2</span> * power(m, n / <span class="number">2</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">    ans = ans / (<span class="number">2</span> * n);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>, ans);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后你就可以以十个测试点$60ms$的极速$A$掉这题了</p>
+<p><img src="https://images.cnblogs.com/cnblogs_com/w-rb/1899392/o_201212143333%E6%9C%80%E7%BB%88%E7%BB%93%E6%9E%9C.png" alt="最终结果"></p>
+<h1 id="The-End"><a href="#The-End" class="headerlink" title="$The\ End$"></a>$The\ End$</h1><p>说句闲话，这道题题解给的正解是暴搜。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://kanorena.cn/YbtOJ20029/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -394,10 +588,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2020-11-14 20:06:26 / 修改时间：20:09:30" itemprop="dateCreated datePublished" datetime="2020-11-14T20:06:26+08:00">2020-11-14</time>
+      <time title="创建时间：2020-11-14 20:06:26" itemprop="dateCreated datePublished" datetime="2020-11-14T20:06:26+08:00">2020-11-14</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-12-12 18:33:59" itemprop="dateModified" datetime="2020-12-12T18:33:59+08:00">2020-12-12</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -440,7 +640,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>作为今天<del>膜你抄</del>模拟赛上唯一切掉的题目，小w在此氵一篇题解。</p>
-<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p><a target="_blank" rel="noopener" href="https://www.ybtoj.com.cn/contest/63/problem/1">比赛中的题目，题库还没有</a></p>
+<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p><a target="_blank" rel="noopener" href="https://www.ybtoj.com.cn/problem/20029">戳这里</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/YbtOJ20029/#more" rel="contents">
@@ -1218,115 +1418,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/1059/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kanorena.cn/1706/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="W-RB">
-      <meta itemprop="description" content="「OI万年，蒟蒻不变」">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="W-RB's Blog">
-    </span>
-
-    
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/1706/" class="post-title-link" itemprop="url">LuoguP1706 小玉家的电费</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-11-05 18:52:07" itemprop="dateCreated datePublished" datetime="2020-11-05T18:52:07+08:00">2020-11-05</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-04 20:41:50" itemprop="dateModified" datetime="2020-11-04T20:41:50+08:00">2020-11-04</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index"><span itemprop="name">题解</span></a>
-        </span>
-    </span>
-
-  
-    <span id="/1706/" class="post-meta-item leancloud_visitors" data-flag-title="LuoguP1706 小玉家的电费" title="阅读次数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-eye"></i>
-      </span>
-      <span class="post-meta-item-text">阅读次数：</span>
-      <span class="leancloud-visitors-count"></span>
-    </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/1706/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/1706/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>本蒟蒻第一次写题解，所以 <del>选了一道很H₂O的题</del> 十分激动。本题解献给和本蒟蒻一样蒟蒻的OIer。</p>
-<p>下面进入正题</p>
-<p>通过题意可以知道数据一共分成了三段，即：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/1706/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
