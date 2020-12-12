@@ -353,63 +353,9 @@
 <p>拿下试卷，选择题都很简单。差不多十多分钟，选择题就写完了。</p>
 <p>但是！但是！但是！后面的阅读程序是真的让我蒙了！</p>
 <p>Like this：</p>
-<pre><code class="lang-cpp">#include &lt;algorithm&gt;
-#include &lt;iostream&gt;
-using namespace std;
-int n;
-int d[50][2];
-int ans;
-void dfs(int n, int sum) &#123;
-    if (n=-1) &#123;
-        ans = max(sum,ans);
-        return;
-    &#125;
-    for (int i = 1;i &lt; n; ++i) &#123;
-    int a = d[i -1][0]，b= d[i - 1][1];
-    int x = d[i][e], y = d[1][1];
-    d[i- 1][0] = a + x;
-    d[i-1][1] = b + y;
-    for(int j = 1; j &lt; n - 1; ++j)
-        d[j][0] = d[j + 1][0], d[j][1] - d[j + 1][1];
-    int s = a + x + abs(b - y);
-    dfs(n - 1, sum + s);
-    for (int j = n-1;j &gt; 1; --1)
-        d[j][0] = d[j - 1][0], d[j][1] = d[j - 1][1];
-    d[i - 1][0] = a, d[i - 1][1] = b;
-    d[i][0] = x，d[i][1] = y;
-int main() &#123;
-    cin &gt;&gt; n;
-    for(int i = 0;i &lt; n;++i)
-        cin &gt;&gt; d[1][0];
-    for(int i=0;i&lt;n;++1)
-        cin &gt;&gt; d[1][1];
-    ans = 0;
-    dfs(n, 0);
-    cout &lt;&lt; ans &lt;&lt; endl;
-    return 0;
-&#125;
-</code></pre>
-<pre><code>假设输入的n是不超过50的正整数，d[1][θ]、 d[i][1]都是不超过10000的正整数，完成下面的判断题和单选题:
-
-●判断题
-1) 若输入n为0，此程序可能会死循环或发生运行错误。( )
-
-2) 若输入n为20，接下来的输入全为日。则输出为0。( )
-
-3) 输出的数一定不小于输入的d[1][0]和d[1][1]的任意一个。( )
-
-●单选题
-4) 若输入的n为20，接下来的输入是20个9和20个e，则输出为
-()
-A.1917  B.1908  C.1881  D.1890
-
-5) 若输入的n为30，接下来的输入是30个日和30个5，则输出为
-()。
-A.2020  B.2030  C.2010  D.2000
-
-6)  (4分) 若输入的n为15，接下来的输入是15到1。以及15到1.则输出为()。
-A.2420  B.2220  C.2440  D.2240
-</code></pre><p>看完这个题当时我脑子就炸了。这是什么鬼玩意啊</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> d[<span class="number">50</span>][<span class="number">2</span>];</span><br><span class="line"><span class="keyword">int</span> ans;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> sum)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (n=<span class="number">-1</span>) &#123;</span><br><span class="line">		ans = max(sum,ans);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>;i &lt; n; ++i) &#123;</span><br><span class="line">	<span class="keyword">int</span> a = d[i <span class="number">-1</span>][<span class="number">0</span>]，b= d[i - <span class="number">1</span>][<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">int</span> x = d[i][e], y = d[<span class="number">1</span>][<span class="number">1</span>];</span><br><span class="line">	d[i- <span class="number">1</span>][<span class="number">0</span>] = a + x;</span><br><span class="line">	d[i<span class="number">-1</span>][<span class="number">1</span>] = b + y;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; n - <span class="number">1</span>; ++j)</span><br><span class="line">		d[j][<span class="number">0</span>] = d[j + <span class="number">1</span>][<span class="number">0</span>], d[j][<span class="number">1</span>] - d[j + <span class="number">1</span>][<span class="number">1</span>];</span><br><span class="line">	<span class="keyword">int</span> s = a + x + <span class="built_in">abs</span>(b - y);</span><br><span class="line">	dfs(n - <span class="number">1</span>, sum + s);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = n<span class="number">-1</span>;j &gt; <span class="number">1</span>; -<span class="number">-1</span>)</span><br><span class="line">		d[j][<span class="number">0</span>] = d[j - <span class="number">1</span>][<span class="number">0</span>], d[j][<span class="number">1</span>] = d[j - <span class="number">1</span>][<span class="number">1</span>];</span><br><span class="line">	d[i - <span class="number">1</span>][<span class="number">0</span>] = a, d[i - <span class="number">1</span>][<span class="number">1</span>] = b;</span><br><span class="line">	d[i][<span class="number">0</span>] = x，d[i][<span class="number">1</span>] = y;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; n;++i)</span><br><span class="line">		<span class="built_in">cin</span> &gt;&gt; d[<span class="number">1</span>][<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++<span class="number">1</span>)</span><br><span class="line">		<span class="built_in">cin</span> &gt;&gt; d[<span class="number">1</span>][<span class="number">1</span>];</span><br><span class="line">	ans = <span class="number">0</span>;</span><br><span class="line">	dfs(n, <span class="number">0</span>);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; ans &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">假设输入的n是不超过50的正整数，d[<span class="string">1</span>][<span class="symbol">θ</span>]、 d[<span class="string">i</span>][<span class="symbol">1</span>]都是不超过10000的正整数，完成下面的判断题和单选题:</span><br><span class="line"></span><br><span class="line">●判断题</span><br><span class="line">1) 若输入n为0，此程序可能会死循环或发生运行错误。( )</span><br><span class="line"></span><br><span class="line">2) 若输入n为20，接下来的输入全为日。则输出为0。( )</span><br><span class="line"></span><br><span class="line">3) 输出的数一定不小于输入的d[<span class="string">1</span>][<span class="symbol">0</span>]和d[<span class="string">1</span>][<span class="symbol">1</span>]的任意一个。( )</span><br><span class="line"></span><br><span class="line">●单选题</span><br><span class="line">4) 若输入的n为20，接下来的输入是20个9和20个e，则输出为</span><br><span class="line">()</span><br><span class="line">A.1917  B.1908  C.1881  D.1890</span><br><span class="line"></span><br><span class="line">5) 若输入的n为30，接下来的输入是30个日和30个5，则输出为</span><br><span class="line">()。</span><br><span class="line">A.2020  B.2030  C.2010  D.2000</span><br><span class="line"></span><br><span class="line">6)  (4分) 若输入的n为15，接下来的输入是15到1。以及15到1.则输出为()。</span><br><span class="line">A.2420  B.2220  C.2440  D.2240</span><br></pre></td></tr></table></figure>
+<p>看完这个题当时我脑子就炸了。这是什么鬼玩意啊</p>
 <p>不过所幸，后面的完善程序还算简单。</p>
 <p>2 HOURS LATER</p>
 <p>走出考场，心里大喊：废了废了。看到同学们都这样的模样。Jair说他废了（然鹅他70+，这个骗子），椋枨说他还好。wyy和DAZ都是一副面对垃圾试题才会露出的表情。</p>
@@ -437,13 +383,13 @@ A.2420  B.2220  C.2440  D.2240
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/Autoplay/" rel="prev" title="【乱搞系列】自动播放系统">
-                  <i class="fa fa-chevron-left"></i> 【乱搞系列】自动播放系统
+                <a href="/20gqyouji/" rel="prev" title="【游记】qbxt国庆游记">
+                  <i class="fa fa-chevron-left"></i> 【游记】qbxt国庆游记
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/20gqyouji/" rel="next" title="【游记】qbxt国庆游记">
-                  【游记】qbxt国庆游记 <i class="fa fa-chevron-right"></i>
+                <a href="/1059/" rel="next" title="LuoguP1059 明明的随机数">
+                  LuoguP1059 明明的随机数 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

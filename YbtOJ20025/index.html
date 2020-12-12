@@ -368,31 +368,7 @@
 <p><img src="https://img2020.cnblogs.com/blog/2114343/202011/2114343-20201102123813189-969753142.png" alt=""></p>
 <p>然后我们只要判断给出的数 减去 相对应的常数 取模 相对应的单项式</p>
 <p>若 不等于 $0$，就直接输出<strong>-1</strong></p>
-<h1 id="AC-Code"><a href="#AC-Code" class="headerlink" title="AC Code"></a>AC Code</h1><pre><code class="lang-cpp">#include&lt;cstdio&gt;
-#include&lt;cstring&gt;
-#include&lt;iostream&gt;
-#include&lt;algorithm&gt;
-using namespace std;
-
-long long y[21] = &#123;1,0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181&#125;;
-long long z[21] = &#123;0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765&#125;;
-
-int main()
-&#123;
-    freopen(&quot;kela.in&quot;, &quot;r&quot;, stdin);
-    freopen(&quot;kela.out&quot;, &quot;w&quot;, stdout);
-    long long a, x, b;
-    while(~scanf(&quot;%lld%lld%lld&quot;, &amp;a, &amp;x, &amp;b))
-    &#123;
-        if((x - y[a]) % z[a] == 0)
-            printf(&quot;%lld\n&quot;, z[b] * ((x - y[a]) / z[a]) + y[b]);
-        else
-            printf(&quot;-1\n&quot;);
-    &#125;
-    return 0;
-&#125;
-</code></pre>
-
+<h1 id="AC-Code"><a href="#AC-Code" class="headerlink" title="AC Code"></a>AC Code</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> y[<span class="number">21</span>] = &#123;<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">13</span>,<span class="number">21</span>,<span class="number">34</span>,<span class="number">55</span>,<span class="number">89</span>,<span class="number">144</span>,<span class="number">233</span>,<span class="number">377</span>,<span class="number">610</span>,<span class="number">987</span>,<span class="number">1597</span>,<span class="number">2584</span>,<span class="number">4181</span>&#125;;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> z[<span class="number">21</span>] = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">13</span>,<span class="number">21</span>,<span class="number">34</span>,<span class="number">55</span>,<span class="number">89</span>,<span class="number">144</span>,<span class="number">233</span>,<span class="number">377</span>,<span class="number">610</span>,<span class="number">987</span>,<span class="number">1597</span>,<span class="number">2584</span>,<span class="number">4181</span>,<span class="number">6765</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	freopen(<span class="string">&quot;kela.in&quot;</span>, <span class="string">&quot;r&quot;</span>, <span class="built_in">stdin</span>);</span><br><span class="line">	freopen(<span class="string">&quot;kela.out&quot;</span>, <span class="string">&quot;w&quot;</span>, <span class="built_in">stdout</span>);</span><br><span class="line">	<span class="keyword">long</span> <span class="keyword">long</span> a, x, b;</span><br><span class="line">	<span class="keyword">while</span>(~<span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld%lld&quot;</span>, &amp;a, &amp;x, &amp;b))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>((x - y[a]) % z[a] == <span class="number">0</span>)</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, z[b] * ((x - y[a]) / z[a]) + y[b]);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;-1\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     

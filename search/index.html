@@ -374,12 +374,7 @@
 <p><del>奇怪的骗分技巧增加了！</del></p>
 <p>那怎么实现呢？</p>
 <p>首先，我们引入头文件<code>#include&lt;ctime&gt;</code>，然后就可以进行一波神奇的操作：</p>
-<pre><code class="lang-cpp">if (clock() * 1000 &gt;= 900 * CLOCKS_PER_SEC) //时间快要到了，要准备收拾后事了
-&#123;
-    输出当前答案;
-    exit(0); //直接退出程序，就像突然猝死
-&#125;
-</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (clock() * <span class="number">1000</span> &gt;= <span class="number">900</span> * CLOCKS_PER_SEC) <span class="comment">//时间快要到了，要准备收拾后事了</span></span><br><span class="line">&#123;</span><br><span class="line">    输出当前答案;</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>); <span class="comment">//直接退出程序，就像突然猝死</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个办法在之前的NOIP有过实战，当时直接把35分-&gt;90分。<strong>TQL！</strong></p>
 <font size=5>值得注意的是，<font color=#FF0000>要留出给程序**退出**的时间，一般卡时可以设到**900ms~950ms**。</font></font>
 

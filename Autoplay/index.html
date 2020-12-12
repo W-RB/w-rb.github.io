@@ -352,175 +352,50 @@
 <p>Windows 10系统。</p>
 <h1 id="正式制作！"><a href="#正式制作！" class="headerlink" title="正式制作！"></a>正式制作！</h1><p>首先，我们先创建一个C# Winform项目。这里过程就先略去了。</p>
 <h1 id="写入注册表"><a href="#写入注册表" class="headerlink" title="#写入注册表"></a>#写入注册表</h1><p>然后进入代码界面。我们先来写入注册表，代码如下：</p>
-<pre><code>path = Application.ExecutablePath;
-RegistryKey rk = Registry.LocalMachine;
-RegistryKey rk2 = rk.CreateSubKey(@&quot;SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;);//注册表路径
-rk2.SetValue(&quot;AutoPlay_System&quot;, path);//此处的&quot;AutoPlay_System&quot;可以自行起名
-rk2.Close();
-rk.Close();
-</code></pre><p><strong>此段代码应写在public Form1()内，InitializeComponent();之前。</strong></p>
-<p>别忘了还要定义一个string，用于存放路径：</p>
-<pre><code>public string path;
-</code></pre><p>至此，注册表写入已经完成，接着我们来做时间的获取：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">path = Application.ExecutablePath;</span><br><span class="line">RegistryKey rk = Registry.LocalMachine;</span><br><span class="line">RegistryKey rk2 = rk.<span class="constructor">CreateSubKey(@<span class="string">&quot;SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;</span>)</span>;<span class="comment">//注册表路径</span></span><br><span class="line">rk2.<span class="constructor">SetValue(<span class="string">&quot;AutoPlay_System&quot;</span>, <span class="params">path</span>)</span>;<span class="comment">//此处的&quot;AutoPlay_System&quot;可以自行起名</span></span><br><span class="line">rk2.<span class="constructor">Close()</span>;</span><br><span class="line">rk.<span class="constructor">Close()</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>此段代码应写在public Form1()内，InitializeComponent();之前。</strong></p>
+<p>别忘了还要定义一个string，用于存放路径：<br><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">string</span> path;</span><br></pre></td></tr></table></figure></p>
+<p>至此，注册表写入已经完成，接着我们来做时间的获取：</p>
 <h1 id="时间获取"><a href="#时间获取" class="headerlink" title="#时间获取"></a>#时间获取</h1><p>首先我们定义一个字符串TTimes，它是应播放的时间点，用于判断。</p>
-<pre><code>public string TTimes = &quot;9:45&quot;;
-</code></pre><p>这里的时间可以随意填，格式为<strong>小时:分钟</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="built_in">string</span> TTimes = <span class="string">&quot;9:45&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>这里的时间可以随意填，格式为<strong>小时:分钟</strong></p>
 <p><strong>注意：这里的冒号必须用英文格式。</strong></p>
 <p>然后再定义一个字符串Times，用于获取时间。</p>
-<pre><code>public string Times = DateTime.Now.ToShortTimeString().ToString();
-</code></pre><p>DateTime.Now.ToShortTimeString().ToString();的作用是获取当前时间，返回格式是<strong>小时:分钟</strong>。</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public string <span class="keyword">Times</span> = DateTime.<span class="keyword">Now</span>.ToShortTimeString().<span class="keyword">ToString</span>();</span><br></pre></td></tr></table></figure>
+<p>DateTime.Now.ToShortTimeString().ToString();的作用是获取当前时间，返回格式是<strong>小时:分钟</strong>。</p>
 <p>然后加入判断与打开文件：</p>
-<h1 id="判断-amp-打开文件"><a href="#判断-amp-打开文件" class="headerlink" title="#判断&amp;打开文件"></a>#判断&amp;打开文件</h1><pre><code>if (Times == TTimes)
-&#123;
-    System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);//打开文件
-&#125;
-</code></pre><p>一切看起来都那么的美好。本文章到此结束了。</p>
+<h1 id="判断-amp-打开文件"><a href="#判断-amp-打开文件" class="headerlink" title="#判断&amp;打开文件"></a>#判断&amp;打开文件</h1><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">if</span> (Times == TTimes)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="selector-tag">System</span><span class="selector-class">.Diagnostics</span><span class="selector-class">.Process</span><span class="selector-class">.Start</span>(<span class="string">&quot;D:\\体育三操\\课上操.mp4&quot;</span>);<span class="comment">//打开文件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一切看起来都那么的美好。本文章到此结束了。</p>
 <h1 id="才怪啊啊啊啊"><a href="#才怪啊啊啊啊" class="headerlink" title="才怪啊啊啊啊"></a><font color=#FF0000>才怪啊啊啊啊</font></h1><p>刚保存完文件，我才想起来，我还没加循环怎么一直判断啊啊啊啊</p>
 <p>然后我们加上while循环：</p>
-<h1 id="While循环"><a href="#While循环" class="headerlink" title="#While循环"></a>#While循环</h1><pre><code>while (true)
-&#123;
-    if (Times == TTimes)
-    &#123;
-        System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);
-    &#125;
-&#125;
-</code></pre><p>不错，但是我们还意识到了一个问题：</p>
+<h1 id="While循环"><a href="#While循环" class="headerlink" title="#While循环"></a>#While循环</h1><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="keyword">true</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (Times == TTimes)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">System</span>.<span class="keyword">Diagnostics</span>.Process.<span class="keyword">Start</span>(&quot;D:\\体育三操\\课上操.mp4&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不错，但是我们还意识到了一个问题：</p>
 <h1 id="While循环加在哪里啊啊啊啊"><a href="#While循环加在哪里啊啊啊啊" class="headerlink" title="While循环加在哪里啊啊啊啊"></a><font color=#FF0000>While循环加在哪里啊啊啊啊</font></h1><p>这个问题似乎很好解决，我们可以新开一个线程(RIGHT)</p>
-<h1 id="多线程"><a href="#多线程" class="headerlink" title="#多线程"></a>#多线程</h1><pre><code>Thread che = new Thread(new ThreadStart(Check));
-che.Start();
-</code></pre><p>那……这个Check怎么报错啊？</p>
+<h1 id="多线程"><a href="#多线程" class="headerlink" title="#多线程"></a>#多线程</h1><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Thread</span> che = <span class="keyword">new</span> <span class="keyword">Thread</span>(<span class="keyword">new</span> ThreadStart(Check))<span class="comment">;</span></span><br><span class="line">che.Start()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>那……这个Check怎么报错啊？</p>
 <p>其实这个Check是个函数，线程的运行函数。我们写一个函数：</p>
-<pre><code>private void Check()
-&#123;
-    while (true)
-    &#123;        
-        if (Times == TTimes)
-        &#123;
-            System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);
-            Thread.Sleep(100000);//停止线程1分钟防止屡次打开
-        &#125;
-        Thread.Sleep(5000);//停止线程5000ms，防止CPU炸掉
-&#125;
-</code></pre><p>很完美，这篇文章结束了。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void <span class="constructor">Check()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;        </span><br><span class="line">        <span class="keyword">if</span> (Times<span class="operator"> == </span>TTimes)</span><br><span class="line">        &#123;</span><br><span class="line">            System.Diagnostics.Process.<span class="constructor">Start(<span class="string">&quot;D:\\体育三操\\课上操.mp4&quot;</span>)</span>;</span><br><span class="line">            Thread.<span class="constructor">Sleep(100000)</span>;<span class="comment">//停止线程1分钟防止屡次打开</span></span><br><span class="line">        &#125;</span><br><span class="line">        Thread.<span class="constructor">Sleep(5000)</span>;<span class="comment">//停止线程5000ms，防止CPU炸掉</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很完美，这篇文章结束了。</p>
 <h1 id="才怪啊啊啊啊-1"><a href="#才怪啊啊啊啊-1" class="headerlink" title="才怪啊啊啊啊"></a><font color=#FF0000>才怪啊啊啊啊</font></h1><p>怎么开了多线程还是判断不好啊啊啊啊</p>
 <p>这时，我灵机一动！我一直没用更新现在时间欸</p>
 <p>于是：</p>
-<pre><code>private void Check()
-&#123;
-    while (true)
-    &#123;
-        Times = DateTime.Now.ToShortTimeString().ToString();
-        if (Times == TTimes)
-        &#123;
-            System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);
-            Thread.Sleep(100000);//停止线程1分钟防止屡次打开
-        &#125;
-        Thread.Sleep(5000);//停止线程5000ms，防止CPU炸掉
-&#125;
-</code></pre><p>至此，判断已经做好，接下来我们做后台~</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void <span class="constructor">Check()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        Times = DateTime.Now.<span class="constructor">ToShortTimeString()</span>.<span class="constructor">ToString()</span>;</span><br><span class="line">        <span class="keyword">if</span> (Times<span class="operator"> == </span>TTimes)</span><br><span class="line">        &#123;</span><br><span class="line">            System.Diagnostics.Process.<span class="constructor">Start(<span class="string">&quot;D:\\体育三操\\课上操.mp4&quot;</span>)</span>;</span><br><span class="line">            Thread.<span class="constructor">Sleep(100000)</span>;<span class="comment">//停止线程1分钟防止屡次打开</span></span><br><span class="line">        &#125;</span><br><span class="line">        Thread.<span class="constructor">Sleep(5000)</span>;<span class="comment">//停止线程5000ms，防止CPU炸掉</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，判断已经做好，接下来我们做后台~</p>
 <h1 id="后台运行"><a href="#后台运行" class="headerlink" title="#后台运行"></a>#后台运行</h1><p>我是自己做了个button。首先先拖一个button</p>
-<pre><code>private void button2_Click(object sender, EventArgs e)
-&#123;
-    closs();
-&#125;
-</code></pre><p>然后写个closs函数</p>
-<pre><code>private void closs()
-&#123;
-    this.Visible = false;
-    this.ShowInTaskbar = false;
-    notifyIcon1.Visible = true;
-&#125;
-</code></pre><p>那么……notifyIcon1是个啥？</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void button2<span class="constructor">_Click(<span class="params">object</span> <span class="params">sender</span>, EventArgs <span class="params">e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    closs<span class="literal">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后写个closs函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">closs</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.Visible = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">this</span>.ShowInTaskbar = <span class="literal">false</span>;</span><br><span class="line">    notifyIcon1.Visible = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么……notifyIcon1是个啥？</p>
 <p>我们拖一个notifyIcon控件，再拖一个contextNemuStrip。</p>
 <p>notifyIcon1在属性栏Icon里随便弄一个，然后把ContextNemuStrip挂到刚刚拖出来的contextNemuStrip1.</p>
 <p>然后点击contextNemuStrip1，可以看到上面有一点白边。我们加入”显示”和”退出”</p>
 <p>然后分别双击”显示”和”退出”，写下代码。</p>
-<pre><code>private void 显示ToolStripMenuItem_Click_1(object sender, EventArgs e)
-&#123;
-    this.Visible = true;
-&#125;
-</code></pre><p>注意：这个好像通过退出无法退出，我们可以加一个提示让他从任务管理器退出</p>
-<pre><code>private void 退出ToolStripMenuItem_Click_1(object sender, EventArgs e)
-&#123;
-    if (MessageBox.Show(&quot;是否确认退出程序？&quot;, &quot;退出&quot;, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-    &#123;
-        MessageBox.Show(&quot;本按钮无法退出程序\n请从任务管理器中关闭&quot;, &quot;提示&quot;, MessageBoxButtons.OK, MessageBoxIcon.Information);
-    &#125;
-&#125;
-</code></pre><p>这样就差不多了，可以自己在搞一搞。</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void 显示<span class="constructor">ToolStripMenuItem_Click_1(<span class="params">object</span> <span class="params">sender</span>, EventArgs <span class="params">e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    this.Visible = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：这个好像通过退出无法退出，我们可以加一个提示让他从任务管理器退出</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void 退出<span class="constructor">ToolStripMenuItem_Click_1(<span class="params">object</span> <span class="params">sender</span>, EventArgs <span class="params">e</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (MessageBox.<span class="constructor">Show(<span class="string">&quot;是否确认退出程序？&quot;</span>, <span class="string">&quot;退出&quot;</span>, MessageBoxButtons.OKCancel, MessageBoxIcon.Question)</span><span class="operator"> == </span>DialogResult.OK)</span><br><span class="line">    &#123;</span><br><span class="line">        MessageBox.<span class="constructor">Show(<span class="string">&quot;本按钮无法退出程序\n请从任务管理器中关闭&quot;</span>, <span class="string">&quot;提示&quot;</span>, MessageBoxButtons.OK, MessageBoxIcon.Information)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就差不多了，可以自己在搞一搞。</p>
 <p>最后放上我的全部代码：</p>
-<h1 id="全部代码"><a href="#全部代码" class="headerlink" title="#全部代码"></a>#全部代码</h1><pre><code>using System;
-using Microsoft.Win32;
-using System.Windows.Forms;
-using System.Threading;
-
-namespace AutoPlay_System
-&#123;
-    public partial class Form1 : Form
-    &#123;
-        public string Times = DateTime.Now.ToShortTimeString().ToString();
-        public string TTimes = &quot;9:45&quot;;
-        public string path;
-        public Form1()
-        &#123;
-            path = Application.ExecutablePath;
-            RegistryKey rk = Registry.LocalMachine;
-            RegistryKey rk2 = rk.CreateSubKey(@&quot;SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;);
-            rk2.SetValue(&quot;AutoPlay_System&quot;, path);
-            rk2.Close();
-            rk.Close();
-            Thread che = new Thread(new ThreadStart(Check));
-            che.Start();
-            InitializeComponent();
-        &#125;
-
-        private void Check()
-        &#123;
-            while (true)
-            &#123;
-                Times = DateTime.Now.ToShortTimeString().ToString();
-                if (Times == TTimes)
-                &#123;
-                    System.Diagnostics.Process.Start(&quot;D:\\体育三操\\课上操.mp4&quot;);
-                    Thread.Sleep(100000);
-                &#125;
-                Thread.Sleep(5000);
-            &#125;
-
-        &#125;
-
-        private void Form1_Load(object sender, EventArgs e)
-        &#123;
-            MessageBox.Show(&quot;AutoPlay System已启动！&quot;, &quot;提示&quot;, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        &#125;
-
-        private void button2_Click(object sender, EventArgs e)
-        &#123;
-            closs();
-        &#125;
-
-        private void closs()
-        &#123;
-            this.Visible = false;
-            this.ShowInTaskbar = false;
-            notifyIcon1.Visible = true;
-        &#125;
-
-        private void 显示ToolStripMenuItem_Click_1(object sender, EventArgs e)
-        &#123;
-            this.Visible = true;
-        &#125;
-
-        private void 退出ToolStripMenuItem_Click_1(object sender, EventArgs e)
-        &#123;
-            if (MessageBox.Show(&quot;是否确认退出程序？&quot;, &quot;退出&quot;, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-            &#123;
-                MessageBox.Show(&quot;本按钮无法退出程序\n请从任务管理器中关闭&quot;, &quot;提示&quot;, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            &#125;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
+<h1 id="全部代码"><a href="#全部代码" class="headerlink" title="#全部代码"></a>#全部代码</h1><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using Microsoft.Win32;</span><br><span class="line">using System.Windows.Forms;</span><br><span class="line">using System.Threading;</span><br><span class="line"></span><br><span class="line">namespace AutoPlay_System</span><br><span class="line">&#123;</span><br><span class="line">    public partial <span class="keyword">class</span> Form1 : Form</span><br><span class="line">    &#123;</span><br><span class="line">        public <span class="built_in">string</span> Times = DateTime.Now.<span class="constructor">ToShortTimeString()</span>.<span class="constructor">ToString()</span>;</span><br><span class="line">        public <span class="built_in">string</span> TTimes = <span class="string">&quot;9:45&quot;</span>;</span><br><span class="line">        public <span class="built_in">string</span> path;</span><br><span class="line">        public <span class="constructor">Form1()</span></span><br><span class="line">        &#123;</span><br><span class="line">            path = Application.ExecutablePath;</span><br><span class="line">            RegistryKey rk = Registry.LocalMachine;</span><br><span class="line">            RegistryKey rk2 = rk.<span class="constructor">CreateSubKey(@<span class="string">&quot;SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot;</span>)</span>;</span><br><span class="line">            rk2.<span class="constructor">SetValue(<span class="string">&quot;AutoPlay_System&quot;</span>, <span class="params">path</span>)</span>;</span><br><span class="line">            rk2.<span class="constructor">Close()</span>;</span><br><span class="line">            rk.<span class="constructor">Close()</span>;</span><br><span class="line">            Thread che = <span class="keyword">new</span> <span class="constructor">Thread(<span class="params">new</span> ThreadStart(Check)</span>);</span><br><span class="line">            che.<span class="constructor">Start()</span>;</span><br><span class="line">            <span class="constructor">InitializeComponent()</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> void <span class="constructor">Check()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                Times = DateTime.Now.<span class="constructor">ToShortTimeString()</span>.<span class="constructor">ToString()</span>;</span><br><span class="line">                <span class="keyword">if</span> (Times<span class="operator"> == </span>TTimes)</span><br><span class="line">                &#123;</span><br><span class="line">                    System.Diagnostics.Process.<span class="constructor">Start(<span class="string">&quot;D:\\体育三操\\课上操.mp4&quot;</span>)</span>;</span><br><span class="line">                    Thread.<span class="constructor">Sleep(100000)</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                Thread.<span class="constructor">Sleep(5000)</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> void <span class="constructor">Form1_Load(<span class="params">object</span> <span class="params">sender</span>, EventArgs <span class="params">e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            MessageBox.<span class="constructor">Show(<span class="string">&quot;AutoPlay System已启动！&quot;</span>, <span class="string">&quot;提示&quot;</span>, MessageBoxButtons.OK, MessageBoxIcon.Information)</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> void button2<span class="constructor">_Click(<span class="params">object</span> <span class="params">sender</span>, EventArgs <span class="params">e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            closs<span class="literal">()</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> void closs<span class="literal">()</span></span><br><span class="line">        &#123;</span><br><span class="line">            this.Visible = <span class="literal">false</span>;</span><br><span class="line">            this.ShowInTaskbar = <span class="literal">false</span>;</span><br><span class="line">            notifyIcon1.Visible = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> void 显示<span class="constructor">ToolStripMenuItem_Click_1(<span class="params">object</span> <span class="params">sender</span>, EventArgs <span class="params">e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            this.Visible = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> void 退出<span class="constructor">ToolStripMenuItem_Click_1(<span class="params">object</span> <span class="params">sender</span>, EventArgs <span class="params">e</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (MessageBox.<span class="constructor">Show(<span class="string">&quot;是否确认退出程序？&quot;</span>, <span class="string">&quot;退出&quot;</span>, MessageBoxButtons.OKCancel, MessageBoxIcon.Question)</span><span class="operator"> == </span>DialogResult.OK)</span><br><span class="line">            &#123;</span><br><span class="line">                MessageBox.<span class="constructor">Show(<span class="string">&quot;本按钮无法退出程序\n请从任务管理器中关闭&quot;</span>, <span class="string">&quot;提示&quot;</span>, MessageBoxButtons.OK, MessageBoxIcon.Information)</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -542,8 +417,8 @@ namespace AutoPlay_System
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/20CSP-Jchusai/" rel="next" title="【有惊无险】CSP-J初赛游记">
-                  【有惊无险】CSP-J初赛游记 <i class="fa fa-chevron-right"></i>
+                <a href="/20gqyouji/" rel="next" title="【游记】qbxt国庆游记">
+                  【游记】qbxt国庆游记 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
