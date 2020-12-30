@@ -22,23 +22,22 @@
     var CONFIG = {"hostname":"kanorena.cn","root":"/","scheme":"Muse","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="如果对流水账不感兴趣就不要往下看了吧（逃 Day 0做了四个半小时的车(睡了四个半小时的觉)，来到了济南。">
+  <meta name="description" content="传送门 题解本蒟数学太差惹，看到这题当时就很懵 然鹅……$x\leq 50$ 那感情好，我们可以利用骗分神器——打表来写这道题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【游记】qbxt国庆游记">
-<meta property="og:url" content="https://kanorena.cn/20gqyouji/index.html">
+<meta property="og:title" content="CF1462C 题解">
+<meta property="og:url" content="https://kanorena.cn/CF1462C/index.html">
 <meta property="og:site_name" content="W-RB&#39;s Blog">
-<meta property="og:description" content="如果对流水账不感兴趣就不要往下看了吧（逃 Day 0做了四个半小时的车(睡了四个半小时的觉)，来到了济南。">
+<meta property="og:description" content="传送门 题解本蒟数学太差惹，看到这题当时就很懵 然鹅……$x\leq 50$ 那感情好，我们可以利用骗分神器——打表来写这道题">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-11-05T10:52:07.907Z">
-<meta property="article:modified_time" content="2020-11-04T12:40:50.878Z">
+<meta property="article:published_time" content="2020-12-30T16:23:55.859Z">
+<meta property="article:modified_time" content="2020-12-30T16:25:23.226Z">
 <meta property="article:author" content="W-RB">
-<meta property="article:tag" content="游记">
-<meta property="article:tag" content="CSP">
-<meta property="article:tag" content="qbxt">
+<meta property="article:tag" content="打表">
+<meta property="article:tag" content="CodeForces">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://kanorena.cn/20gqyouji/">
+<link rel="canonical" href="https://kanorena.cn/CF1462C/">
 
 
 <script class="page-configurations">
@@ -51,7 +50,7 @@
   };
 </script>
 
-  <title>【游记】qbxt国庆游记 | W-RB's Blog</title>
+  <title>CF1462C 题解 | W-RB's Blog</title>
   
 
 
@@ -194,7 +193,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-0"><span class="nav-number">1.</span> <span class="nav-text">Day 0</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-1"><span class="nav-number">2.</span> <span class="nav-text">Day 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-2"><span class="nav-number">3.</span> <span class="nav-text">Day 2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-3"><span class="nav-number">4.</span> <span class="nav-text">Day 3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-4"><span class="nav-number">5.</span> <span class="nav-text">Day 4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-5"><span class="nav-number">6.</span> <span class="nav-text">Day 5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-6"><span class="nav-number">7.</span> <span class="nav-text">Day 6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-7"><span class="nav-number">8.</span> <span class="nav-text">Day 7</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">题解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -267,7 +266,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kanorena.cn/20gqyouji/">
+    <link itemprop="mainEntityOfPage" href="https://kanorena.cn/CF1462C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -283,7 +282,7 @@
     
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【游记】qbxt国庆游记
+          CF1462C 题解
         </h1>
 
         <div class="post-meta-container">
@@ -293,28 +292,22 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2020-11-05 18:52:07" itemprop="dateCreated datePublished" datetime="2020-11-05T18:52:07+08:00">2020-11-05</time>
+      <time title="创建时间：2020-12-31 00:23:55 / 修改时间：00:25:23" itemprop="dateCreated datePublished" datetime="2020-12-31T00:23:55+08:00">2020-12-31</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2020-11-04 20:40:50" itemprop="dateModified" datetime="2020-11-04T20:40:50+08:00">2020-11-04</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+          <a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index"><span itemprop="name">题解</span></a>
         </span>
     </span>
 
   
-    <span id="/20gqyouji/" class="post-meta-item leancloud_visitors" data-flag-title="【游记】qbxt国庆游记" title="阅读次数">
+    <span id="/CF1462C/" class="post-meta-item leancloud_visitors" data-flag-title="CF1462C 题解" title="阅读次数">
       <span class="post-meta-item-icon">
         <i class="far fa-eye"></i>
       </span>
@@ -329,8 +322,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/20gqyouji/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/20gqyouji/" itemprop="commentCount"></span>
+    <a title="valine" href="/CF1462C/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/CF1462C/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -344,49 +337,14 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>如果对流水账不感兴趣就不要往下看了吧（逃</p>
-<h1 id="Day-0"><a href="#Day-0" class="headerlink" title="Day 0"></a>Day 0</h1><p>做了四个半小时的车<del>(睡了四个半小时的觉)</del>，来到了济南。</p>
+        <p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/CF1462C">传送门</a></p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>本蒟数学太差惹，看到这题当时就很懵</p>
+<p>然鹅……$x\leq 50$</p>
+<p>那感情好，我们可以利用骗分神器——打表来写这道题</p>
 <a id="more"></a>
-<p>去报了到，去客房发现是三人间，和daz、wyy两位一起。</p>
-<p>下午去遛了一圈<del>(这个学校好大啊)</del></p>
-<p>晚上10:30睡了还被老师表扬了hhhhc</p>
-<h1 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h1><p>早上5:30早早起了，打了个卡发现……</p>
-<p>居然忌参加模拟赛(大雾</p>
-<p>结果<del>Luogu预言成真，</del>四道题拿了60……Rank18……</p>
-<p>(大雾)</p>
-<h1 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h1><p>又是钟神出的题，一如既往的“小葱同学”~</p>
-<p>做完之后感觉要爆0的样子</p>
-<p>结果得了10分……Rank19</p>
-<p>晚上老师把我们聚在110，开了一个小会</p>
-<h1 id="Day-3"><a href="#Day-3" class="headerlink" title="Day 3"></a>Day 3</h1><p>awa今天应该不是钟神出题了吧</p>
-<p>果然不是乐</p>
-<p>迅速打了T1，一直在搞T2</p>
-<p>结果T2样例2一直过不了。</p>
-<p>突然想起来他会多次掉头啊啊啊啊</p>
-<p>结果……85+0+0+0</p>
-<p>虽然比前几次分高……但是直接掉到Rank30了啊喂</p>
-<p>Rating降了103……一夜回到解放前awa</p>
-<h1 id="Day-4"><a href="#Day-4" class="headerlink" title="Day 4"></a>Day 4</h1><p>这一天感觉还可以的亚子</p>
-<p>但是！</p>
-<p>我只得了70分诶awa</p>
-<p>lmt100分！</p>
-<p>Jair11分！</p>
-<h1 id="Day-5"><a href="#Day-5" class="headerlink" title="Day 5"></a>Day 5</h1><p>今天天气很好诶，但是没有手机不能拍照awa</p>
-<p>考试的话……感觉好极了awa！居然得了170分Rank3！</p>
-<p>Rating涨了226！ φ(゜▽゜*)♪</p>
-<p>但是！但是！</p>
-<p>大喜必有大悲</p>
-<p>就在今天晚上……发生了一件不幸的事情……</p>
-<p>我的电脑……他坏了！他坏了！他坏了！！！qwqwq</p>
-<h1 id="Day-6"><a href="#Day-6" class="headerlink" title="Day 6"></a>Day 6</h1><p>感觉又一夜回到解放前</p>
-<p>考了……100分……Rank21……</p>
-<p>下午突然想起来……明天就要走了呢……</p>
-<h1 id="Day-7"><a href="#Day-7" class="headerlink" title="Day 7"></a>Day 7</h1><p>最后一次考试老师也不让我们涨涨信心啊喂</p>
-<p>终于要走了，临走前还要了个老师签名</p>
-<p>去高铁站发现……早了一个小时啊喂！</p>
-<p>他们都有电脑……好高端ovo</p>
-<p>晚上回到了临沂，七天之旅终结</p>
-
+<p>打表一开始是手算，算着算着就发现规律惹……</p>
+<p>这个规律也不大好说……相信各位看代码是可以看出来的……</p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> db[<span class="number">51</span>] = &#123;<span class="number">-1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">19</span>,<span class="number">29</span>,<span class="number">39</span>,<span class="number">49</span>,<span class="number">59</span>,<span class="number">69</span>,<span class="number">79</span>,<span class="number">89</span>,<span class="number">189</span>,<span class="number">289</span>,<span class="number">389</span>,<span class="number">489</span>,<span class="number">589</span>,<span class="number">689</span>,<span class="number">789</span>,<span class="number">1789</span>,<span class="number">2789</span>,<span class="number">3789</span>,<span class="number">4789</span>,<span class="number">5789</span>,<span class="number">6789</span>,<span class="number">16789</span>,<span class="number">26789</span>,<span class="number">36789</span>,<span class="number">46789</span>,<span class="number">56789</span>,<span class="number">156789</span>,<span class="number">256789</span>,<span class="number">356789</span>,<span class="number">456789</span>,<span class="number">1456789</span>,<span class="number">2456789</span>,<span class="number">3456789</span>,<span class="number">13456789</span>,<span class="number">23456789</span>,<span class="number">123456789</span>,<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> t, x;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;t);</span><br><span class="line">    <span class="keyword">while</span>(t--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;x);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, db[x]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -395,23 +353,19 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%B8%B8%E8%AE%B0/" rel="tag"># 游记</a>
-              <a href="/tags/CSP/" rel="tag"># CSP</a>
-              <a href="/tags/qbxt/" rel="tag"># qbxt</a>
+              <a href="/tags/%E6%89%93%E8%A1%A8/" rel="tag"># 打表</a>
+              <a href="/tags/CodeForces/" rel="tag"># CodeForces</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/Autoplay/" rel="prev" title="【乱搞系列】自动播放系统">
-                  <i class="fa fa-chevron-left"></i> 【乱搞系列】自动播放系统
+                <a href="/CF1462B/" rel="prev" title="CF1462B 题解">
+                  <i class="fa fa-chevron-left"></i> CF1462B 题解
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/20CSP-Jchusai/" rel="next" title="【有惊无险】CSP-J初赛游记">
-                  【有惊无险】CSP-J初赛游记 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -557,7 +511,7 @@ NexT.utils.loadComments('#valine-comments', () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
     new Valine(Object.assign({
       el  : '#valine-comments',
-      path: "/20gqyouji/",
+      path: "/CF1462C/",
     }, {"enable":true,"appId":"WKxXY7H8j3cJ54xFw6NrLnTu-gzGzoHsz","appKey":"JOD2cGII0Be3TUPIu9xvBgMV","placeholder":"在这里留下您的评论吧","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":true,"requiredFields":["nick","mail"]}
     ));
   }, window.Valine);
