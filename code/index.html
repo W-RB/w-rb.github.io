@@ -22,20 +22,20 @@
     var CONFIG = {"hostname":"w.had.ink","root":"/","scheme":"Muse","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="W-RB，蒟蒻。">
+  <meta name="description" content="数据结构线段树12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273int n, m;int a[MAXN];class Tree&amp;#123;	private:		int tree">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="https://w.had.ink/about/index.html">
+<meta property="og:title" content="代码墙">
+<meta property="og:url" content="https://w.had.ink/code/index.html">
 <meta property="og:site_name" content="W-RB&#39;s Blog">
-<meta property="og:description" content="W-RB，蒟蒻。">
+<meta property="og:description" content="数据结构线段树12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273int n, m;int a[MAXN];class Tree&amp;#123;	private:		int tree">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-25T10:59:14.000Z">
-<meta property="article:modified_time" content="2020-09-25T12:30:43.547Z">
+<meta property="article:modified_time" content="2021-02-19T03:30:35.272Z">
 <meta property="article:author" content="W-RB">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://w.had.ink/about/">
+<link rel="canonical" href="https://w.had.ink/code/">
 
 
 <script class="page-configurations">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>关于 | W-RB's Blog
+  <title>代码墙 | W-RB's Blog
 </title>
   
 
@@ -185,7 +185,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -197,6 +197,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="nav-number">1.1.</span> <span class="nav-text">线段树</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -273,7 +274,7 @@
     <div class="post-block" lang="zh-CN">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">关于
+<h1 class="post-title" itemprop="name headline">代码墙
 </h1>
 
 <div class="post-meta-container">
@@ -287,7 +288,7 @@
       
       
       <div class="post-body">
-          <p>W-RB，蒟蒻。</p>
+          <h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="线段树"><a href="#线段树" class="headerlink" title="线段树"></a>线段树</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n, m;</span><br><span class="line"><span class="keyword">int</span> a[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tree</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">		<span class="keyword">int</span> tree[MAXN &lt;&lt; <span class="number">2</span>], lazy[MAXN &lt;&lt; <span class="number">2</span>];</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">lc</span><span class="params">(<span class="keyword">int</span> k)</span></span>&#123;<span class="keyword">return</span> k &lt;&lt; <span class="number">1</span>;&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">rc</span><span class="params">(<span class="keyword">int</span> k)</span></span>&#123;<span class="keyword">return</span> k &lt;&lt; <span class="number">1</span> | <span class="number">1</span>;&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			lazy[k] += v;</span><br><span class="line">			tree[k] += v * (r - l + <span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">pushup</span><span class="params">(<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			tree[k] = tree[lc(k)] + tree[rc(k)];</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">pushdown</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			f(lc(k), l, mid, lazy[k]);</span><br><span class="line">			f(rc(k), mid + <span class="number">1</span>, r, lazy[k]);</span><br><span class="line">			lazy[k] = <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> k,<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			lazy[k] = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">if</span>(l == r)</span><br><span class="line">			&#123;</span><br><span class="line">				tree[k] = a[l];</span><br><span class="line">				<span class="keyword">return</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			build(lc(k), l, mid);</span><br><span class="line">			build(rc(k), mid + <span class="number">1</span>, r);</span><br><span class="line">			pushup(k);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> L, <span class="keyword">int</span> R, <span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= l &amp;&amp; r &lt;= R)</span><br><span class="line">			&#123;</span><br><span class="line">				f(k, l, r, v);</span><br><span class="line">				<span class="keyword">return</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			pushdown(k, l, r);</span><br><span class="line">			<span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= mid) update(lc(k), l, mid, L, R, v);</span><br><span class="line">			<span class="keyword">if</span>(R &gt; mid) update(rc(k), mid + <span class="number">1</span>, r, L, R, v);</span><br><span class="line">			pushup(k);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">int</span> <span class="title">query</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> L, <span class="keyword">int</span> R)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= l &amp;&amp; r &lt;= R) <span class="keyword">return</span> tree[k];</span><br><span class="line">			<span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			pushdown(k, l, r);</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= mid) res += query(lc(k), l ,mid, L, R);</span><br><span class="line">			<span class="keyword">if</span>(R &gt; mid) res += query(rc(k), mid + <span class="number">1</span>, r, L, R);</span><br><span class="line">			<span class="keyword">return</span> res;</span><br><span class="line">		&#125;	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Tree t;</span><br></pre></td></tr></table></figure>
 
       </div>
       
@@ -436,7 +437,7 @@ NexT.utils.loadComments('#valine-comments', () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
     new Valine(Object.assign({
       el  : '#valine-comments',
-      path: "/about/",
+      path: "/code/",
     }, {"enable":true,"appId":"WKxXY7H8j3cJ54xFw6NrLnTu-gzGzoHsz","appKey":"JOD2cGII0Be3TUPIu9xvBgMV","placeholder":"在这里留下您的评论吧","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":true,"requiredFields":["nick","mail"]}
     ));
   }, window.Valine);
