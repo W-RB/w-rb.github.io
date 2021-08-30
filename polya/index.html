@@ -22,22 +22,27 @@
     var CONFIG = {"hostname":"w.had.ink","root":"/","scheme":"Muse","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="注：本题解写给和本蒟蒻一样的萌新看，不喜者请略过。另欢迎各位大佬提出意见！ 这题其实很H₂O，因为数据较小(N≤100)，用for循环就可以A掉。但是，在这里我们用一个简单且快速的方法： STL库！(STL大法好)">
+  <meta name="description" content="本篇博文介绍了 $Polya$ 定理。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LuoguP1059 明明的随机数">
-<meta property="og:url" content="https://w.had.ink/LGP1059/index.html">
+<meta property="og:title" content="Polya定理学习笔记">
+<meta property="og:url" content="https://w.had.ink/polya/index.html">
 <meta property="og:site_name" content="W-RB&#39;s Blog">
-<meta property="og:description" content="注：本题解写给和本蒟蒻一样的萌新看，不喜者请略过。另欢迎各位大佬提出意见！ 这题其实很H₂O，因为数据较小(N≤100)，用for循环就可以A掉。但是，在这里我们用一个简单且快速的方法： STL库！(STL大法好)">
+<meta property="og:description" content="本篇博文介绍了 $Polya$ 定理。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-07-15T10:29:20.765Z">
-<meta property="article:modified_time" content="2021-02-19T02:22:08.465Z">
+<meta property="og:image" content="https://s3.ax1x.com/2020/12/18/rYzbZj.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/12/18/rYz7LQ.png">
+<meta property="og:image" content="https://s3.ax1x.com/2020/12/18/rtSiw9.png">
+<meta property="article:published_time" content="2021-08-13T10:05:41.527Z">
+<meta property="article:modified_time" content="2021-08-13T10:08:29.937Z">
 <meta property="article:author" content="W-RB">
-<meta property="article:tag" content="STL">
-<meta property="article:tag" content="Luogu">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="Polya定理">
+<meta property="article:tag" content="群论">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.ax1x.com/2020/12/18/rYzbZj.png">
 
 
-<link rel="canonical" href="https://w.had.ink/LGP1059/">
+<link rel="canonical" href="https://w.had.ink/polya/">
 
 
 <script class="page-configurations">
@@ -50,7 +55,7 @@
   };
 </script>
 
-  <title>LuoguP1059 明明的随机数 | W-RB's Blog</title>
+  <title>Polya定理学习笔记 | W-RB's Blog</title>
   
 
 
@@ -193,7 +198,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#STL%E5%BA%93%EF%BC%81-STL%E5%A4%A7%E6%B3%95%E5%A5%BD"><span class="nav-number">1.</span> <span class="nav-text">STL库！(STL大法好)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%87%BD%E6%95%B0-sort"><span class="nav-number">1.1.</span> <span class="nav-text">排序函数 sort</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%BB%E9%87%8D%E5%87%BD%E6%95%B0-unique"><span class="nav-number">1.2.</span> <span class="nav-text">去重函数 unique</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AC%E4%BB%A3%E7%A0%81%EF%BC%81"><span class="nav-number">2.</span> <span class="nav-text">AC代码！</span></a></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E8%8A%9D%E5%A3%AB"><span class="nav-number">1.</span> <span class="nav-text">前置芝士</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%A4"><span class="nav-number">1.1.</span> <span class="nav-text">群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%AE%E6%8D%A2"><span class="nav-number">1.2.</span> <span class="nav-text">置换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E8%8A%82"><span class="nav-number">1.3.</span> <span class="nav-text">循环节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%AE%E6%8D%A2%E7%BE%A4"><span class="nav-number">1.4.</span> <span class="nav-text">置换群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%A4%E4%BD%9C%E7%94%A8"><span class="nav-number">1.5.</span> <span class="nav-text">群作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%A8%E9%81%93-%E7%A8%B3%E5%AE%9A%E5%AD%90%E5%AE%9A%E7%90%86"><span class="nav-number">1.6.</span> <span class="nav-text">轨道-稳定子定理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%A8%E9%81%93"><span class="nav-number">1.6.1.</span> <span class="nav-text">轨道</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%B3%E5%AE%9A%E5%AD%90"><span class="nav-number">1.6.2.</span> <span class="nav-text">稳定子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%A8%E9%81%93-%E7%A8%B3%E5%AE%9A%E5%AD%90%E5%AE%9A%E7%90%86-1"><span class="nav-number">1.6.3.</span> <span class="nav-text">轨道-稳定子定理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Burnside-%E5%BC%95%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">$Burnside$引理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#P-acute-o-lya-%E5%AE%9A%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">$P\acute{o}lya$定理</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -266,7 +271,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://w.had.ink/LGP1059/">
+    <link itemprop="mainEntityOfPage" href="https://w.had.ink/polya/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -282,7 +287,7 @@
     
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LuoguP1059 明明的随机数
+          Polya定理学习笔记
         </h1>
 
         <div class="post-meta-container">
@@ -292,28 +297,22 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2021-07-15 18:29:20" itemprop="dateCreated datePublished" datetime="2021-07-15T18:29:20+08:00">2021-07-15</time>
+      <time title="创建时间：2021-08-13 18:05:41 / 修改时间：18:08:29" itemprop="dateCreated datePublished" datetime="2021-08-13T18:05:41+08:00">2021-08-13</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-19 10:22:08" itemprop="dateModified" datetime="2021-02-19T10:22:08+08:00">2021-02-19</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index"><span itemprop="name">题解</span></a>
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
         </span>
     </span>
 
   
-    <span id="/LGP1059/" class="post-meta-item leancloud_visitors" data-flag-title="LuoguP1059 明明的随机数" title="阅读次数">
+    <span id="/polya/" class="post-meta-item leancloud_visitors" data-flag-title="Polya定理学习笔记" title="阅读次数">
       <span class="post-meta-item-icon">
         <i class="far fa-eye"></i>
       </span>
@@ -328,8 +327,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/LGP1059/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/LGP1059/" itemprop="commentCount"></span>
+    <a title="valine" href="/polya/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/polya/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -343,31 +342,72 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>注：本题解写给和本蒟蒻一样的萌新看，不喜者请略过。另欢迎各位大佬提出意见！</p>
-<p>这题其实很H₂O，因为数据较小(N≤100)，用for循环就可以A掉。但是，在这里我们用一个简单且快速的方法：</p>
-<h1 id="STL库！-STL大法好"><a href="#STL库！-STL大法好" class="headerlink" title="STL库！(STL大法好)"></a>STL库！<del>(STL大法好)</del></h1><a id="more"></a>
-<p>首先我们来认识一下这两个函数：</p>
-<h2 id="排序函数-sort"><a href="#排序函数-sort" class="headerlink" title="排序函数 sort"></a>排序函数 sort</h2><p>sort是C++STL库里的排序函数，属于十分常用的函数之一，可以节省一些手写的时间 <del>(懒人福音)</del>，缺点就是运行起来没有手写的快(STL都这一个特性)。</p>
-<p>sort函数的格式是这样的：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort(数组名称,数组名称+数组元素个数);</span><br></pre></td></tr></table></figure>
-<p>举个例子：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a[<span class="number">15</span>];</span><br><span class="line">sort(a,a+<span class="number">15</span>);</span><br></pre></td></tr></table></figure>
-<p>然后你就会发现，它已经帮你排好序了！</p>
-<h2 id="去重函数-unique"><a href="#去重函数-unique" class="headerlink" title="去重函数 unique"></a>去重函数 unique</h2><p>unique也是C++STL库里的常用函数之一，用来给一个已经</p>
-<p><strong>排！好！序！的！</strong><br>数组去重。unique的原理其实是把重复的元素用后面的元素代替掉。</p>
-<p>unique函数的用法是这样的：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unique(数组名称,数组名称+数组元素个数)</span><br></pre></td></tr></table></figure>
-<p>当然它还有一个十分神奇的用法：</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">int n</span> = unique(数组名称,数组名称+数组元素个数);</span><br></pre></td></tr></table></figure>
-<p>这样，你就会惊喜的发现，不但数组已经去重，还得到了去重后的数组元素数量！</p>
-<p>需要注意的是：</p>
-<p><strong>如果你输入数据时for循环喜欢写i=1，那么sort和unique应该相应的变为(数组名称+1，数组名称+数组元素个数+1)</strong></p>
-<p>当然，不要忘记了头文件：</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><algorithm></h2><p>好了，直接献上</p>
-<h1 id="AC代码！"><a href="#AC代码！" class="headerlink" title="AC代码！"></a>AC代码！</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;  //头文件记得加上哦</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,a[<span class="number">107</span>],t;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);  <span class="comment">//用scanf和printf读写速度会比cout和cin快，所以建议使用scanf和printf</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line">    sort(a,a+n);</span><br><span class="line">    t=(unique(a,a+n)-a);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,t);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;t;i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>另附i=1的写法：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,a[<span class="number">107</span>],t;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line">    sort(a+<span class="number">1</span>,a+n+<span class="number">1</span>);</span><br><span class="line">    t=(unique(a+<span class="number">1</span>,a+n+<span class="number">1</span>)-a<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,t);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=t;i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>好了，这篇题解就这样结束了</p>
+        <p>本篇博文介绍了 $Polya$ 定理。</p>
+<a id="more"></a>
+<h2 id="前置芝士"><a href="#前置芝士" class="headerlink" title="前置芝士"></a>前置芝士</h2><ul>
+<li>群</li>
+<li>置换</li>
+<li>循环节</li>
+<li>置换群</li>
+<li>群作用</li>
+<li>轨道-稳定子定理</li>
+</ul>
+<h3 id="群"><a href="#群" class="headerlink" title="群"></a>群</h3><p><strong>群</strong>是什么呢？正规解释是这样的：</p>
+<p>定义集合$G$和作用与集合$G$的二元运算$\times$</p>
+<p>若其满足以下$4$个性质，则称其为一个群$(Group)$，记为 $(G,\times)$</p>
+<ol>
+<li><p>封闭性$(Closure)$</p>
+<p>若存在$a$和$b$满足$a\in G,b\in G$，则有$a\times b\in G$;</p>
+</li>
+<li><p>结合律$(Associativity)$</p>
+<p> 对于任意$a,b,c$有$(a\times b)\times c = a\times (b\times c)$</p>
+</li>
+<li><p>单位元$(Identity)$</p>
+<p> 存在$e\in G$，满足对于任意$a\in G$有：$a\times e = e\times a$</p>
+<p> 这样的$e$被称为单位元。单位元唯一</p>
+</li>
+<li><p>逆元$(Inverse)$</p>
+<p> 对于任意$a\in G$存在$a’\in G$ 满足$a\times a’ = a’\times a = e$，$a’$唯一。</p>
+</li>
+</ol>
+<p>可以简要理解为一个比较高级的<strong>集合</strong></p>
+<h3 id="置换"><a href="#置换" class="headerlink" title="置换"></a>置换</h3><p>对于置换，我们通常用<strong>双行表示法</strong>表示。</p>
+<p>例如：</p>
+<script type="math/tex; mode=display">\sigma = \left( \begin{matrix}
+1 & 2 & 3 & 4 & 5 & 6\\
+6 & 3 & 4 & 5 & 1 & 2 
+\end{matrix} \right)</script><p>相当于把第一行的元素替换为第二行的元素，写作$\sigma(a)$</p>
+<h3 id="循环节"><a href="#循环节" class="headerlink" title="循环节"></a>循环节</h3><p>下面引入一个叫做<strong>循环节</strong>的概念。</p>
+<p>对于这个置换$\sigma = \left( \begin{matrix}<br>1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6\\<br>2 &amp; 3 &amp; 1 &amp; 5 &amp; 6 &amp; 4<br>\end{matrix} \right)$，如果我们画成图的话，应该是这个亚子：</p>
+<p><img src="https://s3.ax1x.com/2020/12/18/rYzbZj.png" alt="循环节"></p>
+<p>像这样，每一个强连通块就是一个循环节，用文字表示就是</p>
+<p>$(1,2,3)$为一个循环节</p>
+<p>$(4,5,6)$为一个循环节</p>
+<h3 id="置换群"><a href="#置换群" class="headerlink" title="置换群"></a>置换群</h3><p>简单地说，一个群多种置换组成的群，就是置换群</p>
+<p>它同群一样，有封闭性、结合律、单位元、逆元</p>
+<h3 id="群作用"><a href="#群作用" class="headerlink" title="群作用"></a>群作用</h3><p>对于一个集合$M$和一个群$G$</p>
+<p>如果二元函数$\varphi(v,k)$，$v$为群中的元素，$k$为集合中的元素，且有：</p>
+<script type="math/tex; mode=display">\varphi(e,k) = k (e为单位元)</script><script type="math/tex; mode=display">\varphi(g,\varphi(s,k)) = \varphi(g \times s,k)</script><p>就称群$G$作用与集合$M$</p>
+<h3 id="轨道-稳定子定理"><a href="#轨道-稳定子定理" class="headerlink" title="轨道-稳定子定理"></a>轨道-稳定子定理</h3><h4 id="轨道"><a href="#轨道" class="headerlink" title="轨道"></a>轨道</h4><p>一个作用在$X$上的群$G$，$X$中的一个元素$x$的轨道为$x$通过$G$中的元素可以转移到的元素的集合。</p>
+<p>可以形象地理解为一个火车所走的元素形成的集合。</p>
+<p>$x$的轨道被记为$G(x)$，我们可以用$g(x)$表示群$G$元素$g$所用于$x$的群作用的返回值，即</p>
+<script type="math/tex; mode=display">g(x) = \varphi(g,x)</script><h4 id="稳定子"><a href="#稳定子" class="headerlink" title="稳定子"></a>稳定子</h4><script type="math/tex; mode=display">G^x=\{g|g\in G,g(x)=x\}</script><p>简要地用语言描述一下，就是群$G$中满足$g(x)=x$的所有元素$g$所构成的集合</p>
+<h4 id="轨道-稳定子定理-1"><a href="#轨道-稳定子定理-1" class="headerlink" title="轨道-稳定子定理"></a>轨道-稳定子定理</h4><p>先上公式：</p>
+<script type="math/tex; mode=display">|G^x|\times|G(x)|=|G|</script><p>证明略微繁琐，感兴趣的同学可以自己搜一下</p>
+<p><img src="https://s3.ax1x.com/2020/12/18/rYz7LQ.png" alt="轨道-稳定子定理证明"></p>
+<h2 id="Burnside-引理"><a href="#Burnside-引理" class="headerlink" title="$Burnside$引理"></a>$Burnside$引理</h2><script type="math/tex; mode=display">|X/G|=\frac{1}{|G|}\sum_{|G|}|X^g|</script><p>$|X/G|$为$X$关于$G$的<strong>轨道数</strong></p>
+<p>其中$X^g=\{x|g(x)=x,x\in X\}$，我们称$X^g$是$X$在置换$g$下的<strong>不动点</strong>集合。</p>
+<p>什么是不动点？就是经过置换后仍然不动的点。</p>
+<p>举例：对于置换群$\sigma = \left( \begin{matrix}<br>1 &amp; 2 &amp; 3 \\<br>2 &amp; 1 &amp; 3<br>\end{matrix} \right)$，显然$3$就是不动点</p>
+<p>文字描述：$X$关于置换群$G$的轨道数，等于$G$中每个置换下不动点的个数的平均数。</p>
+<p>证明：</p>
+<p><img src="https://s3.ax1x.com/2020/12/18/rtSiw9.png" alt="Burnside引理证明"></p>
+<h2 id="P-acute-o-lya-定理"><a href="#P-acute-o-lya-定理" class="headerlink" title="$P\acute{o}lya$定理"></a>$P\acute{o}lya$定理</h2><p>$P\acute{o}lya$定理其实是$Burnside$引理的一种特殊形式。</p>
+<p>$Burnside$引理已经给出了等价类个数的表达式，$Polya$定理进一步具体到染色问题上，给出了本质不同的染色方案数的表达式。</p>
+<p>在使用$Burnside$解决染色问题的时候，我们需要求的是不动点的数量，而对于上述的置换，假设我们令每个$i$向$a_i$连一条边容易发现会得到若干个环，仔细思考，每个环的颜色应当相同。</p>
+<p>令$c(g)$为置换$g$所包含的循环个数</p>
+<p>将这个等式代入$Burnside$引理中，得到总的染色方案数为</p>
+<script type="math/tex; mode=display">\frac{1}{|G|}\sum_{g\in G}m^{c(g)}</script><p>这就是$P\acute{o}lya$定理！</p>
 
     </div>
 
@@ -377,21 +417,22 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/STL/" rel="tag"># STL</a>
-              <a href="/tags/Luogu/" rel="tag"># Luogu</a>
+              <a href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag"># 数学</a>
+              <a href="/tags/Polya%E5%AE%9A%E7%90%86/" rel="tag"># Polya定理</a>
+              <a href="/tags/%E7%BE%A4%E8%AE%BA/" rel="tag"># 群论</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/CF1462C/" rel="prev" title="CF1462C Unique Number">
-                  <i class="fa fa-chevron-left"></i> CF1462C Unique Number
+                <a href="/FWT/" rel="prev" title="FWT(快速沃尔什变换)学习笔记">
+                  <i class="fa fa-chevron-left"></i> FWT(快速沃尔什变换)学习笔记
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/CSP-J2-2020/" rel="next" title="CSP-J2020爆零记">
-                  CSP-J2020爆零记 <i class="fa fa-chevron-right"></i>
+                <a href="/LGP1829/" rel="next" title="LuoguP1829 Crash的数字表格">
+                  LuoguP1829 Crash的数字表格 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -538,7 +579,7 @@ NexT.utils.loadComments('#valine-comments', () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
     new Valine(Object.assign({
       el  : '#valine-comments',
-      path: "/LGP1059/",
+      path: "/polya/",
     }, {"enable":true,"appId":"WKxXY7H8j3cJ54xFw6NrLnTu-gzGzoHsz","appKey":"JOD2cGII0Be3TUPIu9xvBgMV","placeholder":"在这里留下您的评论吧","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":true,"requiredFields":["nick","mail"]}
     ));
   }, window.Valine);

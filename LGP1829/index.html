@@ -22,18 +22,23 @@
     var CONFIG = {"hostname":"w.had.ink","root":"/","scheme":"Muse","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 
-  <meta name="description" content="「OI万年，蒟蒻不变」">
-<meta property="og:type" content="website">
-<meta property="og:title" content="W-RB&#39;s Blog">
-<meta property="og:url" content="https://w.had.ink/tags/%E6%95%B0%E8%AE%BA/index.html">
+  <meta name="description" content="题意求 \sum\limits_{i&#x3D;1}^n\sum\limits_{j&#x3D;1}^m\text{lcm}(i,j)考虑化简柿子。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LuoguP1829 Crash的数字表格">
+<meta property="og:url" content="https://w.had.ink/LGP1829/index.html">
 <meta property="og:site_name" content="W-RB&#39;s Blog">
-<meta property="og:description" content="「OI万年，蒟蒻不变」">
+<meta property="og:description" content="题意求 \sum\limits_{i&#x3D;1}^n\sum\limits_{j&#x3D;1}^m\text{lcm}(i,j)考虑化简柿子。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-13T15:30:47.007Z">
+<meta property="article:modified_time" content="2021-08-13T15:47:17.204Z">
 <meta property="article:author" content="W-RB">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="Luogu">
+<meta property="article:tag" content="莫比乌斯反演">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://w.had.ink/tags/%E6%95%B0%E8%AE%BA/">
+<link rel="canonical" href="https://w.had.ink/LGP1829/">
 
 
 <script class="page-configurations">
@@ -41,12 +46,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: 数论 | W-RB's Blog</title>
+  <title>LuoguP1829 Crash的数字表格 | W-RB's Blog</title>
   
 
 
@@ -204,7 +209,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -217,7 +222,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -252,118 +257,133 @@
 </noscript>
 
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
       
 
       
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h2 class="collection-header">数论
-          <small>标签</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://w.had.ink/LGP1829/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="W-RB">
+      <meta itemprop="description" content="「OI万年，蒟蒻不变」">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W-RB's Blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LuoguP1829 Crash的数字表格
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+
+      <time title="创建时间：2021-08-13 23:30:47 / 修改时间：23:47:17" itemprop="dateCreated datePublished" datetime="2021-08-13T23:30:47+08:00">2021-08-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%A2%98%E8%A7%A3/" itemprop="url" rel="index"><span itemprop="name">题解</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/LGP1829/" class="post-meta-item leancloud_visitors" data-flag-title="LuoguP1829 Crash的数字表格" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/LGP1829/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/LGP1829/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>题意求</p>
+<script type="math/tex; mode=display">\sum\limits_{i=1}^n\sum\limits_{j=1}^m\text{lcm}(i,j)</script><p>考虑化简柿子。</p>
+<a id="more"></a>
+<p>全文保证 $n\leq m$ 的情况下成立。</p>
+<p>显然可得</p>
+<script type="math/tex; mode=display">\sum\limits_{i=1}^n\sum\limits_{j=1}^m\frac{ij}{\text{gcd}(i,j)}</script><p>考虑枚举 $\text{gcd}$ 为 $d$，得</p>
+<script type="math/tex; mode=display">\sum\limits_{i=1}^n\sum\limits_{j=1}^m\sum\limits_{d=1}^n\frac{ij}{d}[\text{gcd}(i,j)=d]</script><p>把 $d$ 提出来</p>
+<script type="math/tex; mode=display">\sum\limits_{i=1}^{\lfloor\frac{n}{d}\rfloor}i\sum\limits_{j=1}^{\lfloor\frac{m}{d}\rfloor}j\sum\limits_{d=1}^nd[\text{gcd}(i,j)=1]</script><p>由</p>
+<script type="math/tex; mode=display">\sum\limits_{d|n}\mu(d)=[n=1]</script><p>可得原式为</p>
+<script type="math/tex; mode=display">\sum\limits_{i=1}^{\lfloor\frac{n}{d}\rfloor}i\sum\limits_{j=1}^{\lfloor\frac{m}{d}\rfloor}j\sum\limits_{d=1}^nd\sum\limits_{k|\text{gcd}(i,j)}\mu(k)</script>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-15T18:29:20+08:00"
-              content="2021-07-15">
-          07-15
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/YbtOJ20030/" itemprop="url">
-            <span itemprop="name">YbtOJ20030 连珠风暴</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag"># 数学</a>
+              <a href="/tags/Luogu/" rel="tag"># Luogu</a>
+              <a href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" rel="tag"># 莫比乌斯反演</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/polya/" rel="prev" title="Polya定理学习笔记">
+                  <i class="fa fa-chevron-left"></i> Polya定理学习笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/LYOI71/" rel="next" title="LYOI2021 欢乐模拟赛题解">
+                  LYOI2021 欢乐模拟赛题解 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-15T18:29:20+08:00"
-              content="2021-07-15">
-          07-15
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/YbtOJ20001/" itemprop="url">
-            <span itemprop="name">YbtOJ20001 立方数差</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-15T18:29:20+08:00"
-              content="2021-07-15">
-          07-15
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/YbtOJ20025/" itemprop="url">
-            <span itemprop="name">YbtOJ20025 放置石子</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-07-15T18:29:20+08:00"
-              content="2021-07-15">
-          07-15
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/mobius/" itemprop="url">
-            <span itemprop="name">莫比乌斯反演学习笔记</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-    </div>
-  </div>
   
   
   
 
-  
-
 
 
       
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -497,7 +517,7 @@ NexT.utils.loadComments('#valine-comments', () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
     new Valine(Object.assign({
       el  : '#valine-comments',
-      path: "/tags/%E6%95%B0%E8%AE%BA/",
+      path: "/LGP1829/",
     }, {"enable":true,"appId":"WKxXY7H8j3cJ54xFw6NrLnTu-gzGzoHsz","appKey":"JOD2cGII0Be3TUPIu9xvBgMV","placeholder":"在这里留下您的评论吧","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":true,"requiredFields":["nick","mail"]}
     ));
   }, window.Valine);
