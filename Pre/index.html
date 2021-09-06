@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"w.had.ink","root":"/","scheme":"Muse","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+
+  <meta name="description" content="NOIP 初赛知识点整理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NOIP初赛知识点整理">
+<meta property="og:url" content="https://w.had.ink/Pre/index.html">
+<meta property="og:site_name" content="W-RB&#39;s Blog">
+<meta property="og:description" content="NOIP 初赛知识点整理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-09-06T14:22:17.737Z">
+<meta property="article:modified_time" content="2021-09-06T14:21:54.268Z">
+<meta property="article:author" content="W-RB">
+<meta property="article:tag" content="初赛">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://w.had.ink/Pre/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>NOIP初赛知识点整理 | W-RB's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">W-RB's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">「永不言弃，不悔华年」</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section">首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section">关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section">标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section">分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives" rel="section">归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links" rel="section">友链</a>
+
+  </li>
+        <li class="menu-item menu-item-board">
+
+    <a href="/board" rel="section">留言板</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BF%A1%E6%81%AF%E5%AD%A6%E5%8F%B2"><span class="nav-number">1.</span> <span class="nav-text">一、信息学史</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BF%A1%E6%81%AF%E5%AD%A6%E8%91%97%E5%90%8D%E4%BA%BA%E7%89%A9%E4%B8%8E%E5%A5%96%E9%A1%B9"><span class="nav-number">2.</span> <span class="nav-text">二、信息学著名人物与奖项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%8E%B0%E4%BB%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">三、现代计算机基础结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%AF%C2%B7%E8%AF%BA%E4%BE%9D%E6%9B%BC%E6%9E%B6%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">冯·诺依曼架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E5%99%A8"><span class="nav-number">3.1.1.</span> <span class="nav-text">运算器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">3.1.2.</span> <span class="nav-text">控制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8"><span class="nav-number">3.1.3.</span> <span class="nav-text">存储器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E8%AE%BE%E5%A4%87"><span class="nav-number">3.1.4.</span> <span class="nav-text">输入设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E8%AE%BE%E5%A4%87"><span class="nav-number">3.1.5.</span> <span class="nav-text">输出设备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.2.</span> <span class="nav-text">计算机硬件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8-CPU"><span class="nav-number">3.2.1.</span> <span class="nav-text">中央处理器(CPU)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">存储器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AA%E8%AF%BB%E5%AD%98%E5%82%A8%E5%99%A8-ROM"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">只读存储器(ROM)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%AD%98%E5%82%A8%E5%99%A8-RAM"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">随机存储器(RAM)</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86"><span class="nav-number">4.</span> <span class="nav-text">四、计算机基本常识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%8D%95%E4%BD%8D%E6%8D%A2%E7%AE%97"><span class="nav-number">4.1.</span> <span class="nav-text">存储单位换算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="nav-number">4.2.</span> <span class="nav-text">进制转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="nav-number">4.3.</span> <span class="nav-text">编程语言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8E%E7%BA%A7%E8%AF%AD%E8%A8%80"><span class="nav-number">4.3.1.</span> <span class="nav-text">低级语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80"><span class="nav-number">4.3.2.</span> <span class="nav-text">高级语言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.3.2.1.</span> <span class="nav-text">面向对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B"><span class="nav-number">4.3.2.2.</span> <span class="nav-text">面向过程</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="nav-number">5.</span> <span class="nav-text">五、二进制相关知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%A0%81%E3%80%81%E8%A1%A5%E7%A0%81%E3%80%81%E5%8F%8D%E7%A0%81"><span class="nav-number">5.1.</span> <span class="nav-text">原码、补码、反码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E8%BF%90%E7%AE%97%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="nav-number">6.</span> <span class="nav-text">六、运算相关知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97"><span class="nav-number">6.1.</span> <span class="nav-text">数学运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="nav-number">6.2.</span> <span class="nav-text">逻辑运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-number">6.3.</span> <span class="nav-text">位运算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%9B%BE%E8%AE%BA%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86"><span class="nav-number">7.</span> <span class="nav-text">七、图论理论知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">7.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">7.2.</span> <span class="nav-text">二叉树</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86"><span class="nav-number">8.</span> <span class="nav-text">八、基础数据结构理论知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88"><span class="nav-number">8.1.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%9F%E5%88%97"><span class="nav-number">8.2.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8"><span class="nav-number">8.3.</span> <span class="nav-text">链表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88"><span class="nav-number">9.</span> <span class="nav-text">九、排列组合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%88%97%E6%95%B0"><span class="nav-number">9.1.</span> <span class="nav-text">排列数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%95%B0"><span class="nav-number">9.2.</span> <span class="nav-text">组合数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E4%B9%98%E6%B3%95%E5%8E%9F%E7%90%86"><span class="nav-number">9.3.</span> <span class="nav-text">加法原理和乘法原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E4%B8%AD%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="nav-number">9.4.</span> <span class="nav-text">题目中的技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%B3%95"><span class="nav-number">9.4.1.</span> <span class="nav-text">插入法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%86%E7%BB%91%E6%B3%95"><span class="nav-number">9.4.2.</span> <span class="nav-text">捆绑法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%A9%E4%BD%99%E6%B3%95"><span class="nav-number">9.4.3.</span> <span class="nav-text">剩余法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E7%AD%89%E6%B3%95"><span class="nav-number">9.4.4.</span> <span class="nav-text">对等法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%9F%E6%9C%9B%E4%B8%8E%E6%A6%82%E7%8E%87"><span class="nav-number">10.</span> <span class="nav-text">期望与概率</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="W-RB"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">W-RB</p>
+  <div class="site-description" itemprop="description">「OI万年，蒟蒻不变」</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/w-rb" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;w-rb" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/3234108056@qq.com" title="E-Mail → 3234108056@qq.com"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://w.had.ink/Pre/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="W-RB">
+      <meta itemprop="description" content="「OI万年，蒟蒻不变」">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="W-RB's Blog">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NOIP初赛知识点整理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-09-06 22:22:17 / 修改时间：22:21:54" itemprop="dateCreated datePublished" datetime="2021-09-06T22:22:17+08:00">2021-09-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/Pre/" class="post-meta-item leancloud_visitors" data-flag-title="NOIP初赛知识点整理" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/Pre/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/Pre/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>NOIP 初赛知识点整理。</p>
+<a id="more"></a>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1498613705&auto=1&height=66"></iframe>
+
+<h1 id="一、信息学史"><a href="#一、信息学史" class="headerlink" title="一、信息学史"></a>一、信息学史</h1><ol>
+<li>第一台电子计算机：$\text{ENIAC}$，美国宾夕法尼亚大学，1946年2月14日。</li>
+<li>$\text{NOI}$ 于 <strong>1984年</strong> 首次举行。</li>
+<li>$\text{NOIP}$ 于 <strong>1995年</strong> 首次举行。</li>
+<li>$\text{NOIP}$ 于 <strong>2019年</strong> 暂停。</li>
+<li>$\text{CSP}$ 于 <strong>2019年</strong> 首次举行。</li>
+<li>$\text{NOIP}$ 于 <strong>2020年</strong> 恢复。</li>
+<li><strong>2022年</strong>后，$\text{NOI}$ 系列赛事将停止对 <strong>Pascal，C</strong> 语言的支持，仅允许使用 <strong>C++</strong> 语言。</li>
+</ol>
+<h1 id="二、信息学著名人物与奖项"><a href="#二、信息学著名人物与奖项" class="headerlink" title="二、信息学著名人物与奖项"></a>二、信息学著名人物与奖项</h1><ol>
+<li>图灵：艾伦·麦西森·图灵(Alan Mathison Turing)，被称为 <strong>计算机科学之父</strong>、<strong>人工智能之父</strong>。</li>
+<li>图灵奖：计算机界最高奖。</li>
+<li>冯·诺依曼：约翰·冯·诺依曼(John von Neumann)，<strong>现代计算机之父</strong>，<strong>博弈论之父</strong>，奠基现代计算机基本结构(冯·诺依曼体系计算机)。</li>
+<li>姚期智，唯一一位华籍图灵奖获得者，清华大学人工智能姚班教授。</li>
+</ol>
+<h1 id="三、现代计算机基础结构"><a href="#三、现代计算机基础结构" class="headerlink" title="三、现代计算机基础结构"></a>三、现代计算机基础结构</h1><h2 id="冯·诺依曼架构"><a href="#冯·诺依曼架构" class="headerlink" title="冯·诺依曼架构"></a>冯·诺依曼架构</h2><p>五大部分：</p>
+<h3 id="运算器"><a href="#运算器" class="headerlink" title="运算器"></a>运算器</h3><p>计算机硬件中的运算器主要功能是对数据和信息进行运算和加工。运算器包括以下几个部分：通用寄存器、状态寄存器、累加器和关键的算术逻辑单元。运算器可以进行算术计算（加减乘除）和逻辑运算（与或非）。</p>
+<h3 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h3><p>控制器和运算器共同组成了中央处理器（CPU）。控制器可以看作计算机的大脑和指挥中心，它通过整合分析相关的数据和信息，可以让计算机的各个组成部分有序地完成指令。</p>
+<h3 id="存储器"><a href="#存储器" class="headerlink" title="存储器"></a>存储器</h3><p>顾名思义，存储器就是计算机的记忆系统，是计算机系统中的记事本。而和记事本不同的是，存储器不仅可以保存信息，还能接受计算机系统内不同的信息并对保存的信息进行读取。存储器由主存和辅存组成，主存就是通常所说的内存，分为RAM和ROM两个部分。辅存即外存，但是计算机在处理外存的信息时，必须首先经过内外存之间的信息交换才能够进行。</p>
+<h3 id="输入设备"><a href="#输入设备" class="headerlink" title="输入设备"></a>输入设备</h3><p>略。</p>
+<h3 id="输出设备"><a href="#输出设备" class="headerlink" title="输出设备"></a>输出设备</h3><p>略。</p>
+<h2 id="计算机硬件系统"><a href="#计算机硬件系统" class="headerlink" title="计算机硬件系统"></a>计算机硬件系统</h2><h3 id="中央处理器-CPU"><a href="#中央处理器-CPU" class="headerlink" title="中央处理器(CPU)"></a>中央处理器(CPU)</h3><p>作为计算机系统的运算和控制核心，是信息处理、程序运行的最终执行单元。由运算器和控制器组成。</p>
+<p>目前知名品牌有 $\text{Intel}$ 和 $\text{AMD}$。</p>
+<h3 id="存储器-1"><a href="#存储器-1" class="headerlink" title="存储器"></a>存储器</h3><h4 id="只读存储器-ROM"><a href="#只读存储器-ROM" class="headerlink" title="只读存储器(ROM)"></a>只读存储器(ROM)</h4><p>以非破坏性读出方式工作，只能读出无法写入信息。信息一旦写入后就固定下来，即使切断电源，信息也不会丢失，所以又称为固定存储器。</p>
+<p>简要：断电不消失数据。</p>
+<h4 id="随机存储器-RAM"><a href="#随机存储器-RAM" class="headerlink" title="随机存储器(RAM)"></a>随机存储器(RAM)</h4><p>是与CPU直接交换数据的内部存储器。它可以随时读写（刷新时除外），而且速度很快，通常作为操作系统或其他正在运行中的程序的临时数据存储介质。RAM工作时可以随时从任何一个指定的地址写入（存入）或读出（取出）信息。它与ROM的最大区别是数据的易失性，即一旦断电所存储的数据将随之丢失。RAM在计算机和数字系统中用来暂时存储程序、数据和中间结果。</p>
+<p>简要：断电消失数据。</p>
+<h1 id="四、计算机基本常识"><a href="#四、计算机基本常识" class="headerlink" title="四、计算机基本常识"></a>四、计算机基本常识</h1><h2 id="存储单位换算"><a href="#存储单位换算" class="headerlink" title="存储单位换算"></a>存储单位换算</h2><p>$1PB=1024TB$;</p>
+<p>$1TB=1024GB$;</p>
+<p>$1GB=1024MB$;</p>
+<p>$1MB=1024KB$;</p>
+<p>$1KB=1024B$;</p>
+<p>$1B=8bit$;</p>
+<h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><p>短除法。</p>
+<h2 id="编程语言"><a href="#编程语言" class="headerlink" title="编程语言"></a>编程语言</h2><h3 id="低级语言"><a href="#低级语言" class="headerlink" title="低级语言"></a>低级语言</h3><p>汇编语言，机器语言</p>
+<h3 id="高级语言"><a href="#高级语言" class="headerlink" title="高级语言"></a>高级语言</h3><h4 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h4><p><strong>C++,Java,EIFFEL,Simula 67</strong>等。</p>
+<h4 id="面向过程"><a href="#面向过程" class="headerlink" title="面向过程"></a>面向过程</h4><p><strong>C,Fortran</strong>等。</p>
+<h1 id="五、二进制相关知识"><a href="#五、二进制相关知识" class="headerlink" title="五、二进制相关知识"></a>五、二进制相关知识</h1><h2 id="原码、补码、反码"><a href="#原码、补码、反码" class="headerlink" title="原码、补码、反码"></a>原码、补码、反码</h2><ol>
+<li>原码(原码表示法)：十进制数直接转换来的二进制数。值得注意的是，原码的最高位是符号位：整数为 $0$，负数为 $1$。</li>
+<li>补码：正数的补码是其本身，复数的补码是其反码加一。</li>
+<li>反码：正数的反码是本身，负数的反码是<strong>其除符号位之外的所有位按位取反的结果</strong>。</li>
+</ol>
+<h1 id="六、运算相关知识"><a href="#六、运算相关知识" class="headerlink" title="六、运算相关知识"></a>六、运算相关知识</h1><h2 id="数学运算"><a href="#数学运算" class="headerlink" title="数学运算"></a>数学运算</h2><p>略。</p>
+<h2 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h2><ol>
+<li><p>逻辑与：$\&amp;\&amp;$ 或 $∧$，同 $T$ 则 $T$，否则为 $F$。</p>
+</li>
+<li><p>逻辑或：$||$ 或 $∨$，有 $T$ 则 $T$，否则为 $F$。</p>
+</li>
+<li><p>逻辑非：$!$ 或 $┐$，为 $T$ 则 $F$，反之亦然。</p>
+</li>
+<li><p>逻辑异或：$\text{^}$ 或 $⊕$，同为 $F$，异为 $T$。</p>
+</li>
+</ol>
+<h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><ol>
+<li>按位与：$\&amp;$，类似于逻辑与。</li>
+<li>按位或：$|$，类似于逻辑或。</li>
+<li>按位反：$~$，类似于逻辑非。</li>
+<li>左移：$&lt;&lt;$，左移 $x$ 位相当于乘 $2^x$。</li>
+<li>右移：$&gt;&gt;$，右移 $x$ 位相当于除 $2^x$。</li>
+</ol>
+<h1 id="七、图论理论知识"><a href="#七、图论理论知识" class="headerlink" title="七、图论理论知识"></a>七、图论理论知识</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><strong>图(Graph)</strong> 是一个二元组 $G=(V(G),E(G))$，其中 $V(G)$ 为点集，$E(G)$ 为边集。</p>
+<p><strong>无向图(Undirected Graph)</strong>，边是双向的。</p>
+<p><strong>有向图(Directed Graph)</strong>，边是单向的。</p>
+<p><strong>自环(Loop)</strong>，对于某条边 $e=(u,u)$，则称其为一个自环。</p>
+<p><strong>重边(Multiple Edge)</strong>，图中存在两个相同的边。</p>
+<p><strong>简单图(Simple Graph)</strong>，一个图中没有自环和重边。</p>
+<p><strong>完全图(Complete Graph)</strong>，任意两点都有边相连。若一个图的点数为 $n$，则边的个数为 $\frac{n(n-1)}{2}$</p>
+<p><strong>平面图</strong>，没有边相交的图。四个点的完全图是一个平面图，五个点的完全图任意去掉一条边都是平面图。</p>
+<p><strong>连通图(Connected Graph)</strong>，任意两点都可以到达。</p>
+<p><strong>有向无环图(DAG)</strong>，顾名思义。它可以拓扑排序。</p>
+<p><strong>树(Tree)</strong>，无向无环连通图，且 $n$ 个节点的树有 $n-1$ 条边。</p>
+<p><strong>森林(forest)</strong>：每个连通分量（连通块）都是树的图。按照定义，一棵树也是森林。</p>
+<p><strong>结点的深度(depth)</strong>：到根结点的路径上的边数。</p>
+<p><strong>树的高度(height)</strong>：所有结点的深度的最大值。</p>
+<p><strong>叶结点（leaf node）</strong>：没有子结点的结点。</p>
+<p><strong>父亲（parent node）</strong>：对于除根以外的每个结点，定义为从该结点到根路径上的第二个结点。</p>
+<p><strong>祖先（ancestor）</strong>：一个结点到根结点的路径上，<strong>包括它本身</strong> 的所有节点。</p>
+<p>其余参考<a target="_blank" rel="noopener" href="https://oi-wiki.org/graph/tree-basic/">OI-Wiki:树</a>，<a target="_blank" rel="noopener" href="https://oi-wiki.org/graph/concept/">OI-Wiki:图</a>。</p>
+<p><del>图论怎么这么多基础概念</del>。</p>
+<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p>先序遍历：根—左—右。</p>
+<p>中序遍历：左—根—右。</p>
+<p>后序遍历：左—右—根</p>
+<h1 id="八、基础数据结构理论知识"><a href="#八、基础数据结构理论知识" class="headerlink" title="八、基础数据结构理论知识"></a>八、基础数据结构理论知识</h1><h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p><strong>先进后出(FILO,First In Last Out)</strong>，可以想象成一个竖立的木桶。</p>
+<p>后缀表达式：可以用栈实现。</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p><strong>先进先出(FIFO,First In First Out)</strong>，可以想象成一个队列。</p>
+<p>双端队列、优先队列、单调队列略。</p>
+<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><p>访问元素时间复杂度为 $O(n)$，但是删除元素时间复杂度为 $O(1)$。</p>
+<h1 id="九、排列组合"><a href="#九、排列组合" class="headerlink" title="九、排列组合"></a>九、排列组合</h1><h2 id="排列数"><a href="#排列数" class="headerlink" title="排列数"></a>排列数</h2><p>从 $n$ 个不同的元素中任取 $m$ 个元素的所有排列的个数，记作 $P_{n}^{m}$。</p>
+<script type="math/tex; mode=display">P_{n}^{m} = \frac{n!}{(n-m)!}</script><h2 id="组合数"><a href="#组合数" class="headerlink" title="组合数"></a>组合数</h2><p>从 $n$ 个不同元素中，任取 $m$ 个元素并成一组，记作 $C_{n}^{m}$。</p>
+<script type="math/tex; mode=display">C_{n}^{m} = \frac{n!}{m!(n-m)!}</script><h2 id="加法原理和乘法原理"><a href="#加法原理和乘法原理" class="headerlink" title="加法原理和乘法原理"></a>加法原理和乘法原理</h2><p>略。</p>
+<h2 id="题目中的技巧"><a href="#题目中的技巧" class="headerlink" title="题目中的技巧"></a>题目中的技巧</h2><h3 id="插入法"><a href="#插入法" class="headerlink" title="插入法"></a>插入法</h3><p>例：学校师生合影，共 $8$ 个学生，$4$ 个老师，要求老师在学生中间，且老师互不相邻，共有多少种不同的合影方式？</p>
+<p>解：先排学生共有 $P_{8}^{8}$ 种排法，然后把老师插入学生之间的空档，共有 $7$ 个空档可插，选其中的 $4$ 个空档,共 $P_{7}^{4}$ 种选法。根据乘法原理，共有的不同坐法 $P_{8}^{8}P_{7}^{4}$ 种。</p>
+<h3 id="捆绑法"><a href="#捆绑法" class="headerlink" title="捆绑法"></a>捆绑法</h3><p>例：$5$ 个男生 $3$ 个女生排成一排，$3$ 个女生要排在一起，有多少种不同的排法？</p>
+<p>解：因为女生要排在一起，所以可以将 $3$ 个女生看成是一个人，与 $5$ 个男生作全排列，有 $P_{6}^{6}$ 种排法，其中女生内部也有 $P_{3}^{3}$ 种排法，根据乘法原理，共有 $P_{6}^{6}P_{3}^{3}$ 种不同的排法。</p>
+<h3 id="剩余法"><a href="#剩余法" class="headerlink" title="剩余法"></a>剩余法</h3><p>反过来。</p>
+<h3 id="对等法"><a href="#对等法" class="headerlink" title="对等法"></a>对等法</h3><p>例：学校安排考试科目 $9$ 门，语文要在数学之前考，有多少种不同的安排顺序?</p>
+<p>解：不加任何限制条件，整个排法有 $P_{9}^{9}$ 种，“语文安排在数学之前考”与“数学安排在语文之前考”的排法是相等的，所以语文安排在数学之前考的排法共 $\frac{1}{2}P_{9}^{9}$种。</p>
+<h1 id="期望与概率"><a href="#期望与概率" class="headerlink" title="期望与概率"></a>期望与概率</h1><p>先占个坑。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%88%9D%E8%B5%9B/" rel="tag"># 初赛</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/LYOI71/" rel="prev" title="LYOI2021 欢乐模拟赛题解">
+                  <i class="fa fa-chevron-left"></i> LYOI2021 欢乐模拟赛题解
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">W-RB</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+      <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = '//cdn.jsdelivr.net/npm/mathjax@3.1.0/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: "/Pre/",
+    }, {"enable":true,"appId":"WKxXY7H8j3cJ54xFw6NrLnTu-gzGzoHsz","appKey":"JOD2cGII0Be3TUPIu9xvBgMV","placeholder":"在这里留下您的评论吧","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-cn","visitor":true,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":true,"requiredFields":["nick","mail"]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
