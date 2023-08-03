@@ -9,11 +9,7 @@
 
     <!--Description-->
     
-        <meta name="description" content="一道非常好的线段树题。
-Sol.
-优先想到线段树，考虑怎么维护。
-记第 \(i\) 到第 \(i+1\) 条边为第 \(i\) 条边，将问题转化成维护 \(n-1\) 个数。
-那么，我们维护一个前缀和 \(sum\)，根据题意：">
+        <meta name="description" content="一道非常好的线段树题。">
     
 
     <!--Author-->
@@ -84,6 +80,7 @@ Sol.
                     <!-- Post Main Content -->
                     <div class="post-content col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                         <p>一道非常好的线段树题。</p>
+<span id="more"></span>
 <h1 id="sol.">Sol.</h1>
 <p>优先想到线段树，考虑怎么维护。</p>
 <p>记第 <span class="math inline">\(i\)</span> 到第 <span
@@ -92,7 +89,6 @@ class="math inline">\(i\)</span> 条边，将问题转化成维护 <span
 class="math inline">\(n-1\)</span> 个数。</p>
 <p>那么，我们维护一个前缀和 <span
 class="math inline">\(sum\)</span>，根据题意：</p>
-<span id="more"></span>
 <p><span class="math display">\[
 Ans=\frac{\sum\limits_{i=l}^{r}\sum\limits_{j=l}^{r}sum_j-sum_i}{\binom{r-l+1}{2}}
 \]</span></p>
@@ -238,21 +234,6 @@ sum_1&#39;
     <!-- if using service worker -->
 
     
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

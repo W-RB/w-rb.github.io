@@ -66,16 +66,6 @@
             SDOI2006<br>保安站岗
         </h2>
         <p>一道很经典的树形dp题目。</p>
-<h1 id="sol.">Sol.</h1>
-<p>很明显的树形dp，先把方程设出来：</p>
-<p><span class="math inline">\(f_{x,0/1/2}\)</span> 表示当前节点为 <span
-class="math inline">\(x\)</span>，<span
-class="math inline">\(0(自己覆盖)/1(儿子覆盖)/2(父亲覆盖)\)</span>，且其子节点都已全部覆盖的最小权值。</p>
-<p>很套路的树形dp方程，分别考虑如何转移：</p>
-<p>记 <span class="math inline">\(son(i)\)</span> 表示 <span
-class="math inline">\(i\)</span> 的所有子节点，<span
-class="math inline">\(k_i\)</span> 表示控制 <span
-class="math inline">\(i\)</span> 点所需的代价。</p>
     </a>
 </div>
                 
@@ -285,21 +275,6 @@ class="math inline">\(i\)</span> 点所需的代价。</p>
     <!-- if using service worker -->
 
     
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>

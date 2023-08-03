@@ -9,12 +9,7 @@
 
     <!--Description-->
     
-        <meta name="description" content="一道很经典的树形dp题目。
-Sol.
-很明显的树形dp，先把方程设出来：
-\(f_{x,0/1/2}\) 表示当前节点为 \(x\)，\(0(自己覆盖)/1(儿子覆盖)/2(父亲覆盖)\)，且其子节点都已全部覆盖的最小权值。
-很套路的树形dp方程，分别考虑如何转移：
-记 \(son(i)\) 表示 \(i\) 的所有子节点，\(k_i\) 表示控制 \(i\) 点所需的代价。">
+        <meta name="description" content="一道很经典的树形dp题目。">
     
 
     <!--Author-->
@@ -85,6 +80,7 @@ Sol.
                     <!-- Post Main Content -->
                     <div class="post-content col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                         <p>一道很经典的树形dp题目。</p>
+<span id="more"></span>
 <h1 id="sol.">Sol.</h1>
 <p>很明显的树形dp，先把方程设出来：</p>
 <p><span class="math inline">\(f_{x,0/1/2}\)</span> 表示当前节点为 <span
@@ -95,7 +91,6 @@ class="math inline">\(0(自己覆盖)/1(儿子覆盖)/2(父亲覆盖)\)</span>�
 class="math inline">\(i\)</span> 的所有子节点，<span
 class="math inline">\(k_i\)</span> 表示控制 <span
 class="math inline">\(i\)</span> 点所需的代价。</p>
-<span id="more"></span>
 <h2 id="f_x0自己覆盖">1. <span
 class="math inline">\(f_{x,0}\)</span>（自己覆盖）</h2>
 <p><span class="math inline">\(f_{x,0} = \sum\limits_{y\in
@@ -213,21 +208,6 @@ son(x)}\min\{f_{y,0},f_{y,1}\}\)</span></p>
     <!-- if using service worker -->
 
     
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
