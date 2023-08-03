@@ -61,28 +61,30 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
                     <div class="post-preview">
+    <a href="/LGP2458/">
+        <h2 class="post-title">
+            SDOI2006<br>保安站岗
+        </h2>
+        <p>一道很经典的树形dp题目。</p>
+<h1 id="sol.">Sol.</h1>
+<p>很明显的树形dp，先把方程设出来：</p>
+<p><span class="math inline">\(f_{x,0/1/2}\)</span> 表示当前节点为 <span
+class="math inline">\(x\)</span>，<span
+class="math inline">\(0(自己覆盖)/1(儿子覆盖)/2(父亲覆盖)\)</span>，且其子节点都已全部覆盖的最小权值。</p>
+<p>很套路的树形dp方程，分别考虑如何转移：</p>
+<p>记 <span class="math inline">\(son(i)\)</span> 表示 <span
+class="math inline">\(i\)</span> 的所有子节点，<span
+class="math inline">\(k_i\)</span> 表示控制 <span
+class="math inline">\(i\)</span> 点所需的代价。</p>
+    </a>
+</div>
+                
+                    <div class="post-preview">
     <a href="/LGP2894/">
         <h2 class="post-title">
             USACO08FEB Hotel G
         </h2>
         <p>经典线段树问题。</p>
-    </a>
-</div>
-                
-                    <div class="post-preview">
-    <a href="/LGP2221/">
-        <h2 class="post-title">
-            HAOI2012<br>高速公路
-        </h2>
-        <p>一道非常好的线段树题。</p>
-<h1 id="sol.">Sol.</h1>
-<p>优先想到线段树，考虑怎么维护。</p>
-<p>记第 <span class="math inline">\(i\)</span> 到第 <span
-class="math inline">\(i+1\)</span> 条边为第 <span
-class="math inline">\(i\)</span> 条边，将问题转化成维护 <span
-class="math inline">\(n-1\)</span> 个数。</p>
-<p>那么，我们维护一个前缀和 <span
-class="math inline">\(sum\)</span>，根据题意：</p>
     </a>
 </div>
                 
