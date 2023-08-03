@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="NOIP 初赛知识点整理。">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="夏佑">
+    
+
+    <!-- Title -->
+    
+    <title>初赛知识点整理 | 夏花盛开，佑浅浅而归</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//cdn.jsdelivr.net/npm/font-awesome@4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Noto+Serif:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- jQuery -->
+    <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="//cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="夏花盛开，佑浅浅而归" type="application/atom+xml">
+</head>
+
+
+<body>
+
+    <!-- Content -->
+    <section class="article-container">
+    <!-- Back Home -->
+    <a class="nav-back" href="/">
+    <i class="fa fa-puzzle-piece"></i>
+</a>
+
+        <!-- Page Header -->
+        <header class="intro-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="post-heading">
+                            <h1>
+                                初赛知识点整理
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Post Content -->
+        <article>
+            <div class="container">
+                <div class="row">
+                    <!-- Post Main Content -->
+                    <div class="post-content col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <p>NOIP 初赛知识点整理。</p>
+<span id="more"></span>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&amp;id=1498613705&amp;auto=1&amp;height=66">
+</iframe>
+<h1 id="一信息学史">一、信息学史</h1>
+<ol type="1">
+<li>第一台电子计算机：<span
+class="math inline">\(\text{ENIAC}\)</span>，美国宾夕法尼亚大学，1946年2月14日。</li>
+<li><span class="math inline">\(\text{NOI}\)</span> 于
+<strong>1984年</strong> 首次举行。</li>
+<li><span class="math inline">\(\text{NOIP}\)</span> 于
+<strong>1995年</strong> 首次举行。</li>
+<li><span class="math inline">\(\text{NOIP}\)</span> 于
+<strong>2019年</strong> 暂停。</li>
+<li><span class="math inline">\(\text{CSP}\)</span> 于
+<strong>2019年</strong> 首次举行。</li>
+<li><span class="math inline">\(\text{NOIP}\)</span> 于
+<strong>2020年</strong> 恢复。</li>
+<li><strong>2022年</strong>后，<span
+class="math inline">\(\text{NOI}\)</span> 系列赛事将停止对
+<strong>Pascal，C</strong> 语言的支持，仅允许使用 <strong>C++</strong>
+语言。</li>
+</ol>
+<h1 id="二信息学著名人物与奖项">二、信息学著名人物与奖项</h1>
+<ol type="1">
+<li>图灵：艾伦·麦西森·图灵(Alan Mathison Turing)，被称为
+<strong>计算机科学之父</strong>、<strong>人工智能之父</strong>。</li>
+<li>图灵奖：计算机界最高奖。</li>
+<li>冯·诺依曼：约翰·冯·诺依曼(John von
+Neumann)，<strong>现代计算机之父</strong>，<strong>博弈论之父</strong>，奠基现代计算机基本结构(冯·诺依曼体系计算机)。</li>
+<li>姚期智，唯一一位华籍图灵奖获得者，清华大学人工智能姚班教授。</li>
+</ol>
+<h1 id="三现代计算机基础结构">三、现代计算机基础结构</h1>
+<h2 id="冯诺依曼架构">冯·诺依曼架构</h2>
+<p>五大部分：</p>
+<h3 id="运算器">运算器</h3>
+<p>计算机硬件中的运算器主要功能是对数据和信息进行运算和加工。运算器包括以下几个部分：通用寄存器、状态寄存器、累加器和关键的算术逻辑单元。运算器可以进行算术计算（加减乘除）和逻辑运算（与或非）。</p>
+<h3 id="控制器">控制器</h3>
+<p>控制器和运算器共同组成了中央处理器（CPU）。控制器可以看作计算机的大脑和指挥中心，它通过整合分析相关的数据和信息，可以让计算机的各个组成部分有序地完成指令。</p>
+<h3 id="存储器">存储器</h3>
+<p>顾名思义，存储器就是计算机的记忆系统，是计算机系统中的记事本。而和记事本不同的是，存储器不仅可以保存信息，还能接受计算机系统内不同的信息并对保存的信息进行读取。存储器由主存和辅存组成，主存就是通常所说的内存，分为RAM和ROM两个部分。辅存即外存，但是计算机在处理外存的信息时，必须首先经过内外存之间的信息交换才能够进行。</p>
+<h3 id="输入设备">输入设备</h3>
+<p>略。</p>
+<h3 id="输出设备">输出设备</h3>
+<p>略。</p>
+<h2 id="计算机硬件系统">计算机硬件系统</h2>
+<h3 id="中央处理器cpu">中央处理器(CPU)</h3>
+<p>作为计算机系统的运算和控制核心，是信息处理、程序运行的最终执行单元。由运算器和控制器组成。</p>
+<p>目前知名品牌有 <span class="math inline">\(\text{Intel}\)</span> 和
+<span class="math inline">\(\text{AMD}\)</span>。</p>
+<h3 id="存储器-1">存储器</h3>
+<h4 id="只读存储器rom">只读存储器(ROM)</h4>
+<p>以非破坏性读出方式工作，只能读出无法写入信息。信息一旦写入后就固定下来，即使切断电源，信息也不会丢失，所以又称为固定存储器。</p>
+<p>简要：断电不消失数据。</p>
+<h4 id="随机存储器ram">随机存储器(RAM)</h4>
+<p>是与CPU直接交换数据的内部存储器。它可以随时读写（刷新时除外），而且速度很快，通常作为操作系统或其他正在运行中的程序的临时数据存储介质。RAM工作时可以随时从任何一个指定的地址写入（存入）或读出（取出）信息。它与ROM的最大区别是数据的易失性，即一旦断电所存储的数据将随之丢失。RAM在计算机和数字系统中用来暂时存储程序、数据和中间结果。</p>
+<p>简要：断电消失数据。</p>
+<h1 id="四网络及网络协议">四、网络及网络协议</h1>
+<figure>
+<img src="https://z3.ax1x.com/2021/09/07/hT3wND.jpg" alt="协议" />
+<figcaption aria-hidden="true">协议</figcaption>
+</figure>
+<h2 id="协议简述">协议简述</h2>
+<ol type="1">
+<li><p>HTTP
+协议：基于TCP协议，超文本传输协议，对应于应用层，用于如何封装数据.。也就是在底层是基于socket，
+http只不过是在收发数据的时候定义了很多规则，http头信息之类。</p></li>
+<li><p>TCP/IP协议：关注的是客户端与服务器之间的数据传输是否成功（三次握手，传输失败会重发）。传输层协议，主要解决数据如何在网络中传输；</p></li>
+<li><p>TCP/UDP
+协议:传输控制协议，对应于传输层，主要解决数据在网络中的传输。</p></li>
+<li><p>IP 协议：对应于网络层，同样解决数据在网络中的传输。</p></li>
+<li><p>TCP协议：对应于传输层，是基于网络层的IP协议。</p></li>
+<li><p>socket：属于传输层协议，是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口（API），通过Socket，我们才能使用TCP/IP协议。</p></li>
+</ol>
+<h3
+id="电子邮件协议全部隶属于tcpip协议">电子邮件协议(全部隶属于TCP/IP协议)</h3>
+<ol type="1">
+<li>SMTP协议：简单邮件传输协议(TCP25端口)；</li>
+<li>POP3协议：POP邮局协议第三版本(TCP110端口)；</li>
+<li>IMAP协议：互联网信息访问协议(TCP143端口)；</li>
+</ol>
+<h2 id="网络简述">网络简述</h2>
+<ol type="1">
+<li>LAN：局域网</li>
+<li>WAN：广域网</li>
+<li>MAN：城域网</li>
+<li>WLAN：无线局域网</li>
+<li>WWAN：无线广域网</li>
+<li>WMAN：无线城域网</li>
+</ol>
+<h1 id="五计算机基本常识">五、计算机基本常识</h1>
+<h2 id="存储单位换算">存储单位换算</h2>
+<p><span class="math inline">\(1PB=1024TB\)</span>;</p>
+<p><span class="math inline">\(1TB=1024GB\)</span>;</p>
+<p><span class="math inline">\(1GB=1024MB\)</span>;</p>
+<p><span class="math inline">\(1MB=1024KB\)</span>;</p>
+<p><span class="math inline">\(1KB=1024B\)</span>;</p>
+<p><span class="math inline">\(1B=8bit\)</span>;</p>
+<h2 id="进制转换">进制转换</h2>
+<p>短除法。</p>
+<h2 id="编程语言">编程语言</h2>
+<h3 id="低级语言">低级语言</h3>
+<p>汇编语言，机器语言</p>
+<h3 id="高级语言">高级语言</h3>
+<h4 id="面向对象">面向对象</h4>
+<p><strong>C++,Java,EIFFEL,Simula 67</strong>等。</p>
+<h4 id="面向过程">面向过程</h4>
+<p><strong>C,Fortran</strong>等。</p>
+<h1 id="六二进制相关知识">六、二进制相关知识</h1>
+<h2 id="原码补码反码">原码、补码、反码</h2>
+<ol type="1">
+<li>原码(原码表示法)：十进制数直接转换来的二进制数。值得注意的是，原码的最高位是符号位：整数为
+<span class="math inline">\(0\)</span>，负数为 <span
+class="math inline">\(1\)</span>。</li>
+<li>补码：正数的补码是其本身，复数的补码是其反码加一。</li>
+<li>反码：正数的反码是本身，负数的反码是<strong>其除符号位之外的所有位按位取反的结果</strong>。</li>
+</ol>
+<h1 id="七运算相关知识">七、运算相关知识</h1>
+<h2 id="数学运算">数学运算</h2>
+<p>略。</p>
+<h2 id="逻辑运算">逻辑运算</h2>
+<ol type="1">
+<li><p>逻辑与：<span class="math inline">\(\&amp;\&amp;\)</span> 或
+<span class="math inline">\(∧\)</span>，同 <span
+class="math inline">\(T\)</span> 则 <span
+class="math inline">\(T\)</span>，否则为 <span
+class="math inline">\(F\)</span>。</p></li>
+<li><p>逻辑或：<span class="math inline">\(||\)</span> 或 <span
+class="math inline">\(∨\)</span>，有 <span
+class="math inline">\(T\)</span> 则 <span
+class="math inline">\(T\)</span>，否则为 <span
+class="math inline">\(F\)</span>。</p></li>
+<li><p>逻辑非：<span class="math inline">\(!\)</span> 或 <span
+class="math inline">\(┐\)</span>，为 <span
+class="math inline">\(T\)</span> 则 <span
+class="math inline">\(F\)</span>，反之亦然。</p></li>
+<li><p>逻辑异或：<span class="math inline">\(\text{^}\)</span> 或 <span
+class="math inline">\(⊕\)</span>，同为 <span
+class="math inline">\(F\)</span>，异为 <span
+class="math inline">\(T\)</span>。</p></li>
+</ol>
+<h2 id="位运算">位运算</h2>
+<ol type="1">
+<li>按位与：<span
+class="math inline">\(\&amp;\)</span>，类似于逻辑与。</li>
+<li>按位或：<span class="math inline">\(|\)</span>，类似于逻辑或。</li>
+<li>按位反：<span class="math inline">\(~\)</span>，类似于逻辑非。</li>
+<li>左移：<span class="math inline">\(&lt;&lt;\)</span>，左移 <span
+class="math inline">\(x\)</span> 位相当于乘 <span
+class="math inline">\(2^x\)</span>。</li>
+<li>右移：<span class="math inline">\(&gt;&gt;\)</span>，右移 <span
+class="math inline">\(x\)</span> 位相当于除 <span
+class="math inline">\(2^x\)</span>。</li>
+</ol>
+<h1 id="八图论理论知识">八、图论理论知识</h1>
+<h2 id="概念">概念</h2>
+<p><strong>图(Graph)</strong> 是一个二元组 <span
+class="math inline">\(G=(V(G),E(G))\)</span>，其中 <span
+class="math inline">\(V(G)\)</span> 为点集，<span
+class="math inline">\(E(G)\)</span> 为边集。</p>
+<p><strong>无向图(Undirected Graph)</strong>，边是双向的。</p>
+<p><strong>有向图(Directed Graph)</strong>，边是单向的。</p>
+<p><strong>自环(Loop)</strong>，对于某条边 <span
+class="math inline">\(e=(u,u)\)</span>，则称其为一个自环。</p>
+<p><strong>重边(Multiple Edge)</strong>，图中存在两个相同的边。</p>
+<p><strong>简单图(Simple Graph)</strong>，一个图中没有自环和重边。</p>
+<p><strong>完全图(Complete
+Graph)</strong>，任意两点都有边相连。若一个图的点数为 <span
+class="math inline">\(n\)</span>，则边的个数为 <span
+class="math inline">\(\frac{n(n-1)}{2}\)</span></p>
+<p><strong>平面图</strong>，没有边相交的图。四个点的完全图是一个平面图，五个点的完全图任意去掉一条边都是平面图。</p>
+<p><strong>连通图(Connected Graph)</strong>，任意两点都可以到达。</p>
+<p><strong>有向无环图(DAG)</strong>，顾名思义。它可以拓扑排序。</p>
+<p><strong>树(Tree)</strong>，无向无环连通图，且 <span
+class="math inline">\(n\)</span> 个节点的树有 <span
+class="math inline">\(n-1\)</span> 条边。</p>
+<p><strong>森林(forest)</strong>：每个连通分量（连通块）都是树的图。按照定义，一棵树也是森林。</p>
+<p><strong>结点的深度(depth)</strong>：到根结点的路径上的边数。</p>
+<p><strong>树的高度(height)</strong>：所有结点的深度的最大值。</p>
+<p><strong>叶结点（leaf node）</strong>：没有子结点的结点。</p>
+<p><strong>父亲（parent
+node）</strong>：对于除根以外的每个结点，定义为从该结点到根路径上的第二个结点。</p>
+<p><strong>祖先（ancestor）</strong>：一个结点到根结点的路径上，<strong>包括它本身</strong>
+的所有节点。</p>
+<p>其余参考<a
+target="_blank" rel="noopener" href="https://oi-wiki.org/graph/tree-basic/">OI-Wiki:树</a>，<a
+target="_blank" rel="noopener" href="https://oi-wiki.org/graph/concept/">OI-Wiki:图</a>。</p>
+<p><del>图论怎么这么多基础概念</del>。</p>
+<h2 id="二叉树">二叉树</h2>
+<p>先序遍历：根—左—右。</p>
+<p>中序遍历：左—根—右。</p>
+<p>后序遍历：左—右—根</p>
+<h1 id="九基础数据结构理论知识">九、基础数据结构理论知识</h1>
+<h2 id="栈">栈</h2>
+<p><strong>先进后出(FILO,First In Last
+Out)</strong>，可以想象成一个竖立的木桶。</p>
+<p>后缀表达式：可以用栈实现。</p>
+<h2 id="队列">队列</h2>
+<p><strong>先进先出(FIFO,First In First
+Out)</strong>，可以想象成一个队列。</p>
+<p>双端队列、优先队列、单调队列略。</p>
+<h2 id="链表">链表</h2>
+<p>访问元素时间复杂度为 <span
+class="math inline">\(O(n)\)</span>，但是删除元素时间复杂度为 <span
+class="math inline">\(O(1)\)</span>。</p>
+<h1 id="十排列组合">十、排列组合</h1>
+<h2 id="排列数">排列数</h2>
+<p>从 <span class="math inline">\(n\)</span> 个不同的元素中任取 <span
+class="math inline">\(m\)</span> 个元素的所有排列的个数，记作 <span
+class="math inline">\(P_{n}^{m}\)</span>。</p>
+<p><span class="math display">\[P_{n}^{m} =
+\frac{n!}{(n-m)!}\]</span></p>
+<h2 id="组合数">组合数</h2>
+<p>从 <span class="math inline">\(n\)</span> 个不同元素中，任取 <span
+class="math inline">\(m\)</span> 个元素并成一组，记作 <span
+class="math inline">\(C_{n}^{m}\)</span>。</p>
+<p><span class="math display">\[C_{n}^{m} =
+\frac{n!}{m!(n-m)!}\]</span></p>
+<h2 id="加法原理和乘法原理">加法原理和乘法原理</h2>
+<p>感性理解。</p>
+<h2 id="题目中的技巧">题目中的技巧</h2>
+<h3 id="插入法">插入法</h3>
+<p>例：学校师生合影，共 <span class="math inline">\(8\)</span>
+个学生，<span class="math inline">\(4\)</span>
+个老师，要求老师在学生中间，且老师互不相邻，共有多少种不同的合影方式？</p>
+<p>解：先排学生共有 <span class="math inline">\(P_{8}^{8}\)</span>
+种排法，然后把老师插入学生之间的空档，共有 <span
+class="math inline">\(7\)</span> 个空档可插，选其中的 <span
+class="math inline">\(4\)</span> 个空档,共 <span
+class="math inline">\(P_{7}^{4}\)</span>
+种选法。根据乘法原理，共有的不同坐法 <span
+class="math inline">\(P_{8}^{8}P_{7}^{4}\)</span> 种。</p>
+<h3 id="捆绑法">捆绑法</h3>
+<p>例：<span class="math inline">\(5\)</span> 个男生 <span
+class="math inline">\(3\)</span> 个女生排成一排，<span
+class="math inline">\(3\)</span>
+个女生要排在一起，有多少种不同的排法？</p>
+<p>解：因为女生要排在一起，所以可以将 <span
+class="math inline">\(3\)</span> 个女生看成是一个人，与 <span
+class="math inline">\(5\)</span> 个男生作全排列，有 <span
+class="math inline">\(P_{6}^{6}\)</span> 种排法，其中女生内部也有 <span
+class="math inline">\(P_{3}^{3}\)</span> 种排法，根据乘法原理，共有
+<span class="math inline">\(P_{6}^{6}P_{3}^{3}\)</span>
+种不同的排法。</p>
+<h3 id="剩余法">剩余法</h3>
+<p>反过来。</p>
+<h3 id="对等法">对等法</h3>
+<p>例：学校安排考试科目 <span class="math inline">\(9\)</span>
+门，语文要在数学之前考，有多少种不同的安排顺序?</p>
+<p>解：不加任何限制条件，整个排法有 <span
+class="math inline">\(P_{9}^{9}\)</span>
+种，“语文安排在数学之前考”与“数学安排在语文之前考”的排法是相等的，所以语文安排在数学之前考的排法共
+<span class="math inline">\(\frac{1}{2}P_{9}^{9}\)</span>种。</p>
+<h1 id="十一时空复杂度相关">十一、时空复杂度相关</h1>
+<h2 id="时间复杂度">时间复杂度</h2>
+<p>时间复杂度的计算，简而言之就是计算循环层数。</p>
+<p>例如对于下列代码段：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j++)</span><br><span class="line">    	ans++;</span><br></pre></td></tr></table></figure>
+<p>这里套用了两层到 <span class="math inline">\(n\)</span>
+的循环，所以说时间复杂度为 <span
+class="math inline">\(O(n^2)\)</span>。</p>
+<p>常见的时间复杂度计算：</p>
+<ul>
+<li>二分类：<span class="math inline">\(O(\log n)\)</span>；</li>
+<li>搜索类：<span class="math inline">\(O(感性理解)\)</span>；</li>
+<li>乱搞类：<span class="math inline">\(O(能过)\)</span>。</li>
+</ul>
+<p>值得注意的是，计算时间复杂度一般忽略其中的常数因子。</p>
+<p>如：一个算法的时间复杂度为 <span
+class="math inline">\(O(2n)\)</span>，则一般写成 <span
+class="math inline">\(O(n)\)</span>。</p>
+<p>这也是 OIer 常说的 <strong>大常数</strong>
+的由来。常数因子有时也可能导致 <span
+class="math inline">\(TLE\)</span>，这就是 <strong>卡常</strong>
+的由来。</p>
+<p><del>扯远了</del></p>
+<p>其余更多复杂的时间复杂度可以参考
+<strong>《具体数学》渐进式</strong>。</p>
+<h2 id="空间复杂度">空间复杂度</h2>
+<p>类似于时间复杂度，即数组的大小。</p>
+<p>例如对于下列代码段：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[n];</span><br><span class="line"><span class="type">int</span> b[n][n];</span><br></pre></td></tr></table></figure>
+<p><code>a</code>数组的空间复杂度是 <span
+class="math inline">\(O(n)\)</span>，<code>b</code>数组的空间复杂度是
+<span class="math inline">\(O(n^2)\)</span>。</p>
+<h2 id="常见基础算法的时空复杂度">常见基础算法的时空复杂度</h2>
+<p>为了方便，前面均为时间复杂度，后面均为空间复杂度。</p>
+<p>有些算法不提供空间复杂度，用 <span class="math inline">\(-\)</span>
+表示。</p>
+<ol type="1">
+<li><span class="math inline">\(Dijkstra(无优化)\)</span>：<span
+class="math inline">\(O(n^2),-\)</span>；</li>
+<li><span class="math inline">\(Dijkstra(堆优化)\)</span>：<span
+class="math inline">\(O(n+m)\log n,-\)</span>；</li>
+<li><span class="math inline">\(SPFA\)</span>：<span
+class="math inline">\(\text{Worst}O(|V|\cdot|E|),-\)</span>；</li>
+<li><span class="math inline">\(Floyd\)</span>：<span
+class="math inline">\(O(n^3),-\)</span>；</li>
+<li><span class="math inline">\(0/1背包\)</span>：<span
+class="math inline">\(O(VN),O(VN)\)</span>;</li>
+<li><span class="math inline">\(KMP\)</span>：<span
+class="math inline">\(O(m+n)\)</span>。</li>
+</ol>
+<h2 id="排序算法的时间复杂度与稳定性">排序算法的时间复杂度与稳定性</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">排序方法</th>
+<th style="text-align: center;">时间复杂度</th>
+<th style="text-align: center;">稳定性</th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">插入排序</td>
+<td style="text-align: center;"><span
+class="math inline">\(O(n^2)\)</span></td>
+<td style="text-align: center;">稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">冒泡排序</td>
+<td style="text-align: center;"><span
+class="math inline">\(O(n^2)\)</span></td>
+<td style="text-align: center;">稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">选择排序</td>
+<td style="text-align: center;"><span
+class="math inline">\(O(n^2)\)</span></td>
+<td style="text-align: center;">不稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">快速排序</td>
+<td style="text-align: center;"><span class="math inline">\(期望O(n\log
+n)\)</span></td>
+<td style="text-align: center;">不稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">希尔排序</td>
+<td style="text-align: center;"><span class="math inline">\(O(n\log
+n)\)</span></td>
+<td style="text-align: center;">不稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">堆排序</td>
+<td style="text-align: center;"><span class="math inline">\(O(n\log
+n)\)</span></td>
+<td style="text-align: center;">不稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">归并排序</td>
+<td style="text-align: center;"><span class="math inline">\(O(n\log
+n)\)</span></td>
+<td style="text-align: center;">稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">基数排序</td>
+<td style="text-align: center;"><span
+class="math inline">\(O(d(n+r))\)</span></td>
+<td style="text-align: center;">稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">桶排序</td>
+<td style="text-align: center;"><span class="math inline">\(O(\max
+\{value\})\)</span></td>
+<td style="text-align: center;">不稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><del>猴子排序</del></td>
+<td style="text-align: center;"><span
+class="math inline">\(O(1)-O(∞)\)</span></td>
+<td style="text-align: center;">不稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><del>欧皇排序</del></td>
+<td style="text-align: center;"><span
+class="math inline">\(O(\text{NULL})\)</span></td>
+<td style="text-align: center;">稳定</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h1 id="十二概率与期望">十二、概率与期望</h1>
+<p><del>不会</del></p>
+<h1 id="十三阅读程序与补全程序相关">十三、阅读程序与补全程序相关</h1>
+<ol type="1">
+<li>先看有没有注释，<del>没有注释的都是屑</del>；</li>
+<li>猜测变量名称，猜测变量的作用；</li>
+<li>自己阅读每个语句，理解其作用；</li>
+<li>理解代码段的作用；</li>
+<li>根据样例猜测作用；</li>
+<li>手玩几组数据，模拟代码作用；</li>
+<li>认真审题，细致思考。</li>
+</ol>
+<h1 id="十四总结">十四、总结</h1>
+<p>个人认为前面的计算机基础知识背背即可，重点放在
+<strong>排列组合题</strong> 和 <strong>阅读/补全程序题</strong>
+上，多刷初赛原题。</p>
+<p>考场上不要慌张，时间充足，充分利用时间，多检查几遍，<del>不会的看顺眼的蒙</del>。</p>
+
+
+                            <!-- Meta -->
+                            <div class="post-meta">
+                                <hr>
+                                <br>
+                                <div class="post-tags">
+                                    
+                                                
+
+<a href="/categories/学习笔记/">学习笔记</a>
+
+                                                    
+                                </div>
+                                <div class="post-date">
+                                    
+                                        2021-09-01
+                                    
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <!-- Disqus Comments -->
+
+
+                    </div>
+                </div>
+            </div>
+        </article>
+</section>
+
+<!-- Image viewer-->
+
+    <!-- Custom picture view-->
+    <link href="/css/viewer.min.css" rel="stylesheet" />
+    <script
+      src="/js/viewer.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    
+    <script type="text/javascript">
+      // set image viewer
+      Viewer.setDefaults({
+        zoomRatio: [0.5],
+        navbar: false,
+        toolbar: false,
+        button: false,
+        title: [2, (image, imageData) => `${image.alt}`],
+        show: function() {
+          this.viewer.zoomTo(0.5);
+        }
+      });
+      var imageList = document.getElementsByTagName("img");
+      Array.prototype.forEach.call(imageList, element => {
+        var viewer = new Viewer(element);
+      });
+    </script>
+
+    
+
+<!-- TOC -->
+
+    <aside id="article-toc" role="navigation" class="fixed">
+        <div id="article-toc-inner">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%BF%A1%E6%81%AF%E5%AD%A6%E5%8F%B2"><span class="toc-text">一、信息学史</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E4%BF%A1%E6%81%AF%E5%AD%A6%E8%91%97%E5%90%8D%E4%BA%BA%E7%89%A9%E4%B8%8E%E5%A5%96%E9%A1%B9"><span class="toc-text">二、信息学著名人物与奖项</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E7%8E%B0%E4%BB%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84"><span class="toc-text">三、现代计算机基础结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E6%9E%B6%E6%9E%84"><span class="toc-text">冯·诺依曼架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E5%99%A8"><span class="toc-text">运算器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-text">控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-text">存储器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%AE%BE%E5%A4%87"><span class="toc-text">输入设备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E8%AE%BE%E5%A4%87"><span class="toc-text">输出设备</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-text">计算机硬件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8cpu"><span class="toc-text">中央处理器(CPU)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8-1"><span class="toc-text">存储器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AA%E8%AF%BB%E5%AD%98%E5%82%A8%E5%99%A8rom"><span class="toc-text">只读存储器(ROM)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E5%AD%98%E5%82%A8%E5%99%A8ram"><span class="toc-text">随机存储器(RAM)</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E7%BD%91%E7%BB%9C%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE"><span class="toc-text">四、网络及网络协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E7%AE%80%E8%BF%B0"><span class="toc-text">协议简述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E5%8D%8F%E8%AE%AE%E5%85%A8%E9%83%A8%E9%9A%B6%E5%B1%9E%E4%BA%8Etcpip%E5%8D%8F%E8%AE%AE"><span class="toc-text">电子邮件协议(全部隶属于TCP&#x2F;IP协议)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%AE%80%E8%BF%B0"><span class="toc-text">网络简述</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86"><span class="toc-text">五、计算机基本常识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%8D%95%E4%BD%8D%E6%8D%A2%E7%AE%97"><span class="toc-text">存储单位换算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-text">进制转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="toc-text">编程语言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8E%E7%BA%A7%E8%AF%AD%E8%A8%80"><span class="toc-text">低级语言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80"><span class="toc-text">高级语言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="toc-text">面向对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B"><span class="toc-text">面向过程</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="toc-text">六、二进制相关知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%A0%81%E8%A1%A5%E7%A0%81%E5%8F%8D%E7%A0%81"><span class="toc-text">原码、补码、反码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%E8%BF%90%E7%AE%97%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="toc-text">七、运算相关知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97"><span class="toc-text">数学运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="toc-text">逻辑运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="toc-text">位运算</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AB%E5%9B%BE%E8%AE%BA%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86"><span class="toc-text">八、图论理论知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">二叉树</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%9D%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86"><span class="toc-text">九、基础数据结构理论知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88"><span class="toc-text">栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-text">队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-text">链表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E6%8E%92%E5%88%97%E7%BB%84%E5%90%88"><span class="toc-text">十、排列组合</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E5%88%97%E6%95%B0"><span class="toc-text">排列数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%95%B0"><span class="toc-text">组合数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E4%B9%98%E6%B3%95%E5%8E%9F%E7%90%86"><span class="toc-text">加法原理和乘法原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E4%B8%AD%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="toc-text">题目中的技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%B3%95"><span class="toc-text">插入法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8D%86%E7%BB%91%E6%B3%95"><span class="toc-text">捆绑法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%A9%E4%BD%99%E6%B3%95"><span class="toc-text">剩余法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E7%AD%89%E6%B3%95"><span class="toc-text">对等法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E6%97%B6%E7%A9%BA%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%9B%B8%E5%85%B3"><span class="toc-text">十一、时空复杂度相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">空间复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E7%A9%BA%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">常见基础算法的时空复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="toc-text">排序算法的时间复杂度与稳定性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E6%A6%82%E7%8E%87%E4%B8%8E%E6%9C%9F%E6%9C%9B"><span class="toc-text">十二、概率与期望</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%89%E9%98%85%E8%AF%BB%E7%A8%8B%E5%BA%8F%E4%B8%8E%E8%A1%A5%E5%85%A8%E7%A8%8B%E5%BA%8F%E7%9B%B8%E5%85%B3"><span class="toc-text">十三、阅读程序与补全程序相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E5%9B%9B%E6%80%BB%E7%BB%93"><span class="toc-text">十四、总结</span></a></li></ol>
+        </div>
+    </aside>
+
+    <!-- Scripts -->
+    <script type="text/javascript">
+    console.log("© zchen9 🙋 2015-" + new Date().getFullYear());
+</script>
+  
+    <!-- Google Analytics -->
+    
+
+    <!-- Service Worker -->
+    <!-- if using service worker -->
+
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
