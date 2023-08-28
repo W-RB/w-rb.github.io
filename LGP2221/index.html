@@ -91,7 +91,8 @@ class="math inline">\(n-1\)</span> 个数。</p>
 <p>那么，我们维护一个前缀和 <span
 class="math inline">\(sum\)</span>，根据题意：</p>
 <p><span class="math display">\[
-Ans=\frac{\sum\limits_{i=l}^{r}\sum\limits_{j=l}^{r}sum_j-sum_i}{\binom{r-l+1}{2}}
+Ans=\frac{\sum\limits_{i=l}^{r}\sum\limits_{j=l}^{r}sum_j-sum_i}{\binom{r-l+1}{2}}(i\neq
+j)
 \]</span></p>
 <p>下面的东西很好算，重点是上面的东西怎么维护。</p>
 <p>我们把上面的东西记作 <span
