@@ -519,6 +519,9 @@ class="math inline">\(2n\)</span> 个节点。</p>
 就是为了下放标记而存在的。而标记永久化则是不进行标记的下放，直接永久记录在该节点上。当我们需要访问某节点时，叠加所有在它到根节点路径的标记即可。</p>
 <p>然而值得注意的是，并不是所有的标记都能永久化。除了要满足标记本身需要满足的条件之外，还需要满足<strong>交换律</strong>。</p>
 <p>标记永久化并没有时空复杂度的提升，但是可以优化时间常数。某些情况下，正常下放标记不能保证正确性，因此必须标记永久化。</p>
+<p>标记永久化可以保证了当前节点子树的更新，但是与之相对的，当前节点到根我们需要额外维护：从根到该节点，每次取当前节点维护区间与修改区间的交集，进行更新。</p>
+<p>下面是动态开点+标记永久化的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> &amp;k, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!k) k = ++cnt, tr[k].l = x, tr[k].r = y;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= tr[k].l &amp;&amp; tr[k].r &lt;= r) <span class="keyword">return</span> (<span class="type">void</span>) tr[k].tag += v;</span><br><span class="line">    tr[k].sum += v * (<span class="built_in">min</span>(tr[k].r, r) - <span class="built_in">max</span>(tr[k].l, l) + <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> mid = tr[k].l + tr[k].r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">update</span>(ls, tr[k].l, mid, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">update</span>(rs, mid + <span class="number">1</span>, tr[k].r, l, r, v);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!k) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= tr[k].l &amp;&amp; tr[k].r &lt;= r) <span class="keyword">return</span> tr[k].sum + (tr[k].r -  tr[k].l + <span class="number">1</span>) * tr[k].tag;</span><br><span class="line">    <span class="type">int</span> res = (<span class="built_in">min</span>(tr[k].r, r) - <span class="built_in">max</span>(tr[k].l, l) + <span class="number">1</span>) * tr[k].tag;</span><br><span class="line">    <span class="type">int</span> mid = tr[k].l + tr[k].r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) res += <span class="built_in">query</span>(ls, l, r);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) res += <span class="built_in">query</span>(rs, l, r);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="值域线段树">值域线段树</h1>
 <h1 id="扫描线">扫描线</h1>
 <p>具体来说，扫描线是一种思想，而不是一种数据结构。</p>
@@ -620,22 +623,6 @@ class="math inline">\(2n\)</span> 个节点。</p>
       </div>
     </div>
 </footer>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 </body>
 
 </html>
