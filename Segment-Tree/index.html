@@ -485,7 +485,8 @@ class="math inline">\(sum_k+S[rs]_l\)</span>。</li>
 <p>因此，我们在考虑线段树维护某些东西的时候，一方面要考虑如何维护信息，另一方面要考虑如何维护标记。</p>
 <p>有关更多这部分的内容，可以看<a
 target="_blank" rel="noopener" href="https://_rqy.blog.uoj.ac/blog/8105">_rqy的博客</a>。</p>
-<h1 id="动态开点线段树">动态开点线段树</h1>
+<h1 id="线段树的常用技巧">线段树的常用技巧</h1>
+<h2 id="动态开点">动态开点</h2>
 <p>有的时候，面对庞大的数据范围，我们没办法开如此大的空间。这个时候，我们就需要动态开点线段树了。</p>
 <p>动态开点线段树，顾名思义，即对于整颗线段树，我们并不将它直接建出来，而是到用到某个节点了在进行新建。</p>
 <p>因此，我们就直接不建树，在 update 和 query
@@ -512,7 +513,7 @@ class="math inline">\(2n\)</span> 个节点。</p>
 <p>我们初始时需要建立第一个节点。值得注意的是：update 和 f 函数中的
 <span class="math inline">\(k\)</span>
 必须加取地址符，这是为了使儿子信息在父亲节点中被更新。</p>
-<h1 id="标记永久化">标记永久化</h1>
+<h2 id="标记永久化">标记永久化</h2>
 <p>当数据范围较大、或者 pushdown、pushup
 代价过高时，可以考虑标记永久化。</p>
 <p>我们知道线段树一个重要的部分是懒标记，而 pushdown
@@ -522,15 +523,247 @@ class="math inline">\(2n\)</span> 个节点。</p>
 <p>标记永久化可以保证了当前节点子树的更新，但是与之相对的，当前节点到根我们需要额外维护：从根到该节点，每次取当前节点维护区间与修改区间的交集，进行更新。</p>
 <p>下面是动态开点+标记永久化的代码：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> &amp;k, <span class="type">int</span> x, <span class="type">int</span> y, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!k) k = ++cnt, tr[k].l = x, tr[k].r = y;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= tr[k].l &amp;&amp; tr[k].r &lt;= r) <span class="keyword">return</span> (<span class="type">void</span>) tr[k].tag += v;</span><br><span class="line">    tr[k].sum += v * (<span class="built_in">min</span>(tr[k].r, r) - <span class="built_in">max</span>(tr[k].l, l) + <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> mid = tr[k].l + tr[k].r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">update</span>(ls, tr[k].l, mid, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">update</span>(rs, mid + <span class="number">1</span>, tr[k].r, l, r, v);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!k) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= tr[k].l &amp;&amp; tr[k].r &lt;= r) <span class="keyword">return</span> tr[k].sum + (tr[k].r -  tr[k].l + <span class="number">1</span>) * tr[k].tag;</span><br><span class="line">    <span class="type">int</span> res = (<span class="built_in">min</span>(tr[k].r, r) - <span class="built_in">max</span>(tr[k].l, l) + <span class="number">1</span>) * tr[k].tag;</span><br><span class="line">    <span class="type">int</span> mid = tr[k].l + tr[k].r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) res += <span class="built_in">query</span>(ls, l, r);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) res += <span class="built_in">query</span>(rs, l, r);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="值域线段树">值域线段树</h1>
-<h1 id="扫描线">扫描线</h1>
+<h2 id="线段树二分">线段树二分</h2>
+<p>线段树本身看起来就是个很二分的结构。那么我们不妨直接利用这个结构特性来进行二分。</p>
+<p>类比于我们在线段树基本操作中的单点修改，我们发现这个其实就是一个不断二分的过程。</p>
+<p>这样的时间复杂度可以维持在 <span class="math inline">\(O(\log
+n)\)</span>。</p>
+<h1 id="进阶线段树">进阶线段树</h1>
+<h2 id="值域线段树">值域线段树</h2>
+<p>还是先来看一个问题：</p>
+<blockquote>
+<p>给定序列 <span class="math inline">\(\{a_n\}\)</span>，<span
+class="math inline">\(q\)</span> 次询问。</p>
+<p>每次询问给定 <span class="math inline">\(k\)</span>，求序列第 <span
+class="math inline">\(k\)</span> 小。</p>
+<p><span class="math inline">\(1\leq n,q\leq 10^5,1\leq a_i\leq
+10^9\)</span>。</p>
+</blockquote>
+<p>想要解决这个问题，我们需要用到“值域线段树”。</p>
+<p>值域线段树，也被称作“权值线段树”，但是值域线段树这个名字更加严谨一点。</p>
+<p>佛说：诞生了数组之后，就诞生了桶。同样，诞生了线段树之后，就诞生了值域线段树。</p>
+<p>具体来说，值域线段树也是一种线段树，但是它维护的范围从 <span
+class="math inline">\(n\)</span> 变成了整个值域（因此需要<a
+href="#动态开点">动态开点</a>），而维护的东西则是一段区间内数的出现次数。形象化地说，就是在桶上建立了一颗线段树。</p>
+<p>那么想想如何查询第 <span class="math inline">\(k\)</span>
+小。通过刚才线段树二分的思想，我们每次将当前节点左右儿子的值与 <span
+class="math inline">\(k\)</span>
+比较，然后二分地寻找应该存在的地方。</p>
+<figure>
+<img src="https://cdn.luogu.com.cn/upload/image_hosting/zzzzpqlt.png"
+alt="值域线段树" />
+<figcaption aria-hidden="true">值域线段树</figcaption>
+</figure>
+<p>如图，对于序列 <span
+class="math inline">\(\{1,2,3,4,2,3,4,3,4,4\}\)</span>，我们可以建立如上值域线段树。例如我们现在要查询
+<span
+class="math inline">\(k=5\)</span>，红色的节点和边就是我们查询的路径。值得注意的是，我们的
+<span class="math inline">\(k\)</span> 应该是在当前节点区间内的 <span
+class="math inline">\(k\)</span>，这意味着如果我们递归到了右子树，需要减去左子树的值。</p>
+<p>类似地，值域线段树也支持单点修改，以及查询某个数出现个数等等。</p>
+<p>注意到，普通值域线段树只支持全局查询。若需要区间查询，则需要对值域线段树进行可持久化，即<a
+href="#主席树">主席树</a>。</p>
+<h2 id="扫描线">扫描线</h2>
 <p>具体来说，扫描线是一种思想，而不是一种数据结构。</p>
 <p>扫描线比较经典的问题就是求矩形面积并了。</p>
 <blockquote>
 <p>给定若干四边平行于坐标轴的矩形。</p>
 <p>求它们的面积并（重合部分只算一次）。</p>
-<p><span class="math inline">\(n\leq 10^5\)</span>。</p>
+<p><span class="math inline">\(n\leq 10^5,|x_i|,|y_i|\leq
+10^9\)</span>。</p>
 </blockquote>
+<h3 id="线段树维护矩形面积并">线段树维护矩形面积并</h3>
+<figure>
+<img src="https://s2.loli.net/2023/08/31/qVf7EtHWwBbjXo2.gif"
+alt="扫描线" />
+<figcaption aria-hidden="true">扫描线</figcaption>
+</figure>
+<p>如上图所示，我们将蓝绿两个矩形通过虚线分割成了三块。显然，答案应该是三段的线段长度
+<span class="math inline">\(len\)</span> 分别乘上这段竖着的长度之和
+<span class="math inline">\(sum\)</span>。</p>
+<p>前者我们已经知道了，我们只需要快速维护后者即可。可以用线段树维护。</p>
+<p>具体来说，我们通过一根红色的“扫描线”从下向上扫。记矩形的下边界为
+<span class="math inline">\(+1\)</span>，上边界为 <span
+class="math inline">\(-1\)</span>，同时维护 <span
+class="math inline">\(sum\)</span> 即可。</p>
+<p>由于范围很大，因此需要离散化。如果你不想离散化，还可以使用动态开点+标记永久化，代码会更短。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushup</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(tr[k].tag) tr[k].sum = r - l + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span> tr[k].sum = tr[ls].sum + tr[rs].sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> &amp;k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> L, <span class="type">int</span> R, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!k) k = ++cnt;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= l &amp;&amp; r &lt;= R) <span class="keyword">return</span> (<span class="type">void</span>)(tr[k].tag += v, <span class="built_in">pushup</span>(k, l, r));</span><br><span class="line">    <span class="type">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= mid) <span class="built_in">update</span>(ls, l, mid, L, R, v);</span><br><span class="line">    <span class="keyword">if</span>(R &gt; mid) <span class="built_in">update</span>(rs, mid + <span class="number">1</span>, r, L, R, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k, l, r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="本质">本质</h3>
+<p>我们来思考一下扫描线的本质：考虑一下我们刚才引入的这条“扫描线”在干什么？在枚举。而我们为了达到同时枚举
+<span class="math inline">\(x,y\)</span> 的目的，在扫描 <span
+class="math inline">\(y\)</span> 的同时，快速更新 <span
+class="math inline">\(x\)</span> 的贡献。这就是扫描线思想。</p>
+<p>也就是说，对于 <span class="math inline">\((x,y)\)</span>
+的枚举，我们可以枚举其中一维，并同时通过数据结构快速维护另一维，以求出答案。</p>
+<h2 id="李超线段树">李超线段树</h2>
+<blockquote>
+<p>要求在平面直角坐标系下维护两个操作：</p>
+<ol type="1">
+<li><p>在平面上加入一条线段。记第 <span class="math inline">\(i\)</span>
+条被插入的线段的标号为 <span class="math inline">\(i\)</span>；</p></li>
+<li><p>给定一个数 <span class="math inline">\(k\)</span>，询问与直线
+<span class="math inline">\(x = k\)</span>
+相交的线段中，交点纵坐标最大的线段的最小编号。</p></li>
+</ol>
+<p>强制在线。<span class="math inline">\(n\leq 10^5\)</span>。</p>
+</blockquote>
+<p>这个问题普通线段树无法解决，这个时候，李超线段树就派上用场了。李超树由浙江学军中学的李超发明，用于维护这样一类普通线段树无法维护的问题。</p>
+<p>李超线段树维护 <span class="math inline">\(x=mid\)</span>
+时最大的线段信息。记我们现在的最优线段为 <span
+class="math inline">\(l\)</span>，新加入的线段（完全覆盖此区间）为 <span
+class="math inline">\(l&#39;\)</span>。那么，我们将 <span
+class="math inline">\(l\)</span> 与 <span
+class="math inline">\(l&#39;\)</span> 比较，若 <span
+class="math inline">\(l&#39;\)</span> 在 <span
+class="math inline">\(mid\)</span> 处更优，则交换 <span
+class="math inline">\(l\)</span> 与 <span
+class="math inline">\(l&#39;\)</span>。</p>
+<p>接下来，对于 <span class="math inline">\(l&#39;\)</span> 在 <span
+class="math inline">\(mid\)</span> 处不比 <span
+class="math inline">\(l\)</span> 优的情况，有下列几种：</p>
+<ol type="1">
+<li>在左端点 <span class="math inline">\(l&#39;\)</span> 优于 <span
+class="math inline">\(l\)</span>，则一定在左区间中产生交点，递归左子树。</li>
+<li>在右端点 <span class="math inline">\(l&#39;\)</span> 优于 <span
+class="math inline">\(l\)</span>，则一定在右区间中产生交点，递归右子树。</li>
+<li>在左右端点均不优，则不需要修改。</li>
+</ol>
+<figure>
+<img src="https://s2.loli.net/2023/09/01/guCdZAKXMOS3ahG.png"
+alt="李超线段树" />
+<figcaption aria-hidden="true">李超线段树</figcaption>
+</figure>
+<p>如上图，蓝线是我们的原来最优线段 <span
+class="math inline">\(l\)</span>，红线、绿线、紫线依次表示三种情况。</p>
+<p>以红线为例：在 <span class="math inline">\(L\)</span> 时，<span
+class="math inline">\(l&#39;_L&gt;l_L\)</span>，说明 <span
+class="math inline">\(l\)</span> 和 <span
+class="math inline">\(l&#39;\)</span> 一定在 <span
+class="math inline">\([L,mid]\)</span> 有交点，那么我们就递归 <span
+class="math inline">\([L,mid]\)</span> 的区间。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">cmp</span><span class="params">(<span class="type">double</span> x, <span class="type">double</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x - y &gt; eps) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(y - x &gt; eps) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">calc</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> dis)</span></span>&#123;<span class="keyword">return</span> a[k].b + a[k].k * dis;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">modify</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> &amp;v = tr[k], mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> xmid = <span class="built_in">cmp</span>(<span class="built_in">calc</span>(u, mid), <span class="built_in">calc</span>(v, mid));</span><br><span class="line">    <span class="keyword">if</span>(xmid == <span class="number">1</span> || (!xmid &amp;&amp; u &lt; v)) <span class="built_in">swap</span>(u, v);</span><br><span class="line">    <span class="type">int</span> xl = <span class="built_in">cmp</span>(<span class="built_in">calc</span>(u, l), <span class="built_in">calc</span>(v, l)), xr = <span class="built_in">cmp</span>(<span class="built_in">calc</span>(u, r), <span class="built_in">calc</span>(v, r));</span><br><span class="line">    <span class="keyword">if</span>(xl == <span class="number">1</span> || (!xl &amp;&amp; u &lt; v)) <span class="built_in">modify</span>(ls, l, mid, u);</span><br><span class="line">    <span class="keyword">if</span>(xr == <span class="number">1</span> || (!xr &amp;&amp; u &lt; v)) <span class="built_in">modify</span>(rs, mid + <span class="number">1</span>, r, u);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> L, <span class="type">int</span> R, <span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= l &amp;&amp; r &lt;= R) <span class="keyword">return</span> (<span class="type">void</span>)<span class="built_in">modify</span>(k, l, r, u);</span><br><span class="line">    <span class="type">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= mid) <span class="built_in">update</span>(ls, l, mid, L, R, u);</span><br><span class="line">    <span class="keyword">if</span>(R &gt; mid) <span class="built_in">update</span>(rs, mid + <span class="number">1</span>, r, L, R, u);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查询 <span class="math inline">\(x\)</span> 时，从根节点走到 <span
+class="math inline">\([x,x]\)</span> 的所有最优线段在 <span
+class="math inline">\(x\)</span>
+处的极值即为答案，类似于标记永久化。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">pdi <span class="title">pmax</span><span class="params">(pdi x, pdi y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">cmp</span>(x.fi, y.fi) == <span class="number">1</span>) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">cmp</span>(x.fi, y.fi) == <span class="number">-1</span>) <span class="keyword">return</span> y;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> x.se &lt; y.se ? x : y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">pdi <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &gt; x || x &gt; r) <span class="keyword">return</span> &#123;<span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    <span class="type">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="type">double</span> res = <span class="built_in">calc</span>(tr[k], x);</span><br><span class="line">    <span class="keyword">if</span>(l == r) <span class="keyword">return</span> &#123;res, tr[k]&#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">pmax</span>(&#123;res, tr[k]&#125;, <span class="built_in">pmax</span>(<span class="built_in">query</span>(ls, l, mid, x), <span class="built_in">query</span>(rs, mid + <span class="number">1</span>, r, x)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="zkw-线段树">zkw 线段树</h2>
+<p>zkw
+线段树，即非递归式线段树，由张昆玮发明的一种更加快速、方便、易写的线段树。</p>
+<h3 id="结构-1">结构</h3>
+<p>我们将线段树开成<strong>满二叉树</strong>。容易发现这样一些性质：</p>
+<ol type="1">
+<li>记当前节点编号为 <span
+class="math inline">\(k\)</span>，则左儿子编号为 <span
+class="math inline">\(k&lt;&lt;1\)</span>，右儿子编号为 <span
+class="math inline">\(k&lt;&lt;1|1\)</span>。反之，父亲节点编号为 <span
+class="math inline">\(k&gt;&gt;1\)</span>。</li>
+<li>前 <span class="math inline">\(n\)</span> 层节点数为 <span
+class="math inline">\(2^n-1\)</span>，第 <span
+class="math inline">\(n\)</span> 层节点数为 <span
+class="math inline">\(2^{n-1}\)</span>。</li>
+<li>叶子是一段连续的编号，且与原序列可一一对应。</li>
+</ol>
+<p>一反之前线段树自上向下递归的方式，zkw
+线段树一般采用从叶子向根节点的非递归方式。</p>
+<h3 id="建树-1">建树</h3>
+<p>根据刚才的性质，我们只需要把原序列填到这段叶子序列上即可。第一个叶子节点的编号可以
+<span class="math inline">\(O(\log n)\)</span> 地求出。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(N = <span class="number">1</span>; N &lt;= n + <span class="number">1</span>; N &lt;&lt;= <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) tr[N + i] = a[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = N - <span class="number">1</span>; i &gt;= <span class="number">1</span>; i--) tr[i] = tr[i &lt;&lt; <span class="number">1</span>] + tr[i &lt;&lt; <span class="number">1</span> | <span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，<span class="math inline">\(N\)</span> 为非叶子结点的个数。</p>
+<h3 id="单点修改区间查询">单点修改、区间查询</h3>
+<p>很简单，我们只需要找到对应的叶子节点，一路走到根节点修改即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(k += N; k; k &gt;&gt;= <span class="number">1</span>) tr[k] += v;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际代码写起来只有一行，非常简短。</p>
+<p>接下来思考区间查询。从叶子节点向上，我们怎么实现区间查询呢？</p>
+<p>这里有一个非常巧妙的思想：从我们当前要查询的叶子区间的左右两个节点分别记一个
+<span class="math inline">\(l,r\)</span>
+值，然后不断向父亲节点跳，直到其父亲节点为同一个点为止。</p>
+<p>在跳的过程中，若 <span class="math inline">\(l\)</span>
+为左儿子，则计算右儿子的贡献；若 <span class="math inline">\(r\)</span>
+为右儿子，则记录左儿子的贡献。</p>
+<p>简单证明一下这么做的正确性：</p>
+<p>会被计算贡献的只有 <span class="math inline">\((l,r)\)</span>
+的部分。在向上跳的过程中，<span class="math inline">\((l,r)\)</span>
+间显然不会出现不被计算的情况。<span class="math inline">\(l\)</span>
+若为左儿子，则其兄弟节点一定在 <span
+class="math inline">\((l,r)\)</span>
+中，否则其右侧的点一定会被上一层计算到。而线段树需要计算的节点显然只会在最两边，因此这样计算是正确的。</p>
+<p>那么我们可以写出如下代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(l = N + l - <span class="number">1</span>, r = N + r + <span class="number">1</span>; l ^ r ^ <span class="number">1</span>; l &gt;&gt;= <span class="number">1</span>, r &gt;&gt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(~l &amp; <span class="number">1</span>) ans += tr[l ^ <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span>(r &amp; <span class="number">1</span>) ans += tr[r ^ <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中用到的位运算：</p>
+<ol type="1">
+<li><code>l ^ r ^ 1</code>：若 <span class="math inline">\(l,r\)</span>
+互为兄弟，则一定为 <span class="math inline">\(2k\)</span> 与 <span
+class="math inline">\(2k+1\)</span>，其异或值 <span
+class="math inline">\(1\)</span>。</li>
+<li><code>l &gt;&gt;= 1</code>：跳父节点。<code>r &gt;&gt;= 1</code>
+同理。</li>
+<li><code>~l &amp; 1</code>：若 <span class="math inline">\(l\)</span>
+为左儿子，则末尾为 <span class="math inline">\(0\)</span>，否则为 <span
+class="math inline">\(1\)</span>，将末尾取反后再按位与 <span
+class="math inline">\(1\)</span>
+即可判断是否为左儿子。<code>r &amp; 1</code> 同理。</li>
+</ol>
+<h3 id="区间修改区间查询">区间修改、区间查询</h3>
+<p>区间修改，就势必要打标记。如果我们不能下放标记，那该怎么办呢？</p>
+<p><a href="#标记永久化">标记永久化</a>！</p>
+<p>因此区间修改、区间查询的代码可以这么写：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> numl = <span class="number">0</span>, numr = <span class="number">0</span>, num = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(l = N + l - <span class="number">1</span>, r = N + r + <span class="number">1</span>; l ^ r ^ <span class="number">1</span>; l &gt;&gt;= <span class="number">1</span>, r &gt;&gt;= <span class="number">1</span>, num &lt;&lt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        tr[l] += v * numl, tr[r] += v * numr;</span><br><span class="line">        <span class="keyword">if</span>(~l &amp; <span class="number">1</span>) tag[l ^ <span class="number">1</span>] += v, tr[l ^ <span class="number">1</span>] += v * num, numl += num;</span><br><span class="line">        <span class="keyword">if</span>(r &amp; <span class="number">1</span>) tag[r ^ <span class="number">1</span>] += v, tr[r ^ <span class="number">1</span>] += v * num, numr += num;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(; l; l &gt;&gt;= <span class="number">1</span>, r &gt;&gt;= <span class="number">1</span>) tr[l] += v * numl, tr[r] += v * numr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">query</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> numl = <span class="number">0</span>, numr = <span class="number">0</span>, num = <span class="number">1</span>, ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(l = N + l - <span class="number">1</span>, r = N + r + <span class="number">1</span>; l ^ r ^ <span class="number">1</span>; l &gt;&gt;= <span class="number">1</span>, r &gt;&gt;= <span class="number">1</span>, num &lt;&lt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(tag[l]) ans += tag[l] * numl;</span><br><span class="line">        <span class="keyword">if</span>(tag[r]) ans += tag[r] * numr;</span><br><span class="line">        <span class="keyword">if</span>(~l &amp; <span class="number">1</span>) ans += tr[l ^ <span class="number">1</span>], numl += num;</span><br><span class="line">        <span class="keyword">if</span>(r &amp; <span class="number">1</span>) ans += tr[r ^ <span class="number">1</span>], numr += num;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(; l; l &gt;&gt;= <span class="number">1</span>, r &gt;&gt;= <span class="number">1</span>) ans += tag[l] * numl, ans += tag[r] * numr;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="多线段树操作">多线段树操作</h1>
+<h2 id="线段树合并">线段树合并</h2>
+<p>线段树合并，顾名思义，将两颗线段树合并为一颗新的线段树。</p>
+<p>线段树合并其实极为暴力。一般来说，对于两颗动态开点的值域线段树，我们可以从
+<span class="math inline">\(1\)</span>
+开始递归合并。若当前节点一颗为空，另一颗不为空，则直接返回不为空的节点。若递归到叶子节点，直接合并。最后更新即可。</p>
+<p>时间复杂度为 <span class="math inline">\(O(n\log n)\)</span>。</p>
+<p>例如，对于将两颗值域线段树按加法合并，可以这么写：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> ls(k) tr[k].lson</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> rs(k) tr[k].rson</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">merge</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!a || !b) <span class="keyword">return</span> a + b;</span><br><span class="line">    <span class="keyword">if</span>(l == r)</span><br><span class="line">    &#123;</span><br><span class="line">        tr[a].val += t[b].val;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">ls</span>(a) = <span class="built_in">merge</span>(<span class="built_in">ls</span>(a), <span class="built_in">ls</span>(b), l, mid);</span><br><span class="line">    <span class="built_in">rs</span>(a) = <span class="built_in">merge</span>(<span class="built_in">rs</span>(a), <span class="built_in">rs</span>(b), mid + <span class="number">1</span>, r);</span><br><span class="line">    <span class="built_in">pushup</span>(a);</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，你也可以选择新开一颗线段树合并进去。优点是不会破坏原来线段树的结构，缺点是需要较大的空间。</p>
+<h2 id="线段树分裂">线段树分裂</h2>
+<p>线段树分裂是线段树合并的逆操作。</p>
+<p>类似于 FHQ-Treap。先挖个坑。</p>
+<h1 id="主席树">主席树</h1>
+<h2 id="简介">简介</h2>
+<p>主席树，全称可持久化值域线段树，因其发明者黄嘉泰名字首字母与某位历史上的主席相同，因此称为主席树。</p>
+<p>主席树一般用于解决<strong>静态</strong>区间第 <span
+class="math inline">\(k\)</span> 小问题。</p>
+<h2 id="结构-2">结构</h2>
+<p>如果是全局第 <span class="math inline">\(k\)</span>
+小问题，那么我们显然可以用<a href="#值域线段树">值域线段树</a>完成。</p>
+<p>值域线段树维护的是区间内数字出现次数。这个是一个可减信息。那么运用前缀和的思想，我们分别建立出维护区间
+<span class="math inline">\([1,i]\)</span> 的值域线段树 <span
+class="math inline">\(T_i\)</span>，最后将查询到的信息相减不就好了？</p>
+<p>等等。一颗线段树的空间复杂度就是 <span class="math inline">\(O(n\log
+n)\)</span> 的了，建 <span class="math inline">\(n\)</span>
+颗岂不是炸飞了？</p>
+<p>我们考虑能否在建立 <span class="math inline">\(T_i\)</span>
+的时候充分利用 <span class="math inline">\(T_{i-1}\)</span> 的信息。由于
+<span class="math inline">\(T_{i-1}\rightarrow T_i\)</span>
+实际上相当于单点修改，因此我们只会影响到 <span
+class="math inline">\(O(\log n)\)</span> 个节点，只需要把这 <span
+class="math inline">\(O(\log n)\)</span> 个节点多开出来就可以了。</p>
+<figure>
+<img src="https://s2.loli.net/2023/09/01/3XampzrlZA4jKqN.jpg"
+alt="主席树" />
+<figcaption aria-hidden="true">主席树</figcaption>
+</figure>
+<p>过于抽象？来看张图。</p>
+<p>在这张图中，黑色节点与蓝色节点共同构成了 <span
+class="math inline">\(T_{i-1}\)</span>，黑色节点与红色节点共同构成了
+<span
+class="math inline">\(T_i\)</span>。一条红色箭头代表了该蓝色节点被影响后，重建出来的红色节点。如果我们忽视所有的虚线，那么得到的就是新线段树。</p>
+<p>如果你的空间想象能力足够强大，那么你可以这么理解：线段树通常被画为二维平面的图像。而不同的版本意味着我们再引入一条垂直于平面的坐标轴“版本轴”，或者“时间轴”。对于影响到的节点，我们直接在新的版本平面内建立出来，而对于还可以利用的节点，我们连接向上一个版本平面的节点。</p>
+<figure>
+<img src="https://s2.loli.net/2023/09/01/1WbXFMpIDqfTS47.png"
+alt="立体主席树1" />
+<figcaption aria-hidden="true">立体主席树1</figcaption>
+</figure>
+<figure>
+<img src="https://s2.loli.net/2023/09/01/8TLzMn56NGHDpa9.png"
+alt="立体主席树2" />
+<figcaption aria-hidden="true">立体主席树2</figcaption>
+</figure>
 
 
                             <!-- Meta -->
@@ -598,7 +831,7 @@ class="math inline">\(2n\)</span> 个节点。</p>
 
     <aside id="article-toc" role="navigation" class="fixed">
         <div id="article-toc-inner">
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-text">线段树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-text">结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E7%9A%84%E4%B8%8A%E4%BC%A0"><span class="toc-text">信息的上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E6%A0%91"><span class="toc-text">建树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E7%82%B9%E4%BF%AE%E6%94%B9"><span class="toc-text">单点修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2"><span class="toc-text">区间查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%87%92%E6%A0%87%E8%AE%B0"><span class="toc-text">区间修改与懒标记</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%9A%84%E8%BF%9B%E9%98%B6%E7%94%A8%E6%B3%95"><span class="toc-text">线段树的进阶用法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%B4%E6%8A%A4%E5%8C%BA%E9%97%B4%E5%B9%B3%E6%96%B9%E5%92%8C"><span class="toc-text">维护区间平方和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E4%B9%98%E4%B8%8E%E5%8C%BA%E9%97%B4%E5%8A%A0"><span class="toc-text">区间乘与区间加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E5%BC%80%E6%A0%B9"><span class="toc-text">区间开根</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%B4%E6%8A%A4%E5%89%8D%E5%89%8D%E7%BC%80%E5%92%8C"><span class="toc-text">维护前前缀和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E5%8A%A0%E7%AD%89%E5%B7%AE%E6%95%B0%E5%88%97"><span class="toc-text">区间加等差数列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%B4%E6%8A%A4%E5%8C%BA%E9%97%B4%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C"><span class="toc-text">维护区间最大子段和</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="toc-text">线段树的本质</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%BC%80%E7%82%B9%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-text">动态开点线段树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E6%B0%B8%E4%B9%85%E5%8C%96"><span class="toc-text">标记永久化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%80%BC%E5%9F%9F%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-text">值域线段树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E7%BA%BF"><span class="toc-text">扫描线</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-text">线段树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-text">结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E7%9A%84%E4%B8%8A%E4%BC%A0"><span class="toc-text">信息的上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E6%A0%91"><span class="toc-text">建树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E7%82%B9%E4%BF%AE%E6%94%B9"><span class="toc-text">单点修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2"><span class="toc-text">区间查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%87%92%E6%A0%87%E8%AE%B0"><span class="toc-text">区间修改与懒标记</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%9A%84%E8%BF%9B%E9%98%B6%E7%94%A8%E6%B3%95"><span class="toc-text">线段树的进阶用法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%B4%E6%8A%A4%E5%8C%BA%E9%97%B4%E5%B9%B3%E6%96%B9%E5%92%8C"><span class="toc-text">维护区间平方和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E4%B9%98%E4%B8%8E%E5%8C%BA%E9%97%B4%E5%8A%A0"><span class="toc-text">区间乘与区间加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E5%BC%80%E6%A0%B9"><span class="toc-text">区间开根</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%B4%E6%8A%A4%E5%89%8D%E5%89%8D%E7%BC%80%E5%92%8C"><span class="toc-text">维护前前缀和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E5%8A%A0%E7%AD%89%E5%B7%AE%E6%95%B0%E5%88%97"><span class="toc-text">区间加等差数列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%B4%E6%8A%A4%E5%8C%BA%E9%97%B4%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C"><span class="toc-text">维护区间最大子段和</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="toc-text">线段树的本质</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-text">线段树的常用技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%BC%80%E7%82%B9"><span class="toc-text">动态开点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E6%B0%B8%E4%B9%85%E5%8C%96"><span class="toc-text">标记永久化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91%E4%BA%8C%E5%88%86"><span class="toc-text">线段树二分</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%9B%E9%98%B6%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-text">进阶线段树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%BC%E5%9F%9F%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-text">值域线段树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E7%BA%BF"><span class="toc-text">扫描线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91%E7%BB%B4%E6%8A%A4%E7%9F%A9%E5%BD%A2%E9%9D%A2%E7%A7%AF%E5%B9%B6"><span class="toc-text">线段树维护矩形面积并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E8%B4%A8"><span class="toc-text">本质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%8E%E8%B6%85%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-text">李超线段树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zkw-%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-text">zkw 线段树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84-1"><span class="toc-text">结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E6%A0%91-1"><span class="toc-text">建树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E7%82%B9%E4%BF%AE%E6%94%B9%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2"><span class="toc-text">单点修改、区间查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E4%BF%AE%E6%94%B9%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2"><span class="toc-text">区间修改、区间查询</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E6%AE%B5%E6%A0%91%E6%93%8D%E4%BD%9C"><span class="toc-text">多线段树操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%90%88%E5%B9%B6"><span class="toc-text">线段树合并</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%88%86%E8%A3%82"><span class="toc-text">线段树分裂</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E5%B8%AD%E6%A0%91"><span class="toc-text">主席树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84-2"><span class="toc-text">结构</span></a></li></ol></li></ol>
         </div>
     </aside>
 
@@ -623,22 +856,6 @@ class="math inline">\(2n\)</span> 个节点。</p>
       </div>
     </div>
 </footer>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 </body>
 
 </html>
