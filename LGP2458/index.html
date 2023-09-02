@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="一道很经典的树形dp题目。">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="夏佑">
+    
+
+    <!-- Title -->
+    
+    <title>SDOI2006&lt;br&gt;保安站岗 | 夏花盛开，佑浅浅而归</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+    <!-- Custom Fonts -->
+    <link href="//cdn.jsdelivr.net/npm/font-awesome@4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Noto+Serif:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- jQuery -->
+    <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="//cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="夏花盛开，佑浅浅而归" type="application/atom+xml">
+</head>
+
+
+<body>
+
+    <!-- Content -->
+    <section class="article-container">
+    <!-- Back Home -->
+    <a class="nav-back" href="/">
+    <i class="fa fa-puzzle-piece"></i>
+</a>
+
+        <!-- Page Header -->
+        <header class="intro-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="post-heading">
+                            <h1>
+                                SDOI2006<br>保安站岗
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Post Content -->
+        <article>
+            <div class="container">
+                <div class="row">
+                    <!-- Post Main Content -->
+                    <div class="post-content col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <p>一道很经典的树形dp题目。</p>
+<span id="more"></span>
+<h1><span id="sol">Sol.</span></h1>
+<p>很明显的树形dp，先把方程设出来：</p>
+<p><span class="math inline">\(f_{x,0/1/2}\)</span> 表示当前节点为 <span class="math inline">\(x\)</span>，<span class="math inline">\(0(自己覆盖)/1(儿子覆盖)/2(父亲覆盖)\)</span>，且其子节点都已全部覆盖的最小权值。</p>
+<p>很套路的树形dp方程，分别考虑如何转移：</p>
+<p>记 <span class="math inline">\(son(i)\)</span> 表示 <span class="math inline">\(i\)</span> 的所有子节点，<span class="math inline">\(k_i\)</span> 表示控制 <span class="math inline">\(i\)</span> 点所需的代价。</p>
+<h2><span id="1-f_x0自己覆盖">1. <span class="math inline">\(f_{x,0}\)</span>（自己覆盖）</span></h2>
+<p><span class="math inline">\(f_{x,0} = \sum\limits_{y\in
+son(x)}\min\{f_{y,0},f_{y,1},f_{y,2}\}+k_x\)</span></p>
+<p>解释：由于当前节点自己覆盖自己，所以不需考虑其他的节点，在所有子节点中找到最小值转移即可。</p>
+<h2><span id="2-f_x1儿子覆盖">2. <span class="math inline">\(f_{x,1}\)</span>（儿子覆盖）</span></h2>
+<p><span class="math inline">\(f_{x,1} = \sum\limits_{y\in
+son(x)}\min\{f_{y,0},f_{y,1}\}\)</span></p>
+<p>解释：当当前节点被儿子覆盖时，说明当前节点不可能覆盖儿子节点，也就无法从
+<span class="math inline">\(f_{y,2}\)</span> 转移。</p>
+<p>但是有一种这样的情况：当儿子节点全部选择 <span class="math inline">\(f_{y,1}\)</span>
+时，即儿子节点全部被它的儿子节点覆盖，在这种情况下 <span class="math inline">\(x\)</span> 节点无法被儿子节点覆盖。</p>
+<p>所以我们在转移的时候记一个 <span class="math inline">\(q\)</span>
+表示是否全部选择的 <span class="math inline">\(f_{y,1}\)</span>，如果是，则强制选择一个节点让其选择
+<span class="math inline">\(f_{y,0}\)</span>。我们要向最小化代价，显然要让强制选择的节点
+<span class="math inline">\(f_{y,0}\)</span> 与 <span class="math inline">\(f_{y,1}\)</span>
+的差值最小。所以现在转移方程如下：</p>
+<p><span class="math inline">\(f_{x,1} = \sum\limits_{y\in
+son(x)}\min\{f_{y,0},f_{y,1}\},\text{if all choose }
+f_{y,1},\text{then}+\min\limits_{y\in
+son(x)}\{f_{y,0}-f_{y,1}\}\)</span></p>
+<h2><span id="3-f_x2父亲覆盖">3. <span class="math inline">\(f_{x,2}\)</span>（父亲覆盖）</span></h2>
+<p><span class="math inline">\(f_{x,2} = \sum\limits_{y\in
+son(x)}\min\{f_{y,0},f_{y,1}\}\)</span></p>
+<p>解释：这个就比较简单了，当当前节点被父亲覆盖，直接从可能的方式转移即可。</p>
+<h1><span id="code">Code</span></h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> s = <span class="number">0</span>, f = <span class="number">1</span>;</span><br><span class="line">    <span class="type">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span> || ch &gt; <span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(ch == <span class="string">&#x27;-&#x27;</span>)f = <span class="number">-1</span>;ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>)&#123;s = s * <span class="number">10</span> + ch - <span class="string">&#x27;0&#x27;</span>;ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">return</span> s * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">2000</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Edge</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> nxt, to;</span><br><span class="line">&#125;e[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> head[MAXN &lt;&lt; <span class="number">1</span>], k[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> f[MAXN][<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, cnt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add_edge</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++cnt].to = v;</span><br><span class="line">    e[cnt].nxt = head[u];</span><br><span class="line">    head[u] = cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> fa)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    f[x][<span class="number">0</span>] = k[x];</span><br><span class="line">    <span class="type">int</span> sum = <span class="number">0</span>, minn = INF;</span><br><span class="line">    <span class="type">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = head[x]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> y = e[i].to;</span><br><span class="line">        <span class="keyword">if</span>(y == fa) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(y, x);</span><br><span class="line">        f[x][<span class="number">0</span>] += <span class="built_in">min</span>(f[y][<span class="number">0</span>], <span class="built_in">min</span>(f[y][<span class="number">1</span>], f[y][<span class="number">2</span>]));</span><br><span class="line">        f[x][<span class="number">2</span>] += <span class="built_in">min</span>(f[y][<span class="number">0</span>], f[y][<span class="number">1</span>]);</span><br><span class="line">        <span class="type">int</span> tmp = <span class="built_in">min</span>(f[y][<span class="number">0</span>], f[y][<span class="number">1</span>]);</span><br><span class="line">        f[x][<span class="number">1</span>] += tmp;</span><br><span class="line">        <span class="keyword">if</span>(tmp == f[y][<span class="number">0</span>]) flag = <span class="literal">false</span>;</span><br><span class="line">        minn = <span class="built_in">min</span>(minn, f[y][<span class="number">0</span>] - f[y][<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag) f[x][<span class="number">1</span>] += minn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    n = <span class="built_in">read</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> x = <span class="built_in">read</span>();</span><br><span class="line">        k[x] = <span class="built_in">read</span>();</span><br><span class="line">        <span class="type">int</span> m = <span class="built_in">read</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> y = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">add_edge</span>(x, y);</span><br><span class="line">            <span class="built_in">add_edge</span>(y, x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">min</span>(f[<span class="number">1</span>][<span class="number">0</span>], f[<span class="number">1</span>][<span class="number">1</span>]));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+                            <!-- Meta -->
+                            <div class="post-meta">
+                                <hr>
+                                <br>
+                                <div class="post-tags">
+                                    
+                                                
+
+<a href="/categories/题解/">题解</a>
+
+                                                    
+                                </div>
+                                <div class="post-date">
+                                    
+                                        2022-09-01
+                                    
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <!-- Disqus Comments -->
+
+
+                    </div>
+                </div>
+            </div>
+        </article>
+</section>
+
+<!-- Image viewer-->
+
+    <!-- Custom picture view-->
+    <link href="/css/viewer.min.css" rel="stylesheet" />
+    <script
+      src="/js/viewer.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    
+    <script type="text/javascript">
+      // set image viewer
+      Viewer.setDefaults({
+        zoomRatio: [0.5],
+        navbar: false,
+        toolbar: false,
+        button: false,
+        title: [2, (image, imageData) => `${image.alt}`],
+        show: function() {
+          this.viewer.zoomTo(0.5);
+        }
+      });
+      var imageList = document.getElementsByTagName("img");
+      Array.prototype.forEach.call(imageList, element => {
+        var viewer = new Viewer(element);
+      });
+    </script>
+
+    
+    <!-- Scripts -->
+    <script type="text/javascript">
+    console.log("© zchen9 🙋 2015-" + new Date().getFullYear());
+</script>
+  
+    <!-- Google Analytics -->
+    
+
+    <!-- Service Worker -->
+    <!-- if using service worker -->
+
+    
+
+    <footer id="footer">
+    <div class="outer">
+      <div id="footer-info" class="inner">
+        &copy; 2023 夏佑<br>
+        <a href="/">主页</a> | <a href="/about/">关于</a> | <a href="/links/">友链</a>
+      </div>
+    </div>
+</footer>
+</body>
+
+</html>

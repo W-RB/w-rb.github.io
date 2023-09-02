@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="终于完全明白了困扰多年的 KMP 算法，果然从 border
+理论理解才是最好的。
+因此写下本文，供自己复习。">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="夏佑">
+    
+
+    <!-- Title -->
+    
+    <title>KMP算法与border浅记 | 夏花盛开，佑浅浅而归</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+    <!-- Custom Fonts -->
+    <link href="//cdn.jsdelivr.net/npm/font-awesome@4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Noto+Serif:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- jQuery -->
+    <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="//cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="夏花盛开，佑浅浅而归" type="application/atom+xml">
+</head>
+
+
+<body>
+
+    <!-- Content -->
+    <section class="article-container">
+    <!-- Back Home -->
+    <a class="nav-back" href="/">
+    <i class="fa fa-puzzle-piece"></i>
+</a>
+
+        <!-- Page Header -->
+        <header class="intro-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="post-heading">
+                            <h1>
+                                KMP算法与border浅记
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Post Content -->
+        <article>
+            <div class="container">
+                <div class="row">
+                    <!-- Post Main Content -->
+                    <div class="post-content col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <p>终于完全明白了困扰多年的 KMP 算法，果然从 border
+理论理解才是最好的。</p>
+<p>因此写下本文，供自己复习。</p>
+<span id="more"></span>
+<h1><span id="border">border</span></h1>
+<p>首先给出 <span class="math inline">\(\text{border}\)</span>
+的定义：在字符串 <span class="math inline">\(S\)</span>
+中，最长的<strong>真</strong>公共前后缀。</p>
+<p>显然，<span class="math inline">\(\text{border}\)</span> 的 <span class="math inline">\(\text{border}\)</span> 也是 <span class="math inline">\(S\)</span> 的一个 <span class="math inline">\(\text{border}\)</span>。</p>
+<p>我们定义 <span class="math inline">\(\text{nxt}[i]\)</span> 为 <span class="math inline">\(S[1\dots i]\)</span> 的 <span class="math inline">\(\text{border}\)</span>，考虑如何快速求 <span class="math inline">\(\text{nxt}\)</span>。</p>
+<p>假设我们现在已知 <span class="math inline">\(\text{nxt}[1\dots
+n]\)</span>，想要求出 <span class="math inline">\(\text{nxt}[n+1]\)</span>。</p>
+<p>考虑 <span class="math inline">\(S[n+1]\)</span> 和 <span class="math inline">\(S[\text{nxt}[n]+1]\)</span>
+是否匹配。如果匹配，那么显然。 <span class="math inline">\(\text{nxt}[n+1]=\text{nxt}[n]+1\)</span>，否则我们继续考虑它是否可以和
+<span class="math inline">\(\text{nxt}[\text{nxt}[n]]\)</span>
+匹配。我们一直匹配到成功即可。</p>
+<p>这样可以均摊 <span class="math inline">\(O(n)\)</span> 求出 <span class="math inline">\(\text{nxt}\)</span>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">S = <span class="string">&quot; &quot;</span> + S;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">get_nxt</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    nxt[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> n = S.<span class="built_in">length</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = nxt[i - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">while</span>(j &gt; <span class="number">0</span> &amp;&amp; S[i] != S[j + <span class="number">1</span>]) j = nxt[j];</span><br><span class="line">        <span class="keyword">if</span>(S[i] == S[j + <span class="number">1</span>] &amp;&amp; j + <span class="number">1</span> &lt; i) nxt[i] = j + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1><span id="kmp">KMP</span></h1>
+<p><span class="math inline">\(\text{KMP}\)</span>
+是用来快速匹配字符串的算法。</p>
+<p>给定模式串 <span class="math inline">\(S\)</span>，文本串 <span class="math inline">\(T\)</span>，求 <span class="math inline">\(S\)</span> 在 <span class="math inline">\(T\)</span> 中所有匹配。</p>
+<p>记 <span class="math inline">\(S\)</span> 长度为 <span class="math inline">\(s\)</span>，<span class="math inline">\(T\)</span>
+长度为 <span class="math inline">\(t\)</span>。</p>
+<p>我们将 <span class="math inline">\(S\)</span> 和 <span class="math inline">\(\#\)</span> 和 <span class="math inline">\(T\)</span> 拼在一起，形成了 <span class="math inline">\(S\#T\)</span> 的新字符串。我们求出来这个字符串的
+<span class="math inline">\(\text{nxt}\)</span>。</p>
+<p>之后我们从 <span class="math inline">\(s+1\)</span> 开始（即从 <span class="math inline">\(T\)</span> 开始）遍历 <span class="math inline">\(\text{nxt}\)</span>。如果 <span class="math inline">\(\text{nxt}[i] =
+s\)</span>，那么这是一个成功的匹配。</p>
+<p>时间复杂度 <span class="math inline">\(O(n+m)\)</span>。</p>
+
+
+                            <!-- Meta -->
+                            <div class="post-meta">
+                                <hr>
+                                <br>
+                                <div class="post-tags">
+                                    
+                                                
+
+<a href="/categories/学习笔记/">学习笔记</a>
+
+                                                    
+                                </div>
+                                <div class="post-date">
+                                    
+                                        2023-08-01
+                                    
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <!-- Disqus Comments -->
+
+
+                    </div>
+                </div>
+            </div>
+        </article>
+</section>
+
+<!-- Image viewer-->
+
+    <!-- Custom picture view-->
+    <link href="/css/viewer.min.css" rel="stylesheet" />
+    <script
+      src="/js/viewer.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    
+    <script type="text/javascript">
+      // set image viewer
+      Viewer.setDefaults({
+        zoomRatio: [0.5],
+        navbar: false,
+        toolbar: false,
+        button: false,
+        title: [2, (image, imageData) => `${image.alt}`],
+        show: function() {
+          this.viewer.zoomTo(0.5);
+        }
+      });
+      var imageList = document.getElementsByTagName("img");
+      Array.prototype.forEach.call(imageList, element => {
+        var viewer = new Viewer(element);
+      });
+    </script>
+
+    
+    <!-- Scripts -->
+    <script type="text/javascript">
+    console.log("© zchen9 🙋 2015-" + new Date().getFullYear());
+</script>
+  
+    <!-- Google Analytics -->
+    
+
+    <!-- Service Worker -->
+    <!-- if using service worker -->
+
+    
+
+    <footer id="footer">
+    <div class="outer">
+      <div id="footer-info" class="inner">
+        &copy; 2023 夏佑<br>
+        <a href="/">主页</a> | <a href="/about/">关于</a> | <a href="/links/">友链</a>
+      </div>
+    </div>
+</footer>
+</body>
+
+</html>
