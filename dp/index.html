@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+<link rel="stylesheet" href="/css/prism.css">
+ 
+    
+<script src="/js/prism.js"></script>
+
+
+    <!--Description-->
+    
+        <meta name="description" content="持续更新。">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="夏佑">
+    
+
+    <!-- Title -->
+    
+    <title>动态规划题目随解 | 夏花盛开，佑浅浅而归</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+    <!-- Custom Fonts -->
+    <link href="//cdn.jsdelivr.net/npm/font-awesome@4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Noto+Serif:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- jQuery -->
+    <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="//cdn.jsdelivr.net/npm/bootstrap@3.3.6/dist/js/bootstrap.min.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="夏花盛开，佑浅浅而归" type="application/atom+xml">
+</head>
+
+
+
+<link rel="stylesheet" href="/css/prism.css">
+ 
+
+<script src="/js/prism.js"></script>
+
+
+<body>
+
+    <!-- Content -->
+    <section class="article-container">
+    <!-- Back Home -->
+    <a class="nav-back" href="/">
+    <i class="fa fa-puzzle-piece"></i>
+</a>
+
+        <!-- Page Header -->
+        <header class="intro-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="post-heading">
+                            <h1>
+                                动态规划题目随解
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Post Content -->
+        <article>
+            <div class="container">
+                <div class="row">
+                    <!-- Post Main Content -->
+                    <div class="post-content col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <p>持续更新。</p>
+<span id="more"></span>
+<h1><span id="cf258d-littleelephant-and-broken-sorting">CF258D Little
+Elephant and Broken Sorting</span></h1>
+<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/258/problem/D">Link</a><span class="math inline">\((^*2600)\)</span></p>
+<blockquote>
+<p>给定排列 <span class="math inline">\(p\)</span>，有 <span class="math inline">\(m\)</span> 次操作，每次操作给定 <span class="math inline">\(x,y\)</span>，等概率选择是否交换。求 <span class="math inline">\(\sum\limits_{i=1}^{n}\sum\limits_{j=i}^{n}P(p_i&gt;p_j)\)</span>。</p>
+<p><span class="math inline">\(n,m\leq 10^3\)</span>。</p>
+</blockquote>
+<p>考虑直接设 <span class="math inline">\(f_{l,r}\)</span> 表示 <span class="math inline">\(p_l&gt;p_r\)</span>
+的概率。初始化很好初始化，我们考虑直接对操作进行转移。</p>
+<p>假如我们要交换 <span class="math inline">\(p_l\)</span> 和 <span class="math inline">\(p_r\)</span>，那么此时其本身 <span class="math inline">\(f_{l,r}=f_{r,l}=0.5\)</span>。对于 <span class="math inline">\(\forall x\neq
+l,r\)</span>，考虑不交换和交换之后的改变。</p>
+<p>可以分以下情况讨论：</p>
+<ol type="1">
+<li><span class="math inline">\(f_{x,l}=\dfrac{f_{x,l}+f_{x,r}}{2}\)</span>；</li>
+<li><span class="math inline">\(f_{r,x}=\dfrac{f_{r,x}+f_{l,x}}{2}\)</span>；</li>
+<li><span class="math inline">\(f_{l,x}=\dfrac{f_{l,x}+f_{r,x}}{2}\)</span>；</li>
+<li><span class="math inline">\(f_{x,r}=\dfrac{f_{x,r}+f_{x,l}}{2}\)</span>。</li>
+</ol>
+<p>容易发现 <span class="math inline">\(1\)</span> 和 <span class="math inline">\(4\)</span>、<span class="math inline">\(2\)</span>
+和 <span class="math inline">\(3\)</span>
+的转移是相同的，可以一起处理。最后扫一遍即可，<span class="math inline">\(O(n^2)\)</span>。</p>
+<details>
+<summary>
+Code(Tap)
+</summary>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="built_in">read</span>(l, r);</span><br><span class="line">    f[l][r] = f[r][l] = <span class="number">0.5</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> x = <span class="number">1</span>; x &lt;= n; x++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(x == l || x == r) <span class="keyword">continue</span>;</span><br><span class="line">        f[x][l] = f[x][r] = ((f[x][l] + f[x][r]) / <span class="number">2.00</span>);</span><br><span class="line">        f[r][x] = f[l][x] = ((f[r][x] + f[l][x]) / <span class="number">2.00</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</details>
+<h1><span id="cf1185g2-playlist-forpolycarp">CF1185G2 Playlist for
+Polycarp</span></h1>
+<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1185/problem/G2">Link</a><span class="math inline">\((^*2600)\)</span></p>
+<blockquote>
+<p>给定 <span class="math inline">\(n\)</span> 首歌，每首歌有时间 <span class="math inline">\(t_i\)</span> 与流派 <span class="math inline">\(g_i\)</span>。需要从中排列若干首歌，使得时间恰好为
+<span class="math inline">\(T\)</span>，且相邻流派不同。</p>
+<p><span class="math inline">\(1\leq n\leq 50,1\leq T\leq 2500,1\leq
+t_i\leq 50,1\leq g_i\leq 3\)</span>。</p>
+</blockquote>
+<p>不妨设 <span class="math inline">\(f_{i,j,k,1/2/3}\)</span>
+表示三种流派分别选了 <span class="math inline">\(i,j,k\)</span>
+首，最后一首为 <span class="math inline">\(1/2/3\)</span>
+的方案数。这个显然是很好转移的，时间复杂度 <span class="math inline">\(O(n^3)\)</span>。由于我们要求的是排列，因此还要乘一个
+<span class="math inline">\(i!j!k!\)</span>。</p>
+<p>然后我们在考虑相邻流派不同，时间恰好为 <span class="math inline">\(T\)</span>
+的方程。这个有点类似于背包，但是直接背包时间复杂度是 <span class="math inline">\(O(n^3T)\)</span> 的，不能接受。</p>
+<p>这里有一个比较巧妙的方法：将背包拆分成两个背包之后再分别求解。即我们记
+<span class="math inline">\(g_{i,t}\)</span> 为选择 <span class="math inline">\(1\)</span> 的背包，<span class="math inline">\(h_{j,k,t}\)</span> 为选择 <span class="math inline">\(2,3\)</span> 的背包。这样时间复杂度分别为 <span class="math inline">\(O(nT),O(n^2T)\)</span>。最后我们只需要枚举 <span class="math inline">\(g\)</span> 的 <span class="math inline">\(t\)</span>，<span class="math inline">\(h\)</span>
+的 <span class="math inline">\(t\)</span> 可以由 <span class="math inline">\(T-t\)</span> 得出。</p>
+<p>最后我们将答案乘在一起即可。</p>
+<details>
+<summary>
+Code(Tap)
+</summary>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">f[<span class="number">1</span>][<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>] = f[<span class="number">0</span>][<span class="number">1</span>][<span class="number">0</span>][<span class="number">2</span>] = f[<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>][<span class="number">3</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = <span class="number">1</span>; v &lt;= <span class="number">3</span>; v++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(f[i][j][k][v] == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">1</span>) f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] += f[i][j][k][v], f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">2</span>) f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] += f[i][j][k][v], f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">3</span>) f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] += f[i][j][k][v], f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] %= mod;</span><br><span class="line">            &#125;</span><br><span class="line">g[<span class="number">0</span>][<span class="number">0</span>] = h[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">1</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] += g[j][k], g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n2; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">2</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] += h[j][<span class="number">0</span>][k], h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n3; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = n2; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = i; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = T - a[<span class="number">3</span>][i]; v &gt;= <span class="number">0</span>; v--)</span><br><span class="line">                h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] += h[j][k][v], h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] %= mod;</span><br><span class="line"><span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> t = <span class="number">0</span>; t &lt;= T; t++)</span><br><span class="line">                <span class="keyword">if</span>(g[i][T - t])</span><br><span class="line">                    ans += ((f[i][j][k][<span class="number">1</span>] + f[i][j][k][<span class="number">2</span>]) % mod + f[i][j][k][<span class="number">3</span>]) % mod * fct[i] % mod * fct[j] % mod * fct[k] % mod * h[j][k][t] % mod * g[i][T - t] % mod, ans %= mod;</span><br></pre></td></tr></table></figure>
+</details>
+<h1><span id="cf1699e-three-days-grace">CF1699E Three Days Grace</span></h1>
+<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1699/problem/E">link</a><span class="math inline">\((^*2600)\)</span></p>
+<blockquote>
+<p>给定 <span class="math inline">\(n\)</span> 个元素的可重集 <span class="math inline">\(S\)</span>，值域为 <span class="math inline">\([1,m]\)</span>，你可以进行若干次操作：选择 <span class="math inline">\(A_i\in S\)</span>，将其拆分成 <span class="math inline">\(p\cdot q=A_i\)</span>，删除 <span class="math inline">\(A_i\)</span> 并加入 <span class="math inline">\(p,q\)</span>。需要最小化极差。</p>
+<p><span class="math inline">\(1\leq n\leq 10^6, 1\leq m\leq 5\cdot
+10^6\)</span>。</p>
+</blockquote>
+<p>想象一个竖直的数轴，考虑将一个点拆分的过程实际相当于将比较高的点变换到比较低的位置。</p>
+<p>这给我们一个启示：答案一定在一个区间 <span class="math inline">\([l,r]\)</span>
+内，进一步我们可以找出类似于双指针的方法：遍历 <span class="math inline">\(l\)</span>，并从上一部分维护出 <span class="math inline">\(r\)</span>。</p>
+
+
+                            <!-- Meta -->
+                            <div class="post-meta">
+                                <hr>
+                                <br>
+                                <div class="post-tags">
+                                    
+                                                
+
+<a href="/categories/题解/">题解</a>
+
+                                                    
+                                </div>
+                                <div class="post-date">
+                                    
+                                        2023-09-05
+                                    
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <!-- Disqus Comments -->
+
+
+                    </div>
+                </div>
+            </div>
+        </article>
+</section>
+
+<!-- Image viewer-->
+
+    <!-- Custom picture view-->
+    <link href="/css/viewer.min.css" rel="stylesheet" />
+    <script
+      src="/js/viewer.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    
+    <script type="text/javascript">
+      // set image viewer
+      Viewer.setDefaults({
+        zoomRatio: [0.5],
+        navbar: false,
+        toolbar: false,
+        button: false,
+        title: [2, (image, imageData) => `${image.alt}`],
+        show: function() {
+          this.viewer.zoomTo(0.5);
+        }
+      });
+      var imageList = document.getElementsByTagName("img");
+      Array.prototype.forEach.call(imageList, element => {
+        var viewer = new Viewer(element);
+      });
+    </script>
+
+    
+    <!-- Scripts -->
+    <script type="text/javascript">
+    console.log("© zchen9 🙋 2015-" + new Date().getFullYear());
+</script>
+  
+    <!-- Google Analytics -->
+    
+
+    <!-- Service Worker -->
+    <!-- if using service worker -->
+
+    
+
+    <footer id="footer">
+    <div class="outer">
+      <div id="footer-info" class="inner">
+        &copy; 2023 夏佑<br>
+        <a href="/">主页</a> | <a href="/about/">关于</a> | <a href="/links/">友链</a>
+      </div>
+    </div>
+</footer>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+
+</html>
