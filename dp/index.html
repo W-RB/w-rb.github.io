@@ -158,7 +158,26 @@ Code(Tap)
 </blockquote>
 <p>想象一个竖直的数轴，考虑将一个点拆分的过程实际相当于将比较高的点变换到比较低的位置。</p>
 <p>这给我们一个启示：答案一定在一个区间 <span class="math inline">\([l,r]\)</span>
-内，进一步我们可以找出类似于双指针的方法：遍历 <span class="math inline">\(l\)</span>，并从上一部分维护出 <span class="math inline">\(r\)</span>。</p>
+内，进一步我们可以找出类似于双指针的方法：固定 <span class="math inline">\(l\)</span>，并从大到小维护 <span class="math inline">\(r\)</span>。</p>
+<p>于是我们不妨设 <span class="math inline">\(f_{l,i}\)</span>
+表示区间下界在 <span class="math inline">\(l\)</span>，当前枚举到点
+<span class="math inline">\(i\)</span>，此时的最小最大值。</p>
+<p>考虑转移到 <span class="math inline">\(j\)</span>，若 <span class="math inline">\(j\)</span> 不能被拆分出来，那么 <span class="math inline">\(f_{l,i}=f_{l+1,i}\)</span>；如果 <span class="math inline">\(j\)</span>
+可以被拆分出来，那么我们把这个拆出去，<span class="math inline">\(f_{l,i}=\min\{f_{l,\frac{j}{i}}\,f_{l,i}\}\)</span>。由于不一定只拆出来一个
+<span class="math inline">\(i\)</span>，所以这里我们可以用一些多重背包的思想。</p>
+<p>但是这样是不能接受的。考虑怎么优化：首先可以压掉第一维，然后第二维从
+<span class="math inline">\(i\times i\)</span> 开始每次 <span class="math inline">\(+i\)</span>，是调和级数级别的。</p>
+<p>然后我们考虑在 <span class="math inline">\(i\)</span>
+不变的情况下，随着 <span class="math inline">\(l\)</span> 下降，<span class="math inline">\(f\)</span> 是单调递减的。因此我们可以对 <span class="math inline">\(f\)</span>
+数组开桶，用指针向下扫到第一个存在值的位置。</p>
+<p>这样的时间复杂度是 <span class="math inline">\(O(m\log m)\)</span>
+的。</p>
+<details>
+<summary>
+Code(Tap)
+</summary>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">read</span>(n, m);</span><br><span class="line"><span class="built_in">memset</span>(a, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="built_in">memset</span>(t, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="type">int</span> lim = <span class="number">1e9</span> + <span class="number">7</span>, ans = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="built_in">read</span>();</span><br><span class="line">    lim = <span class="built_in">min</span>(lim, x);</span><br><span class="line">    a[x] = t[x] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) f[i] = i;</span><br><span class="line"><span class="type">int</span> pt = m;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = m; i; i--)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(i * i &lt;= m)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = i * i; j &lt;= m; j += i)</span><br><span class="line">        &#123;</span><br><span class="line">            t[f[j]] -= a[j];</span><br><span class="line">            f[j] = <span class="built_in">min</span>(f[j], f[j / i]);</span><br><span class="line">            t[f[j]] += a[j]; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(!t[pt]) pt--;</span><br><span class="line">    <span class="keyword">if</span>(i &lt;= lim) ans = <span class="built_in">min</span>(ans, pt - i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br></pre></td></tr></table></figure>
+</details>
 
 
                             <!-- Meta -->
