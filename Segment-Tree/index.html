@@ -158,12 +158,17 @@
 </ul></li>
 <li><a href="#题目随解">题目随解</a>
 <ul>
-<li><a href="#区间最大-k-子段和">区间最大 <span class="math inline">\(k\)</span> 子段和</a></li>
+<li><a href="#k-maximum-subsequence-sum">k-Maximum Subsequence
+Sum</a></li>
 <li><a href="#等差子序列">等差子序列</a></li>
 <li><a href="#双面棋盘">双面棋盘</a></li>
 <li><a href="#决战圆锥曲线">决战圆锥曲线</a></li>
 <li><a href="#rikka-with-phi">Rikka with Phi</a></li>
 <li><a href="#wall">Wall</a></li>
+<li><a href="#火事待做">火事（待做）</a></li>
+<li><a href="#游戏待做">游戏（待做）</a></li>
+<li><a href="#比赛待做">比赛（待做）</a></li>
+<li><a href="#水池待做">水池（待做）</a></li>
 </ul></li>
 <li><a href="#参考">参考</a></li>
 </ul>
@@ -666,7 +671,7 @@ n)\)</span> 的了，建 <span class="math inline">\(n\)</span>
 update 和 query 时都要 pushdown 新建节点。</p>
 <p>至此，线段树基本内容已经处理完毕。</p>
 <h1><span id="题目随解">题目随解</span></h1>
-<h2><span id="区间最大-k-子段和">区间最大 <span class="math inline">\(k\)</span> 子段和</span></h2>
+<h2><span id="k-maximum-subsequence-sum">k-Maximum Subsequence Sum</span></h2>
 <p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/280/problem/D">CF280D
 k-Maximum Subsequence Sum</a></p>
 <blockquote>
@@ -830,12 +835,37 @@ Code(Tap)
 <p>PS：一开始 query 的 <code>if-else</code> 没写
 <code>return</code>，导致开了 <span class="math inline">\(O2\)</span>
 就会 RE，死因：有返回值函数不返回是 UB，警钟敲烂。</p>
+<p>PS2：我宣布这个代码的区间修改函数是线段树区间修改函数最美丽的形态！！1</p>
+<h2><span id="火事待做">火事（待做）</span></h2>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6881">【JOI2020Final】
+火事</a></p>
+<blockquote>
+<p>给定一个长为 <span class="math inline">\(N\)</span> 的序列 <span class="math inline">\(S_i\)</span>，刚开始为时刻 <span class="math inline">\(0\)</span>。定义 <span class="math inline">\(t\)</span> 时刻第 <span class="math inline">\(i\)</span> 个数为 <span class="math inline">\(S_i(t)\)</span>，且满足：</p>
+<p><span class="math display">\[\left\{
+\begin{array}{ll}
+S_0(t)=0\\S_i(0)=S_i\\S_i(t)=\max\{S_{i-1}(t-1),S_i(t-1)\}
+\end{array}
+\right.\]</span></p>
+<p><span class="math inline">\(Q\)</span> 次询问，每次给定 <span class="math inline">\(L,R,T\)</span>，求：</p>
+<p><span class="math display">\[\sum\limits_{k=L}^{R}S_k(T)\]</span></p>
+<p><span class="math inline">\(1\leq N,Q\leq 2\cdot 10^5\)</span>。</p>
+</blockquote>
+<h2><span id="游戏待做">游戏（待做）</span></h2>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3772">【CTSC2017】
+游戏</a></p>
+<h2><span id="比赛待做">比赛（待做）</span></h2>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P8868">【NOIP2022】
+比赛</a></p>
+<h2><span id="水池待做">水池（待做）</span></h2>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6794">【SNOI2020】
+水池</a></p>
 <h1><span id="参考">参考</span></h1>
 <ol type="1">
 <li>《妈妈再也不用担心我的线段树了》——孙耀峰；</li>
 <li><a target="_blank" rel="noopener" href="https://oi-wiki.org/">OI Wiki</a>；</li>
-<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/dowhiletrue/solution-p4097">《李超树》——do_while_true</a>；</li>
-<li>RainAir 在 SDSC2023 上的课件；</li>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/dowhiletrue/solution-p4097">do_while_true
+的李超树讲解</a>；</li>
+<li>RainAir 在 SDSC2023 上的课件。</li>
 </ol>
 
 
