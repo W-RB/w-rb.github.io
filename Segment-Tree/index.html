@@ -119,6 +119,7 @@
 <li><a href="#区间加等差数列">区间加等差数列</a></li>
 <li><a href="#维护区间最大子段和">维护区间最大子段和</a></li>
 </ul></li>
+<li><a href="#信息的本质">信息的本质</a></li>
 <li><a href="#线段树的本质">线段树的本质</a></li>
 <li><a href="#线段树的常用技巧">线段树的常用技巧</a>
 <ul>
@@ -170,7 +171,11 @@ Sum</a></li>
 <li><a href="#比赛待做">比赛（待做）</a></li>
 <li><a href="#水池待做">水池（待做）</a></li>
 </ul></li>
+<li><a href="#参考与鸣谢">参考与鸣谢</a>
+<ul>
 <li><a href="#参考">参考</a></li>
+<li><a href="#鸣谢">鸣谢</a></li>
+</ul></li>
 </ul>
 <!-- tocstop -->
 <h1><span id="线段树">线段树</span></h1>
@@ -207,8 +212,12 @@ Sum</a></li>
 <p>考虑一下我们需要维护哪些信息？首先，区间和 <span class="math inline">\(sum\)</span>。其次，我们需要维护当前节点所维护区间的左右端点
 <span class="math inline">\(l,r\)</span>。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Tree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="type">int</span> sum;</span><br><span class="line">&#125;tr[MAXN &lt;&lt; <span class="number">2</span>];</span><br></pre></td></tr></table></figure>
-<p>哎？你这个 <span class="math inline">\(tr\)</span> 数组怎么开了 <span class="math inline">\(4\)</span> 倍的空间啊？</p>
-<p>我们考虑这颗线段树的结构，一个长度为 <span class="math inline">\(n\)</span> 的区间最多可以有 <span class="math inline">\(\log(n)\)</span> 层。求和的结果近似于 <span class="math inline">\(4n\)</span>，因此需要开够 <span class="math inline">\(4\)</span> 倍空间。</p>
+<p>哎？你这个 <span class="math inline">\(tr\)</span> 数组怎么开了 <span class="math inline">\(4\)</span> 倍的空间啊？线段树节点数量不是 <span class="math inline">\(2n\)</span> 的吗？</p>
+<p>我们理想的线段树形态应该是一棵满二叉树。此时，节点数量就是完美的
+<span class="math inline">\(2n\)</span>
+个了。但是有时事与愿违。我们采用的编号方法是左儿子 <span class="math inline">\(2k\)</span>，右儿子 <span class="math inline">\(2k+1\)</span>，这样当我们原区间不是 <span class="math inline">\(2^m\)</span> 的时候就会发生“左偏”（如上图）。</p>
+<p>容易发现：左儿子和右儿子层数最多相差一。因此，我们线段树的节点有可能会延伸到叶子节点下面的一层，所以需要多开
+<span class="math inline">\(2n\)</span> 个节点，即 <span class="math inline">\(4n\)</span>。</p>
 <blockquote>
 <p>注：无特殊说明外，本文 <span class="math inline">\(\log\)</span> 均为
 <span class="math inline">\(\log_2\)</span>。</p>
@@ -427,7 +436,7 @@ n\log\log a)\)</span>。单次的复杂度均摊是 <span class="math inline">\(
 <p>现在所有问题已经解决，我们就可以快速维护了。</p>
 <p>思考：<span class="math inline">\(1\)</span>
 操作改为区间加怎么做？</p>
-<h1><span id="线段树的本质">线段树的本质</span></h1>
+<h1><span id="信息的本质">信息的本质</span></h1>
 <p>我们发现，线段树可以维护许多东西：区间和、区间极值……通过一些手法，我们也可以维护诸如区间最大子段和的东西。</p>
 <p>那么，究竟什么样的信息才可以被维护呢？</p>
 <p>首先，这个信息必须是<strong>可被快速合并的</strong>。其次，这个信息必须<strong>满足结合律</strong>。因为我们在合并的时候其实是并不关心信息之间的顺序的，这就要求其必须满足结合律。那么可以看出，这些信息实际上构成了一个半群。</p>
@@ -436,6 +445,16 @@ n\log\log a)\)</span>。单次的复杂度均摊是 <span class="math inline">\(
 <p>首先，这个标记必须是<strong>可被快速合并的</strong>。其次，这个标记必须<strong>满足结合律</strong>。第三，这个标记必须<strong>可被快速作用到信息上</strong>。可以看出，标记实际上构成了一个幺半群。</p>
 <p>因此，我们在考虑线段树维护某些东西的时候，一方面要考虑如何维护信息，另一方面要考虑如何维护标记。</p>
 <p>有关更多这部分的内容，可以看<a target="_blank" rel="noopener" href="https://_rqy.blog.uoj.ac/blog/8105">_rqy的博客</a>。</p>
+<h1><span id="线段树的本质">线段树的本质</span></h1>
+<p>不同的人对线段树有不同的理解，这里分享一些我的个人看法。</p>
+<p>所谓线段树，实际上是针对原来的序列，递归地建立新结点，维护若干个原来节点的信息，当询问时，我们就可以直接采用某些节点的信息，以达到快速查询的目的。</p>
+<p>照这么说，我们其实还可以写出 <span class="math inline">\(3\)</span>
+叉线段树、<span class="math inline">\(4\)</span> 叉线段树、<span class="math inline">\(\sqrt{n}\)</span> 叉线段树……</p>
+<p><span class="math inline">\(\sqrt{n}\)</span> 叉？分块？</p>
+<p>很相类似。狭义上的数据结构本质上都是对序列进行划分，线段树是划分为
+<span class="math inline">\(O(\log n)\)</span> 个区间，分块则是分成
+<span class="math inline">\(O(\sqrt{n})\)</span> 个区间。</p>
+<p>不过线段树和分块仍有一些本质上的区别：线段树对于数据，更倾向形成一种树状结构，而分块更倾向于形成线性结构。</p>
 <h1><span id="线段树的常用技巧">线段树的常用技巧</span></h1>
 <h2><span id="动态开点">动态开点</span></h2>
 <p>有的时候，面对庞大的数据范围，我们没办法开如此大的空间。这个时候，我们就需要动态开点线段树了。</p>
@@ -448,12 +467,6 @@ n\log\log a)\)</span>。单次的复杂度均摊是 <span class="math inline">\(
 <p>考虑到一次操作最多会访问 <span class="math inline">\(O(\log
 n)\)</span> 个节点，那么总空间复杂度为 <span class="math inline">\(O(q\log n)\)</span>。</p>
 <p>考虑到一颗线段树的节点数是 <span class="math inline">\(2n-1\)</span>，因此动态开点时只需开 <span class="math inline">\(2\)</span> 倍空间即可。</p>
-<blockquote>
-<p>思考：为什么普通线段树是 <span class="math inline">\(4\)</span>
-倍空间？</p>
-<p>原因：在普通线段树 pushdown 的时候，叶子节点会多 pushdown
-一次，导致线段树层数 <span class="math inline">\(+1\)</span>，因此需要多开 <span class="math inline">\(2n\)</span> 个节点。</p>
-</blockquote>
 <p>因此我们只需要对应更改一下 pushdown 和 update 的代码即可。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Seg_Tree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> sum, tag;</span><br><span class="line">    <span class="type">int</span> lson, rson;</span><br><span class="line">&#125;tr[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">int</span> &amp;k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!k) k = ++cnt;</span><br><span class="line">    tr[k].tag += v;</span><br><span class="line">    tr[k].sum += v * (r - l + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">f</span>(ls, l, mid, tr[k].tag);</span><br><span class="line">    <span class="built_in">f</span>(rs, mid + <span class="number">1</span>, r, tr[k].tag);</span><br><span class="line">    tr[k].tag = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> &amp;k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> L, <span class="type">int</span> R, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= l &amp;&amp; r &lt;= R) <span class="keyword">return</span> <span class="built_in">f</span>(k, l, r, v);</span><br><span class="line">    <span class="built_in">pushdown</span>(k, l, r);</span><br><span class="line">    <span class="type">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= mid) <span class="built_in">update</span>(ls, l, mid, L, R, v);</span><br><span class="line">    <span class="keyword">if</span>(R &gt; mid) <span class="built_in">update</span>(rs, mid+ <span class="number">1</span>, r, L, R, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们初始时需要建立第一个节点。值得注意的是：update 和 f 函数中的
@@ -465,7 +478,7 @@ n)\)</span> 个节点，那么总空间复杂度为 <span class="math inline">\(
 <p>我们知道线段树一个重要的部分是懒标记，而 pushdown
 就是为了下放标记而存在的。而标记永久化则是不进行标记的下放，直接永久记录在该节点上。当我们需要访问某节点时，叠加所有在它到根节点路径的标记即可。</p>
 <p>然而值得注意的是，并不是所有的标记都能永久化。除了要满足标记本身需要满足的条件之外，还需要满足<strong>交换律</strong>。</p>
-<p>标记永久化并没有时空复杂度的提升，但是可以优化时间常数。某些情况下，正常下放标记不能保证正确性，因此必须标记永久化。</p>
+<p>标记永久化并没有时空复杂度的提升，但是可以优化时间常数。某些情况下，标记下放可能会比较麻烦，这时使用标记永久化不失为一个好的选择。</p>
 <p>标记永久化可以保证了当前节点子树的更新，但是与之相对的，当前节点到根我们需要额外维护：从根到该节点，每次取当前节点维护区间与修改区间的交集，进行更新。</p>
 <p>下面是动态开点+标记永久化的代码：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> &amp;k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> L, <span class="type">int</span> R, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!k) k = ++cnt;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= l &amp;&amp; r &lt;= R) <span class="keyword">return</span> (<span class="type">void</span>)(tr[k].tag += v);</span><br><span class="line">    tr[k].sum += v * (<span class="built_in">min</span>(R, r) - <span class="built_in">max</span>(L, l) + <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= mid) <span class="built_in">update</span>(ls, l, mid, L, R, v);</span><br><span class="line">    <span class="keyword">if</span>(R &gt; mid) <span class="built_in">update</span>(rs, mid + <span class="number">1</span>, r, L, R, v);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> L, <span class="type">int</span> R)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!k) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= l &amp;&amp; r &lt;= R) <span class="keyword">return</span> tr[k].sum +(r - l + <span class="number">1</span>) * tr[k].tag;</span><br><span class="line">    <span class="type">int</span> res = (<span class="built_in">min</span>(R, r) - <span class="built_in">max</span>(L, l) + <span class="number">1</span>) * tr[k].tag;</span><br><span class="line">    <span class="type">int</span> mid = l + r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(L &lt;= mid) res += <span class="built_in">query</span>(ls, l, mid, L, R);</span><br><span class="line">    <span class="keyword">if</span>(R &gt; mid) res += <span class="built_in">query</span>(rs, mid + <span class="number">1</span>, r , L, R);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -859,13 +872,21 @@ S_0(t)=0\\S_i(0)=S_i\\S_i(t)=\max\{S_{i-1}(t-1),S_i(t-1)\}
 <h2><span id="水池待做">水池（待做）</span></h2>
 <p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6794">【SNOI2020】
 水池</a></p>
-<h1><span id="参考">参考</span></h1>
+<h1><span id="参考与鸣谢">参考与鸣谢</span></h1>
+<h2><span id="参考">参考</span></h2>
 <ol type="1">
 <li>《妈妈再也不用担心我的线段树了》——孙耀峰；</li>
 <li><a target="_blank" rel="noopener" href="https://oi-wiki.org/">OI Wiki</a>；</li>
 <li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/dowhiletrue/solution-p4097">do_while_true
 的李超树讲解</a>；</li>
 <li>RainAir 在 SDSC2023 上的课件。</li>
+</ol>
+<h2><span id="鸣谢">鸣谢</span></h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/-Complex-/">EXODUS</a>
+对本文的勘误与启示；</li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/do-while-true">do_while_true</a>
+针对李超线段树的指导。</li>
 </ol>
 
 
