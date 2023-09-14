@@ -258,10 +258,10 @@ Turing），这个奖设立目的之一是纪念这位现代计算机科学的�
 </ul>
 <h3><span id="面向对象与面向过程">面向对象与面向过程</span></h3>
 <ul>
-<li><p>面向过程 <span class="math inline">\((Procedure\
-Oriented)\)</span>：把事情拆分成几个步骤（相当于拆分成一个个的方法和数据），然后按照一定的顺序执行。</p></li>
-<li><p>面向对象 <span class="math inline">\((Object\
-Oriented)\)</span>：面向对象会把事物抽象成对象的概念，先抽象出对象，然后给对象赋一些属性和方法，然后让每个对象去执行自己的方法。</p></li>
+<li><p>面向过程 (Procedure
+Oriented)：把事情拆分成几个步骤（相当于拆分成一个个的方法和数据），然后按照一定的顺序执行。</p></li>
+<li><p>面向对象 (Object
+Oriented)：面向对象会把事物抽象成对象的概念，先抽象出对象，然后给对象赋一些属性和方法，然后让每个对象去执行自己的方法。</p></li>
 </ul>
 <h3><span id="常见语言">常见语言</span></h3>
 <table>
@@ -280,7 +280,7 @@ Oriented)\)</span>：面向对象会把事物抽象成对象的概念，先抽�
 </tr>
 <tr class="even">
 <td style="text-align: center;">C++</td>
-<td style="text-align: center;">半面向对象</td>
+<td style="text-align: center;">面向对象</td>
 <td style="text-align: center;">编译方式</td>
 </tr>
 <tr class="odd">
@@ -428,15 +428,15 @@ node）</strong>：对于除根以外的每个结点，定义为从该结到根�
 <p>在 <span class="math inline">\(n\)</span>
 个数中<strong>有序</strong>选择 <span class="math inline">\(k\)</span>
 个数，方案数记为：</p>
-<p><span class="math inline">\(A_{n}^{k}=\frac{n!}{(n-k)!}\)</span></p>
+<p><span class="math display">\[A_{n}^{k}=\frac{n!}{(n-k)!}\]</span></p>
 <h3><span id="组合">组合</span></h3>
 <p>在 <span class="math inline">\(n\)</span>
 个数中<strong>无序</strong>选择 <span class="math inline">\(k\)</span>
 个数，方案数记为：</p>
-<p><span class="math inline">\(C_{n}^{k}=\frac{n!}{k!(n-k)!}\)</span></p>
+<p><span class="math display">\[C_{n}^{k}=\frac{n!}{k!(n-k)!}\]</span></p>
 <p>在竞赛中也常记为：</p>
-<p><span class="math inline">\({n\choose k} =
-\frac{n!}{k!(n-k)!}\)</span></p>
+<p><span class="math display">\[{n\choose k} =
+\frac{n!}{k!(n-k)!}\]</span></p>
 <p>组合数的一些性质：</p>
 <ul>
 <li><span class="math inline">\({n\choose k}={n\choose n-k}\)</span>
@@ -475,15 +475,20 @@ k}=\sum\limits_{i=0}^{k}{a\choose i}{b\choose k-i}\)</span></li>
 <span class="math inline">\(\frac{1}{2}A_{9}^{9}\)</span>种。</p>
 <h2><span id="卡特兰数">卡特兰数</span></h2>
 <p>卡特兰数的定义如下：</p>
-<p><span class="math inline">\(C_0=0,C_1=1\)</span></p>
-<p><span class="math inline">\(C_n=\sum\limits_{i=0}^{n-1}C_iC_{n-i-1}(n\geq
-2)\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+\left\{
+\begin{array}{ll}
+C_n=1 &amp;(n=0,1)\\
+C_n=\sum\limits_{i=0}^{n-1}C_iC_{n-i-1} &amp;(n\geq 2)\\
+\end{array}
+\right.
+\end{align}
+\]</span></p>
 <p>非递推式：</p>
-
-
-$C_n={2n\choose n}-{2n\choose n+1}=\frac{{2n\choose n}}{n+1}$
-
-
+<p><span class="math display">\[
+C_n={2n\choose n}-{2n\choose n+1}=\frac{2n\choose n}{n+1}
+\]</span></p>
 <p>卡特兰数的组合意义：</p>
 <ol type="1">
 <li><span class="math inline">\(n\)</span> 个点的二叉树</li>
@@ -500,8 +505,8 @@ $C_n={2n\choose n}-{2n\choose n+1}=\frac{{2n\choose n}}{n+1}$
 </ol>
 <p>证明略。</p>
 <h2><span id="容斥原理">容斥原理</span></h2>
-<p><span class="math inline">\(\left|\bigcup\limits_{i=1}^{n}S_i\right|=\sum\limits_{m=1}^n(-1)^{m-1}\sum\limits_{a_i&lt;a_{i+1}
-}\left|\bigcap\limits_{i=1}^mS_{a_i}\right|\)</span></p>
+<p><span class="math display">\[\left|\bigcup\limits_{i=1}^{n}S_i\right|=\sum\limits_{m=1}^n(-1)^{m-1}\sum\limits_{a_i&lt;a_{i+1}
+}\left|\bigcap\limits_{i=1}^mS_{a_i}\right|\]</span></p>
 <p>简单的小应用：</p>
 <p><span class="math inline">\(|A\cup B\cup C|=|A|+|B|+|C|-|A\cap
 B|-|B\cap C|-|C\cap A|+|A\cap B\cap C|\)</span></p>
@@ -518,11 +523,8 @@ theorem)}\)</span> 提供了用渐近符号（大 <span class="math inline">\(O\
 符号）表示许多由分治法得到的递推关系式的方法。</p>
 <h3><span id="支配理论">支配理论</span></h3>
 <p>假设有递归关系式：</p>
-
-
-$$T(n)=aT\left(\frac{n}{b}\right)+f(n),其中a\geq 1,b> 1$$
-
-
+<p><span class="math display">\[T(n)=aT\left(\frac{n}{b}\right)+f(n),其中a\geq
+1,b&gt; 1\]</span></p>
 <p>其中：</p>
 <ul>
 <li><span class="math inline">\(n\)</span> 为问题规模；</li>
@@ -534,18 +536,12 @@ $$T(n)=aT\left(\frac{n}{b}\right)+f(n),其中a\geq 1,b> 1$$
 </ul>
 <h3><span id="情形一">情形一</span></h3>
 <p>若 <span class="math inline">\(f(n)&lt;n^{\log_b
-a}\)</span>（多项式的小于），即 <span class="math inline">\(\exist
-\epsilon&gt;0,有f(n)=\Theta(n^{\log_{b}a-\epsilon})\)</span>，则<span class="math inline">\(T(n)=\Theta(n^{\log_{b}a})\)</span></p>
+a}\)</span>（多项式的小于），则<span class="math inline">\(T(n)=\Theta(n^{\log_{b}a})\)</span></p>
 <h3><span id="情形二">情形二</span></h3>
-<p>若 <span class="math inline">\(f(n)=n^{\log_b a}\)</span>，即 <span class="math inline">\(\exist \epsilon\geq
-0,有f(n)=\Theta(n^{\log_{b}a}\log^\epsilon n)\)</span>，则<span class="math inline">\(T(n)=\Theta(n^{\log_{b}a}\log^{\epsilon+1}
-n)\)</span></p>
+<p>若 <span class="math inline">\(f(n)=n^{\log_b a}\)</span>，则<span class="math inline">\(T(n)=\Theta(n^{\log_{b}a}\log n)\)</span></p>
 <h3><span id="情形三">情形三</span></h3>
 <p>若 <span class="math inline">\(f(n)&gt;n^{\log_b
-a}\)</span>（多项式的大于），即 <span class="math inline">\(\exist
-\epsilon&gt;
-0,有f(n)=\Omega(n^{\log_{b}a+\epsilon})\)</span>，同时存在常数 <span class="math inline">\(c&lt;1\)</span> 以及充分大的 <span class="math inline">\(n\)</span>，满足 <span class="math inline">\(af\left(\frac{n}{b}\right)\leq
-cf(n)\)</span>，则<span class="math inline">\(T(n)=\Theta(f(n))\)</span></p>
+a}\)</span>（多项式的大于），则<span class="math inline">\(T(n)=\Theta(f(n))\)</span></p>
 <h2><span id="常见排序算法与其时空复杂度">常见排序算法与其时空复杂度</span></h2>
 <table>
 <thead>
