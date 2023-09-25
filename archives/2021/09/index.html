@@ -450,13 +450,19 @@
         <section class="archive-item">
             <div class="archive-item-header">
                 <span class="archive-year">2022</span>
-                <span class="archive-year-post-count">[9]</span>
+                <span class="archive-year-post-count">[10]</span>
             </div>
             <ul class="article-list">
               
               <li class="article-item" date-is='12-01'>
                 <a href="/NOIP2022/">
                   <span class="article-title">NOIP2022 爆零记</span>
+                </a>
+              </li>
+              
+              <li class="article-item" date-is='09-25'>
+                <a href="/AGC020D/">
+                  <span class="article-title">AGC020D Min Max Repetition</span>
                 </a>
               </li>
               
@@ -808,6 +814,22 @@
     
 </div>
 
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </body>
 </html>
