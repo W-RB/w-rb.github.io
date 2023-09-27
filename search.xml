@@ -240,6 +240,50 @@ s\)</span>，那么这是一个成功的匹配。</p>
       </tags>
   </entry>
   <entry>
+    <title>LuoguP1253 扶苏的问题</title>
+    <url>/LGP1253/</url>
+    <content><![CDATA[<p>线段树。</p>
+<span id="more"></span>
+<h1 id="sol.">Sol.</h1>
+<p>实际上相当于维护一颗线段树，支持区间覆盖、区间加和区间查询最大值。</p>
+<p>维护最大值很好办，区间覆盖和区间加我们怎么维护呢？</p>
+<p>首先，区间覆盖和区间加一定都分别需要记一个懒标记。我们把区间覆盖的懒标记记为
+<span class="math inline">\(ctag\)</span>，区间加的懒标记记为 <span
+class="math inline">\(atag\)</span>，那么我们如何把标记 <span
+class="math inline">\(\text{pushdown}\)</span> 呢？</p>
+<p>首先，初始化要选择一个尽量不影响之后操作的值。<span
+class="math inline">\(atag\)</span> 显然选择 <span
+class="math inline">\(0\)</span> 即可。由于要更改的数字有正有负，<span
+class="math inline">\(ctag\)</span> 可以选取 <span
+class="math inline">\(-\infty\)</span>，在程序中我选用了 <span
+class="math inline">\(1e18+7\)</span> 作为 <span
+class="math inline">\(\text{INF}\)</span>。</p>
+<p>考虑到如果我们当前节点有一个 <span
+class="math inline">\(atag\)</span> 标记，之后又打上了一个 <span
+class="math inline">\(ctag\)</span>
+标记，那么<strong>要覆盖的值会直接把要加的值覆盖</strong>，也就是说
+<span class="math inline">\(ctag\)</span> 会直接清除 <span
+class="math inline">\(atag\)</span>。而如果先打上 <span
+class="math inline">\(ctag\)</span>，再打上 <span
+class="math inline">\(atag\)</span>，则需要<strong>先把 <span
+class="math inline">\(ctag\)</span> 下放，再下放 <span
+class="math inline">\(atag\)</span></strong>。那么我们的 <span
+class="math inline">\(\text{pushdown}\)</span> 可以这么写：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">af</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span> <span class="comment">//把下放的操作封装一下可以使代码更简洁</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx += v;</span><br><span class="line">    t[k].atag += v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = v;</span><br><span class="line">    t[k].ctag = v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cpushdown</span><span class="params">(<span class="type">int</span> k)</span> <span class="comment">//ctag 的下放</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].ctag == -INF) <span class="keyword">return</span>; <span class="comment">//如果没有标记，返回</span></span><br><span class="line">    t[ls].atag = t[rs].atag = <span class="number">0</span>; <span class="comment">//抹除 atag</span></span><br><span class="line">    <span class="built_in">cf</span>(ls, t[k].ctag), <span class="built_in">cf</span>(rs, t[k].ctag); <span class="comment">//ctag 下放</span></span><br><span class="line">    t[k].ctag = -INF; <span class="comment">//当前节点 ctag 清零</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">apushdown</span><span class="params">(<span class="type">int</span> k)</span> <span class="comment">//atag 的下放</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].atag == <span class="number">0</span>) <span class="keyword">return</span>; <span class="comment">//如果没有标记，返回</span></span><br><span class="line">    <span class="built_in">cpushdown</span>(k); <span class="comment">//先把 ctag 下放</span></span><br><span class="line">    <span class="built_in">af</span>(ls, t[k].atag), <span class="built_in">af</span>(rs, t[k].atag); <span class="comment">//atag 下放</span></span><br><span class="line">    t[k].atag = <span class="number">0</span>; <span class="comment">//当前节点 atag 清零</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">apushdown</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//一次 pushdown 操作包括 ctag 的下放和 atag 的下放，都要进行</span></span><br></pre></td></tr></table></figure></div>
+<p>那么操作呢？区间加操作和之前一样即可，区间覆盖操作需要清除当前节点的
+<span class="math inline">\(atag\)</span>。</p>
+<p>其他部分即为普通线段树模板。</p>
+<h1 id="code">Code</h1>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long </span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">1e6</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">1e18</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ls (k &lt;&lt; 1)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> rs (k &lt;&lt; 1 | 1)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> s = <span class="number">0</span>, f = <span class="number">1</span>;</span><br><span class="line">    <span class="type">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span> || ch &gt; <span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(ch == <span class="string">&#x27;-&#x27;</span>)f = <span class="number">-1</span>; ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>)&#123;s = s * <span class="number">10</span> + ch - <span class="string">&#x27;0&#x27;</span>; ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">return</span> s * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Tree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> maxx;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="type">int</span> atag, ctag;</span><br><span class="line">&#125;t[MAXN &lt;&lt; <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> a[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushup</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = <span class="built_in">max</span>(t[ls].maxx, t[rs].maxx);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">af</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx += v;</span><br><span class="line">    t[k].atag += v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = v;</span><br><span class="line">    t[k].ctag = v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cpushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].ctag == -INF) <span class="keyword">return</span>;</span><br><span class="line">    t[ls].atag = t[rs].atag = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">cf</span>(ls, t[k].ctag), <span class="built_in">cf</span>(rs, t[k].ctag);</span><br><span class="line">    t[k].ctag = -INF;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">apushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].atag == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">af</span>(ls, t[k].atag), <span class="built_in">af</span>(rs, t[k].atag);</span><br><span class="line">    t[k].atag = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">apushdown</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].l = l;</span><br><span class="line">    t[k].r = r;</span><br><span class="line">    t[k].atag = <span class="number">0</span>;</span><br><span class="line">    t[k].ctag = -INF;</span><br><span class="line">    <span class="keyword">if</span>(l == r)</span><br><span class="line">    &#123;</span><br><span class="line">        t[k].maxx = a[l];</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">build</span>(ls, l, mid);</span><br><span class="line">    <span class="built_in">build</span>(rs, mid + <span class="number">1</span>, r);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">af</span>(k, v);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">update</span>(ls, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">update</span>(rs, l, r, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cover</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r)</span><br><span class="line">    &#123;</span><br><span class="line">        t[k].atag = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">cf</span>(k, v);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">cover</span>(ls, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">cover</span>(rs, l, r, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> res = -INF;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r) <span class="keyword">return</span> t[k].maxx;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) res = <span class="built_in">max</span>(res, <span class="built_in">query</span>(ls, l, r));</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) res = <span class="built_in">max</span>(res, <span class="built_in">query</span>(rs, l, r));</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    n = <span class="built_in">read</span>(), q = <span class="built_in">read</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) a[i] = <span class="built_in">read</span>();</span><br><span class="line">    <span class="built_in">build</span>(<span class="number">1</span>, <span class="number">1</span>, n);</span><br><span class="line">    <span class="keyword">while</span>(q--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> opt = <span class="built_in">read</span>();</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>(), x = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">cover</span>(<span class="number">1</span>, l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>(), x = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">update</span>(<span class="number">1</span>, l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">query</span>(<span class="number">1</span>, l, r));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>线段树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LuoguP1133 教主的花园</title>
     <url>/LGP1133/</url>
     <content><![CDATA[<p>经典线性dp。</p>
@@ -288,50 +332,6 @@ j&lt;s\\
       </categories>
       <tags>
         <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LuoguP1253 扶苏的问题</title>
-    <url>/LGP1253/</url>
-    <content><![CDATA[<p>线段树。</p>
-<span id="more"></span>
-<h1 id="sol.">Sol.</h1>
-<p>实际上相当于维护一颗线段树，支持区间覆盖、区间加和区间查询最大值。</p>
-<p>维护最大值很好办，区间覆盖和区间加我们怎么维护呢？</p>
-<p>首先，区间覆盖和区间加一定都分别需要记一个懒标记。我们把区间覆盖的懒标记记为
-<span class="math inline">\(ctag\)</span>，区间加的懒标记记为 <span
-class="math inline">\(atag\)</span>，那么我们如何把标记 <span
-class="math inline">\(\text{pushdown}\)</span> 呢？</p>
-<p>首先，初始化要选择一个尽量不影响之后操作的值。<span
-class="math inline">\(atag\)</span> 显然选择 <span
-class="math inline">\(0\)</span> 即可。由于要更改的数字有正有负，<span
-class="math inline">\(ctag\)</span> 可以选取 <span
-class="math inline">\(-\infty\)</span>，在程序中我选用了 <span
-class="math inline">\(1e18+7\)</span> 作为 <span
-class="math inline">\(\text{INF}\)</span>。</p>
-<p>考虑到如果我们当前节点有一个 <span
-class="math inline">\(atag\)</span> 标记，之后又打上了一个 <span
-class="math inline">\(ctag\)</span>
-标记，那么<strong>要覆盖的值会直接把要加的值覆盖</strong>，也就是说
-<span class="math inline">\(ctag\)</span> 会直接清除 <span
-class="math inline">\(atag\)</span>。而如果先打上 <span
-class="math inline">\(ctag\)</span>，再打上 <span
-class="math inline">\(atag\)</span>，则需要<strong>先把 <span
-class="math inline">\(ctag\)</span> 下放，再下放 <span
-class="math inline">\(atag\)</span></strong>。那么我们的 <span
-class="math inline">\(\text{pushdown}\)</span> 可以这么写：</p>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">af</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span> <span class="comment">//把下放的操作封装一下可以使代码更简洁</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx += v;</span><br><span class="line">    t[k].atag += v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = v;</span><br><span class="line">    t[k].ctag = v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cpushdown</span><span class="params">(<span class="type">int</span> k)</span> <span class="comment">//ctag 的下放</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].ctag == -INF) <span class="keyword">return</span>; <span class="comment">//如果没有标记，返回</span></span><br><span class="line">    t[ls].atag = t[rs].atag = <span class="number">0</span>; <span class="comment">//抹除 atag</span></span><br><span class="line">    <span class="built_in">cf</span>(ls, t[k].ctag), <span class="built_in">cf</span>(rs, t[k].ctag); <span class="comment">//ctag 下放</span></span><br><span class="line">    t[k].ctag = -INF; <span class="comment">//当前节点 ctag 清零</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">apushdown</span><span class="params">(<span class="type">int</span> k)</span> <span class="comment">//atag 的下放</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].atag == <span class="number">0</span>) <span class="keyword">return</span>; <span class="comment">//如果没有标记，返回</span></span><br><span class="line">    <span class="built_in">cpushdown</span>(k); <span class="comment">//先把 ctag 下放</span></span><br><span class="line">    <span class="built_in">af</span>(ls, t[k].atag), <span class="built_in">af</span>(rs, t[k].atag); <span class="comment">//atag 下放</span></span><br><span class="line">    t[k].atag = <span class="number">0</span>; <span class="comment">//当前节点 atag 清零</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">apushdown</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//一次 pushdown 操作包括 ctag 的下放和 atag 的下放，都要进行</span></span><br></pre></td></tr></table></figure></div>
-<p>那么操作呢？区间加操作和之前一样即可，区间覆盖操作需要清除当前节点的
-<span class="math inline">\(atag\)</span>。</p>
-<p>其他部分即为普通线段树模板。</p>
-<h1 id="code">Code</h1>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long </span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">1e6</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">1e18</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ls (k &lt;&lt; 1)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> rs (k &lt;&lt; 1 | 1)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> s = <span class="number">0</span>, f = <span class="number">1</span>;</span><br><span class="line">    <span class="type">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span> || ch &gt; <span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(ch == <span class="string">&#x27;-&#x27;</span>)f = <span class="number">-1</span>; ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>)&#123;s = s * <span class="number">10</span> + ch - <span class="string">&#x27;0&#x27;</span>; ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">return</span> s * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Tree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> maxx;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="type">int</span> atag, ctag;</span><br><span class="line">&#125;t[MAXN &lt;&lt; <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> a[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushup</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = <span class="built_in">max</span>(t[ls].maxx, t[rs].maxx);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">af</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx += v;</span><br><span class="line">    t[k].atag += v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = v;</span><br><span class="line">    t[k].ctag = v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cpushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].ctag == -INF) <span class="keyword">return</span>;</span><br><span class="line">    t[ls].atag = t[rs].atag = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">cf</span>(ls, t[k].ctag), <span class="built_in">cf</span>(rs, t[k].ctag);</span><br><span class="line">    t[k].ctag = -INF;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">apushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].atag == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">af</span>(ls, t[k].atag), <span class="built_in">af</span>(rs, t[k].atag);</span><br><span class="line">    t[k].atag = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">apushdown</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].l = l;</span><br><span class="line">    t[k].r = r;</span><br><span class="line">    t[k].atag = <span class="number">0</span>;</span><br><span class="line">    t[k].ctag = -INF;</span><br><span class="line">    <span class="keyword">if</span>(l == r)</span><br><span class="line">    &#123;</span><br><span class="line">        t[k].maxx = a[l];</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">build</span>(ls, l, mid);</span><br><span class="line">    <span class="built_in">build</span>(rs, mid + <span class="number">1</span>, r);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">af</span>(k, v);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">update</span>(ls, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">update</span>(rs, l, r, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cover</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r)</span><br><span class="line">    &#123;</span><br><span class="line">        t[k].atag = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">cf</span>(k, v);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">cover</span>(ls, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">cover</span>(rs, l, r, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> res = -INF;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r) <span class="keyword">return</span> t[k].maxx;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) res = <span class="built_in">max</span>(res, <span class="built_in">query</span>(ls, l, r));</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) res = <span class="built_in">max</span>(res, <span class="built_in">query</span>(rs, l, r));</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    n = <span class="built_in">read</span>(), q = <span class="built_in">read</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) a[i] = <span class="built_in">read</span>();</span><br><span class="line">    <span class="built_in">build</span>(<span class="number">1</span>, <span class="number">1</span>, n);</span><br><span class="line">    <span class="keyword">while</span>(q--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> opt = <span class="built_in">read</span>();</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>(), x = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">cover</span>(<span class="number">1</span>, l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>(), x = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">update</span>(<span class="number">1</span>, l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">query</span>(<span class="number">1</span>, l, r));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>线段树</tag>
       </tags>
   </entry>
   <entry>
@@ -912,6 +912,121 @@ class="math inline">\(c_i=\max\limits_{k=1}^{n}\left\{\dfrac{f_{i,i,k}}{1-\rho^k
       </tags>
   </entry>
   <entry>
+    <title>NOIP2022 爆零记</title>
+    <url>/NOIP2022/</url>
+    <content><![CDATA[<p>一次愉快的 NOIP，而又是与他们最后的诀别。</p>
+<span id="more"></span>
+<h1 id="day--8">Day -8</h1>
+<p>由于 CSP-S 和高一的同学们脱轨了，因此乖乖回去学
+whk。本来以为没啥希望了，结果晚上 🍬
+一通电话通知居然能去了。非常惊讶。但是一段时间没学 OI
+了，感觉更菜了。就当是体验一下。</p>
+<h1 id="day--7">Day -7</h1>
+<p>要在下午 <span class="math inline">\(17:00\)</span> 之前到平邑，因此
+<span class="math inline">\(14:30\)</span>
+就要走。学校要求交艺术节作品，趁上午写了写结果写挂了，气急败坏。RP--。</p>
+<p>然后下午睡了一路之后来到平邑，住在很豪华的全季酒店，感觉从来没住过如此豪华。酒店临着河（好像叫浚河，祊河支流），还算是河景房，环境非常优美。</p>
+<p>睡得很安稳。</p>
+<h1 id="day--6">Day -6</h1>
+<p>上午 vp 了一下 CF，没切出 F，RP--。</p>
+<p>题目里面有道题叫做 The Humanoid，是 ZTMY 歌名，RP++。</p>
+<p>酒店居然有咖啡机。喝了一杯，好苦。</p>
+<h1 id="day--5">Day -5</h1>
+<p>写了几道线段树，感觉对线段树理解更深了一点。</p>
+<p>写了几篇题解，但是发现自己换硬盘重装系统忘了把 Blog
+文件夹拷过来，只能等 m.2-&gt;usb 买来了在部署了，先写着。</p>
+<p>鸭子可爱捏。</p>
+<p>晚上和 <span class="citation" data-cites="chiptune">@chiptune</span>
+一起 vp 了一场 abc，没切出来 F，自闭了，RP--。</p>
+<h1 id="day--4">Day -4</h1>
+<p>下雨了。</p>
+<p>测了下分院帽，Slytherin。</p>
+<p>下午 vp 了一场 div4，本来想涨涨信心，结果没 AK，自闭了，RP--。</p>
+<p>鸭子给了一首<a class="link" 
+ href="https://music.163.com/#/song?id=557581315" >好听的歌</a>，单循了，RP++。</p>
+<p>感觉自己菜炸了，模板都不会了。</p>
+<p>调整作息，<span class="math inline">\(22:00\)</span>
+就睡了，我真规律。</p>
+<h1 id="day--3">Day -3</h1>
+<p>上午敲了敲板子，愣神。</p>
+<p>感觉自己没救了。</p>
+<p>鸭子又给了一首<a class="link" 
+ href="https://music.163.com/#/song?id=1347630432" >好听的歌</a>，单循了，但是没有
+VIP，气得我满地乱爬。于是从 B 站下载音频上传到云盘，我真聪明。</p>
+<p>写了个攒 RP 的程序，开始跑了。</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>; i; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%lld, %lld, RP++\n&quot;</span>, i, <span class="built_in">clock</span>());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>梦神锐评：“你是真无聊。”</p>
+<p>晚上头巨疼。不知道为什么。疼死我了。于是早早睡了。</p>
+<p>有点后怕，别上考场再头疼。</p>
+<h1 id="day--2">Day -2</h1>
+<p>🍬 给了一场 GMOJ 的比赛，难炸了，只拿了 B 题 20pts 暴力分。</p>
+<p>查询小w精神状态，结果为：就你还想打 NOIP？</p>
+<p>出考场了，5考场。</p>
+<p>测了一下 mbti，ENFJ-A。</p>
+<p>下午被精度给整自闭了。但是美婷姐姐理我了，很开心，RP++。</p>
+<p>写游记了。</p>
+<h1 id="day--1">Day -1</h1>
+<p>考前最后一天。上午意识到这一点有些紧张。</p>
+<p>然后就肆无忌惮地摆了一天。看了看KMP、逆元，感觉还可以。</p>
+<p>一直到晚上🍬开了个会，希望明天不要自闭吧。</p>
+<p>鸭子请了一杯奶茶，芋泥+珍珠，很好喝。</p>
+<p>领了前瞻的 300 原石，抽了一下，没想到 16
+抽就出了卢老爷，根据运气守恒定律，感觉明天会寄。</p>
+<p>早点睡觉吧。还是有点紧张。</p>
+<h1 id="day-1">Day 1</h1>
+<p>早上六点起床，早饭没吃凉的，吃的不多，有点担心会不会饿。但是实际上并没有。</p>
+<p>然后就坐（站）着大巴去 pyyz。终于见到 ss,lz1,lzy,zzk,lmt
+了，很开心。</p>
+<p>带着手机去结果根本没查码。</p>
+<p>上考场先把快读和对拍敲了，结果两个都没用到。</p>
+<p>考试还有个小风波，一开始给的密码不对，后来又给了，导致拖后了十分钟，不过在后面补上了。没想到是双重密码，pdf
+的密码是一开始给的。</p>
+<p>解压包的密码是 <code>biu#2019miss</code>，是不是在暗示错过了 2019
+年？（2019刚好疫情开始捏。）</p>
+<p>pdf 的密码是 <code>solo@2022</code>，是不是暗示 2022
+年单身啊呜呜。</p>
+<p>先看一遍题。T1 感觉可做，T2 是啥啊，名字倒是挺好听的。T3
+一眼图论，一眼要跑 Tarjan，一眼我不会。T4 一眼大数据结构，一眼不会。</p>
+<p>然后感觉先看看 T1。然后就想到可以对于每列 <span
+class="math inline">\(j\)</span> 的每行 <span
+class="math inline">\(i\)</span>
+预处理一下最长可以向上延伸多少，然后就可以想到对于每行 <span
+class="math inline">\(i\)</span>
+维护最多可以向右延伸多少，然后就可以想到统计。但是是 <span
+class="math inline">\(O(n^4)(假设n,m同阶)\)</span> 的。</p>
+<p>然后稍微一考虑就能想到前缀和优化一下到 <span
+class="math inline">\(O(n^2)\)</span>，然后就过了 <span
+class="math inline">\(114\ 514\)</span> 的大样例。好像也没法对拍，大概是
+<span class="math inline">\(10:00\)</span>，润了。</p>
+<p>然后看了看 T2，感觉是很牛逼的构造，不会。之后 T4
+暴力跑线段树维护最大值 <span class="math inline">\(O(Qn^2\log n)
+8pts\)</span> 跑路了。</p>
+<p>之后一直在 T4 和 T2 纠结，感觉都拿不到分。已经有点慌了。</p>
+<p>然后感觉 T2 <span class="math inline">\(k=2n-2\)</span>
+的部分分好像可做，想了很长时间感觉可以每个分配两种颜色，最后一个栈做闲余栈，写了写过了样例，自己造了几组也过了。</p>
+<p>然后感觉很没有头猪。又一直在想 T2 <span
+class="math inline">\(k=2n-1,n=2\)</span> 的部分分，写了一个 <span
+class="math inline">\(8\)</span> 个 <code>if</code>
+的大分类讨论，一直调不过去。眼看还有 <span
+class="math inline">\(10min\)</span>，先把东西都整理到 E
+盘，然后最后两分钟突然调出来了，过了样例，赶紧复制到文件里。感觉差不多了。</p>
+<p>估分 <span class="math inline">\(100+30+0+8=138pts\)</span>，但是
+T1、T2 都很不稳。</p>
+<p>水杯还落到教室里了，意识到的时候已经走了好几公里了，遂作罢。</p>
+<p>lmt 说能 <span class="math inline">\(255pts\)</span>，结果 T2
+假了，<span class="math inline">\(200pts\)</span> 左右。</p>
+<p>感觉是打的最烂的一次比赛。</p>
+<p>T2 果然是 zrf 投的题啊……果然恶心。</p>
+<p>luogu 测了一下 T1，过了，感觉安心一点了。</p>
+<p>luogu 和 infoj 测了所有的，一分没挂。感觉是打的最好的一次比赛。</p>
+<h1 id="days-later">Days Later</h1>
+<p>T1 挂了，省二。</p>
+]]></content>
+      <categories>
+        <category>随记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>线性代数学习笔记</title>
     <url>/Linear-Algebra/</url>
     <content><![CDATA[<p>学数论学自闭了，感觉线性代数还可以。</p>
@@ -1047,121 +1162,6 @@ class="math inline">\(\dim V\)</span>，为线性基元素个数。</p>
         <tag>数学</tag>
         <tag>线性代数</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>NOIP2022 爆零记</title>
-    <url>/NOIP2022/</url>
-    <content><![CDATA[<p>一次愉快的 NOIP，而又是与他们最后的诀别。</p>
-<span id="more"></span>
-<h1 id="day--8">Day -8</h1>
-<p>由于 CSP-S 和高一的同学们脱轨了，因此乖乖回去学
-whk。本来以为没啥希望了，结果晚上 🍬
-一通电话通知居然能去了。非常惊讶。但是一段时间没学 OI
-了，感觉更菜了。就当是体验一下。</p>
-<h1 id="day--7">Day -7</h1>
-<p>要在下午 <span class="math inline">\(17:00\)</span> 之前到平邑，因此
-<span class="math inline">\(14:30\)</span>
-就要走。学校要求交艺术节作品，趁上午写了写结果写挂了，气急败坏。RP--。</p>
-<p>然后下午睡了一路之后来到平邑，住在很豪华的全季酒店，感觉从来没住过如此豪华。酒店临着河（好像叫浚河，祊河支流），还算是河景房，环境非常优美。</p>
-<p>睡得很安稳。</p>
-<h1 id="day--6">Day -6</h1>
-<p>上午 vp 了一下 CF，没切出 F，RP--。</p>
-<p>题目里面有道题叫做 The Humanoid，是 ZTMY 歌名，RP++。</p>
-<p>酒店居然有咖啡机。喝了一杯，好苦。</p>
-<h1 id="day--5">Day -5</h1>
-<p>写了几道线段树，感觉对线段树理解更深了一点。</p>
-<p>写了几篇题解，但是发现自己换硬盘重装系统忘了把 Blog
-文件夹拷过来，只能等 m.2-&gt;usb 买来了在部署了，先写着。</p>
-<p>鸭子可爱捏。</p>
-<p>晚上和 <span class="citation" data-cites="chiptune">@chiptune</span>
-一起 vp 了一场 abc，没切出来 F，自闭了，RP--。</p>
-<h1 id="day--4">Day -4</h1>
-<p>下雨了。</p>
-<p>测了下分院帽，Slytherin。</p>
-<p>下午 vp 了一场 div4，本来想涨涨信心，结果没 AK，自闭了，RP--。</p>
-<p>鸭子给了一首<a class="link" 
- href="https://music.163.com/#/song?id=557581315" >好听的歌</a>，单循了，RP++。</p>
-<p>感觉自己菜炸了，模板都不会了。</p>
-<p>调整作息，<span class="math inline">\(22:00\)</span>
-就睡了，我真规律。</p>
-<h1 id="day--3">Day -3</h1>
-<p>上午敲了敲板子，愣神。</p>
-<p>感觉自己没救了。</p>
-<p>鸭子又给了一首<a class="link" 
- href="https://music.163.com/#/song?id=1347630432" >好听的歌</a>，单循了，但是没有
-VIP，气得我满地乱爬。于是从 B 站下载音频上传到云盘，我真聪明。</p>
-<p>写了个攒 RP 的程序，开始跑了。</p>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>; i; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%lld, %lld, RP++\n&quot;</span>, i, <span class="built_in">clock</span>());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<p>梦神锐评：“你是真无聊。”</p>
-<p>晚上头巨疼。不知道为什么。疼死我了。于是早早睡了。</p>
-<p>有点后怕，别上考场再头疼。</p>
-<h1 id="day--2">Day -2</h1>
-<p>🍬 给了一场 GMOJ 的比赛，难炸了，只拿了 B 题 20pts 暴力分。</p>
-<p>查询小w精神状态，结果为：就你还想打 NOIP？</p>
-<p>出考场了，5考场。</p>
-<p>测了一下 mbti，ENFJ-A。</p>
-<p>下午被精度给整自闭了。但是美婷姐姐理我了，很开心，RP++。</p>
-<p>写游记了。</p>
-<h1 id="day--1">Day -1</h1>
-<p>考前最后一天。上午意识到这一点有些紧张。</p>
-<p>然后就肆无忌惮地摆了一天。看了看KMP、逆元，感觉还可以。</p>
-<p>一直到晚上🍬开了个会，希望明天不要自闭吧。</p>
-<p>鸭子请了一杯奶茶，芋泥+珍珠，很好喝。</p>
-<p>领了前瞻的 300 原石，抽了一下，没想到 16
-抽就出了卢老爷，根据运气守恒定律，感觉明天会寄。</p>
-<p>早点睡觉吧。还是有点紧张。</p>
-<h1 id="day-1">Day 1</h1>
-<p>早上六点起床，早饭没吃凉的，吃的不多，有点担心会不会饿。但是实际上并没有。</p>
-<p>然后就坐（站）着大巴去 pyyz。终于见到 ss,lz1,lzy,zzk,lmt
-了，很开心。</p>
-<p>带着手机去结果根本没查码。</p>
-<p>上考场先把快读和对拍敲了，结果两个都没用到。</p>
-<p>考试还有个小风波，一开始给的密码不对，后来又给了，导致拖后了十分钟，不过在后面补上了。没想到是双重密码，pdf
-的密码是一开始给的。</p>
-<p>解压包的密码是 <code>biu#2019miss</code>，是不是在暗示错过了 2019
-年？（2019刚好疫情开始捏。）</p>
-<p>pdf 的密码是 <code>solo@2022</code>，是不是暗示 2022
-年单身啊呜呜。</p>
-<p>先看一遍题。T1 感觉可做，T2 是啥啊，名字倒是挺好听的。T3
-一眼图论，一眼要跑 Tarjan，一眼我不会。T4 一眼大数据结构，一眼不会。</p>
-<p>然后感觉先看看 T1。然后就想到可以对于每列 <span
-class="math inline">\(j\)</span> 的每行 <span
-class="math inline">\(i\)</span>
-预处理一下最长可以向上延伸多少，然后就可以想到对于每行 <span
-class="math inline">\(i\)</span>
-维护最多可以向右延伸多少，然后就可以想到统计。但是是 <span
-class="math inline">\(O(n^4)(假设n,m同阶)\)</span> 的。</p>
-<p>然后稍微一考虑就能想到前缀和优化一下到 <span
-class="math inline">\(O(n^2)\)</span>，然后就过了 <span
-class="math inline">\(114\ 514\)</span> 的大样例。好像也没法对拍，大概是
-<span class="math inline">\(10:00\)</span>，润了。</p>
-<p>然后看了看 T2，感觉是很牛逼的构造，不会。之后 T4
-暴力跑线段树维护最大值 <span class="math inline">\(O(Qn^2\log n)
-8pts\)</span> 跑路了。</p>
-<p>之后一直在 T4 和 T2 纠结，感觉都拿不到分。已经有点慌了。</p>
-<p>然后感觉 T2 <span class="math inline">\(k=2n-2\)</span>
-的部分分好像可做，想了很长时间感觉可以每个分配两种颜色，最后一个栈做闲余栈，写了写过了样例，自己造了几组也过了。</p>
-<p>然后感觉很没有头猪。又一直在想 T2 <span
-class="math inline">\(k=2n-1,n=2\)</span> 的部分分，写了一个 <span
-class="math inline">\(8\)</span> 个 <code>if</code>
-的大分类讨论，一直调不过去。眼看还有 <span
-class="math inline">\(10min\)</span>，先把东西都整理到 E
-盘，然后最后两分钟突然调出来了，过了样例，赶紧复制到文件里。感觉差不多了。</p>
-<p>估分 <span class="math inline">\(100+30+0+8=138pts\)</span>，但是
-T1、T2 都很不稳。</p>
-<p>水杯还落到教室里了，意识到的时候已经走了好几公里了，遂作罢。</p>
-<p>lmt 说能 <span class="math inline">\(255pts\)</span>，结果 T2
-假了，<span class="math inline">\(200pts\)</span> 左右。</p>
-<p>感觉是打的最烂的一次比赛。</p>
-<p>T2 果然是 zrf 投的题啊……果然恶心。</p>
-<p>luogu 测了一下 T1，过了，感觉安心一点了。</p>
-<p>luogu 和 infoj 测了所有的，一分没挂。感觉是打的最好的一次比赛。</p>
-<h1 id="days-later">Days Later</h1>
-<p>T1 挂了，省二。</p>
-]]></content>
-      <categories>
-        <category>随记</category>
-      </categories>
   </entry>
   <entry>
     <title>初赛知识点整理</title>
@@ -2274,6 +2274,51 @@ class="math inline">\(O(\max\{value\})\)</span></td>
       </categories>
   </entry>
   <entry>
+    <title>SDOI2023 游记</title>
+    <url>/SDOI2023/</url>
+    <content><![CDATA[<p>体验省选。</p>
+<span id="more"></span>
+<h1 id="day--1">Day -1</h1>
+<p>本来没想到可以来省选，毕竟 NOIP
+考的太拉了。甚至是正式选手，RMB-700。</p>
+<p>周五中午从学校开润，下午到了平邑。</p>
+<p>然后遇到了百年难得一遇的街区停电。</p>
+<p>晚上去试机，Win7炸场，键盘拉跨，但是和美婷、庞队在一个考场，好耶。</p>
+<h1 id="day1">Day1</h1>
+<p><span class="math inline">\(8:00\)</span>
+就进考场了，先敲了线段树和快读，不知道能不能用上。</p>
+<p><span class="math inline">\(8:30\)</span> 开考，先瞄一眼题目。T1
+看起来可做，T2 图论一眼弃，T3 应该能做。</p>
+<p>于是开始写 T1。发现这不是萌萌题吗，省选怎么会出这么简单的题。<span
+class="math inline">\(9:17\)</span> 过了 <span
+class="math inline">\(3\)</span> 个样例，润润润。</p>
+<p>然后就直接开始看
+T3。想了想，感觉暴力能写，于是开始写暴力，差不多写了两百多行，突然发现暴力思路是寄的。寄寄寄。</p>
+<p>因为本来也没有希望进队，写出来一题感觉十分满足，于是就检查了下
+T1，一直到 <span class="math inline">\(13:00\)</span> 收卷。</p>
+<p>然后学校统一安排了午饭。这真的是我在学校里吃过的有史以来最丰盛的一次。就是队伍非常
+long long，排了很久。</p>
+<p>下午摆摆摆。</p>
+<h1 id="day2">Day2</h1>
+<p><span class="math inline">\(8:30\)</span> 开考，先瞄一眼题目。T1
+过河卒，感觉暴力可做。T2T3 看起来很难，先做 T1。</p>
+<p>T1 的 <span class="math inline">\(20pts\)</span>
+是好拿的，很顺利拿下来了。</p>
+<p>第二个 <span class="math inline">\(10pts\)</span> 就是红色和黑色
+1v1，手玩了半天没怎么会，先润。</p>
+<p>然后发现第四个 <span class="math inline">\(20pts\)</span>
+是能拿的，于是敲了个大暴力。</p>
+<p>T2 把最基本暴力分拿了。T3 想当然认为直接 <span
+class="math inline">\(1 0\)</span> 就行了，然后喜提 <span
+class="math inline">\(0pts\)</span>。</p>
+<p>吃饭，润，美婷身份证丢了，于是陪着美婷润了两遍食堂-考场，很热。</p>
+<p>然后就润回来了。</p>
+]]></content>
+      <categories>
+        <category>随记</category>
+      </categories>
+  </entry>
+  <entry>
     <title>概率论学习笔记（NJU）</title>
     <url>/Probability-Theory/</url>
     <content><![CDATA[<p>南京大学本科课程概率论。</p>
@@ -2331,212 +2376,6 @@ class="math inline">\(P(B|A_i)\)</span>
       <tags>
         <tag>概率论</tag>
         <tag>数学</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SDOI2023 游记</title>
-    <url>/SDOI2023/</url>
-    <content><![CDATA[<p>体验省选。</p>
-<span id="more"></span>
-<h1 id="day--1">Day -1</h1>
-<p>本来没想到可以来省选，毕竟 NOIP
-考的太拉了。甚至是正式选手，RMB-700。</p>
-<p>周五中午从学校开润，下午到了平邑。</p>
-<p>然后遇到了百年难得一遇的街区停电。</p>
-<p>晚上去试机，Win7炸场，键盘拉跨，但是和美婷、庞队在一个考场，好耶。</p>
-<h1 id="day1">Day1</h1>
-<p><span class="math inline">\(8:00\)</span>
-就进考场了，先敲了线段树和快读，不知道能不能用上。</p>
-<p><span class="math inline">\(8:30\)</span> 开考，先瞄一眼题目。T1
-看起来可做，T2 图论一眼弃，T3 应该能做。</p>
-<p>于是开始写 T1。发现这不是萌萌题吗，省选怎么会出这么简单的题。<span
-class="math inline">\(9:17\)</span> 过了 <span
-class="math inline">\(3\)</span> 个样例，润润润。</p>
-<p>然后就直接开始看
-T3。想了想，感觉暴力能写，于是开始写暴力，差不多写了两百多行，突然发现暴力思路是寄的。寄寄寄。</p>
-<p>因为本来也没有希望进队，写出来一题感觉十分满足，于是就检查了下
-T1，一直到 <span class="math inline">\(13:00\)</span> 收卷。</p>
-<p>然后学校统一安排了午饭。这真的是我在学校里吃过的有史以来最丰盛的一次。就是队伍非常
-long long，排了很久。</p>
-<p>下午摆摆摆。</p>
-<h1 id="day2">Day2</h1>
-<p><span class="math inline">\(8:30\)</span> 开考，先瞄一眼题目。T1
-过河卒，感觉暴力可做。T2T3 看起来很难，先做 T1。</p>
-<p>T1 的 <span class="math inline">\(20pts\)</span>
-是好拿的，很顺利拿下来了。</p>
-<p>第二个 <span class="math inline">\(10pts\)</span> 就是红色和黑色
-1v1，手玩了半天没怎么会，先润。</p>
-<p>然后发现第四个 <span class="math inline">\(20pts\)</span>
-是能拿的，于是敲了个大暴力。</p>
-<p>T2 把最基本暴力分拿了。T3 想当然认为直接 <span
-class="math inline">\(1 0\)</span> 就行了，然后喜提 <span
-class="math inline">\(0pts\)</span>。</p>
-<p>吃饭，润，美婷身份证丢了，于是陪着美婷润了两遍食堂-考场，很热。</p>
-<p>然后就润回来了。</p>
-]]></content>
-      <categories>
-        <category>随记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>NOIP 日记</title>
-    <url>/diary/</url>
-    <content><![CDATA[
-<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="密码错误。" data-whm="出错。">
-  <script id="hbeData" type="hbeData" data-hmacdigest="bbe24ecee7631e4136367ab8223ab736cf7924b871aa2db3f53720cb023b341c">9ab61599d64bb7443567a78f19eaa4bbfe22a018854dd97a275d48fb7a080fa8c0da90925f8a2cbd4c146ecdae32376f7225e81788324510a769d5c9b7cb389807394deaa3a955138fe6c091217de68c2a93a90e05b42abea282cec1009fb67a52858487851aad26ad91d25ccc18aaf34f16a3f490d7a2e413382e0180b8e8903aaf91902d707ffbbaf5f9bee1e10619c58c50a5fc9c68eb788dea87b40e4fb3e9f02aeb335456cb0c8bd509e5c2b32219c54c70f43afecb3f0864467cbfb4ba84f1eae95fa43ecd63c8184114116e006d1c43615ab3a690ed71e256038ca708f8b69fd502ee0b473e13d218e33facbb437b6238b3c533338bf00bf6a3a5120d13a2f16153dfd360b0b2494df170adb345293904fbe1792ede67c70c78fa90aaf47e18330021d43beea3904a5c9fefb358550f4c4ec5c99a925d3ce787b928be30260eec63facfebe1e434e36b8fe86f7883866ae2d94fae280bd4d7ceb4351df35e4479f5e6e0d8f3ddbfd14b21f71733a685d327184b1b20148e129419f7efd8882c9dd48904c662307cb00298982f0d11f1f7e14d101e30e11ca6e0dcc9468fbaefa4e20724cffdffe9c02cff9179d3f7b62562e31914998635f0839adffc11588b9cbd7abdffd6e41f43cc99e2e8cb86bf680d4e14b9aa6593bd82bfa5a6daa3d3582756ecf29d3f57cf042e13bac48fe6a7a0246f0da4233d915ffecc510aa8cb89e4d3fd5a3bf9f0d70d69cb5ea3cfa5222fc7350f98dfe65620cb0df42afc32084e70dab6cbbd97a1d719543c6b16e1a59c16c12d39eb13a7aacb756c240390246675decb9bc71e7aa68e9c79f72f9cc0d5b9152fab7b492a995c888336d2ef7019b2be0c44d142c4d0face99e67aac28e4fdd14da80122c133e56dce4f6ed5f2771aa6edc4c8c70c53dab1e157678043676bb5ad52e149b6442984878d8427dc69e4d49717a778c514f1e030366bd4c74de40006d2c7c0de132cfe34e4b083661c9624a8aed0c60573e73e1bd1127205cf65580b057d0f23e5fab958164d5f5df4a34909849d7cbff697a13cc15b36cc63ea3a49c4c3054564edc4c6d32e9e8ac3d7c7856be5621f4a43b2131c300258144d2e534e37bc03e402f7bbb408f1f3555fded67b02ecac4ed55b41d0262fb9942e787548a53dc8a29cb611deb28bcc554c41cf9e593caff2c31a2fb5bc96ff8b7e50a5d605a76d21d4a690cf829fa4f0bc0841543583b896be253553b8a4b76c3a9391b1e6b127c3632e5df3a30cad7f074cca7b257e5b32a19c9bc2c8743f55a0432b63ba4fdb203c9406f9a088fd2f879f346febc2be63d073c38eb64542dfdc9c9c33c13effed5e4baa833c9e3e28b98a2119aa5d7ea1e59cde86e27631f5f99099ffdb6dd54071bf20bcc6ac041ce74db27db7f6847ca15e50cadcfad1e6a5e0697e22244159bc66ced45beb32e71c73c39e8a22c54adaec45a6d52ef806dfe78860505a6c8bfc6e0b2ee6a8ac345783f9a1b16128d9fb16f80c6d72952fe2d26c97b91970c1ce864648393601dc4a2fce09182b7e86392c34d86d26bda886f3b8b88d182187c8d84fe3c3b254b421c0f661a0e9b0bfd98109080380f6f0338e3e9334a708458dd4a95454c5513241a742a86db7ac5fd767ffd0e2c861867dcf62b8fe29757b6dff4b66ed660c8a43424e3f9fc6ffb80ba570380381c1063a23023a97b1ddb10ffce3ad7a38cfcc4cec01de0838b958f407af74574b8e9886eb41d07f669a3e065435a22f62540eee087dc159d63540f9f4e991f0a035b19cca5b570acc45819d9dc038dbeac8fe44e9e7fca2634bb34ed4df1dc05fae94bde711e012add1a17458adc3741eaafbfc093767f585396d8e9682621c6839ab1154ea0df9c0a4f1e7d677eb3f30a6f230a95846b9fd47cb3749a50acd953a3225810e1b3d3f6ae556de719618feb97f7848aa588579cb1eda4843c6db3fc3901c9800a8bce8db36fcd533732378a8d2222dfa5a1783c8d50521fc9f54cad622339f5c874880303ae99a4eeb9d1ab44d912846bb5029514631f88cf5b474dcc2e5d715f5750057b67d3c700981ade05ef9eba69fe05c8be36c276d9affba26a4e76668ffe1116cae923542071fdeaf13fb1eada223215c1c809f5653fd54a8fe04adcebe14c968e762427b19222348c4c1d0c11a87fe21c0988c8c91a6c15a500667892f88e128e8a6b7a2e3ca69d2828f54c3b08df9971d5470d2b80dc4ad06450c167b424a648b66bf9739972a9a384b212776b40758d2eb8082528d174ebfe1c34c93bbdb40ab4cf6f801793d2cad013aeca4f6dde2d8c8e08b6b94ac7f210588c43f59b082ef1ac24143a3d3147900ca3e3262dd3d6594b62f8d12ffae7e1fb38086c647200fd0f2ddc629e4bc64492041757082b6b3a76de31a0e75c6dd05184d68be5aa51060777d5eb56da71b166f47a7657581a57b1a91314f2a3b35bf59a973068dfb89fdec4568e6cad8334e8522562994bc448883bf25b0c27c6b22fae0a85487ca8a422583e1404e9f0f3b082f4c23af8094cde4315b64d1bc4fa2c6ff4297efd7f8524e047337f4dcb8fac731b29c19e553759534a1e159ea9df2d2b9346721b9eac8cb87649114c72bb4a27df2692ddaeedc9c19c6708ef856fa73257332561ebcb19c4d01622e0f9b263b82cd86c0b9ed0ee78a0c8dd5ff3232558b1fffd71b5b151f5fbe8edd26ad5f230e14fe455b9ae33f044b5fdef050eac5eb5264d56b580624ded4dd807deec9f38d340988ef486a3d9c7535bc309393edb757331d03b218b6afc1270f1314aa06e5e08299976e063346b3e91588550abcf28017aa38577dd63df0cd8498c23535e95830a349f298902a0c71f9b36d8f6f80764766350f4ce8fab0f2ecaef76be3ea042c28e89a38c7647dbd093882e0f5c8da45436d1584452e8d24327b39c818ee836491235e07bbdfe446a4b6bfb545b5c15e79a1b874c4656cc8f9f9468804f8c1075ec93b1a5aede3ed1fbfe4292812de0700fbf41d4a361a54d648921f7954c0e8bd4e07e24ec5191e9573c68433a7428f1f4a6c53f4cf488df44d09d90f6ea3b8460bf48886e4c2a5b4fb0c0c14da01a9742cfbbbbc28a9c483efd2b7ecce50b4af3e0e80efb685427dd8bb47f29e8024c171f4c7ce71f27192a169e01c97b9c1d967d0c3b75c17d3379b76fa3e01384c65d614ff3f00e7cdf8d654042ceb1b23f80172632949f78bdf87055e609015e67027ec06364532df88040bb1e6ae105327b58ae3e1aba2c89952dd3f2b0a023583db46e5afa577ab9ae086c7f8d2e5c9ade6807d9079cc15789f62b651049876138d6d971d17731abbe4cffaca911b2c78ae5a8cbbbc51325e1de4ba5d8ec275ba25e89af1cdb3b4941b4c3788b2989d6b983bc9c02419b43d0f4c3b644c3ad3ca4aeac4b80808f5d1abecec8566ddf2b2f07a3c1116c80fdf7be99c45eef3cdc6ef52c6dbb8f64ec3c2bf9f11e3be0d760ef270d5b9553b82eb225149ce749a74d1e30d3bf7afb07457fc9e4d927df7ebac6dcc407ee9a6c48bf75e7fecb789c281a48fc366af23700acb0ae83ef35f270edaada2771e51f49774473cb09d82f9dc0c788e933f634642018c91e240d3892167fea8a3dd2eaea0d896d9346dcd8df8f71bf8f55d02999c6df33a096bc0a3a40df681a09bca1055d214045c4d3e594f5a9b9c4e4b17e6c76edfc1a6afd157ce47e773445736a958e5ac4987cae3a3602d94696d1fc4cb7241e28b300dde20ea8cad960f9093552b1bf94cc5f0e17cfc5870366c33be7e8471e13a78c35168ac51741d4ba46ba3e7bdfc5485f8eabb5c6827b1f8b37ac95615c05f208e0bd7f61d18793ff12c96d744b7e55212b887597ff77f5172014fa0f33894dd4cbf04cd0f6cc625ced97445211796e09c741813200f686b15d4044d69edade8c52e327b7d12dfa32848e61d399717fe64fd4606edcc5e22c96875c8207e999982d0aae73f65153cce910574e2bd32abaee0c4b2f0b36505532c6b787c80ff39f3e19b47d97e3f182bcf37a0d00022d430670e3e31a17222c69613ae57cc37a85afd565741a3bfaed14ad343902daabca06c7dd66330b39e5c904131134cd7b2f37cca501304134f96587b3614a7815f94ab95d88132d7119efc7ba9a2ff8fc9eca09d49e9c420989439636adf26b25304804862edcb8ecf6ea4761052dc5fa2934de97c64cd399d31e13e900c508269b4e90336996c2281d9bb58266de096dd4291ffbebb43baebed1d0b27fe51da568fc46793dd9c07b5dd21187a0e4a4f7582550c6ecd7829ef8b554ab43eac25a20ad6eedd136382787195f0ecc18987d238281db79fb03ed309d5474df55aa7225167a8d59b6a495243f86d3b94d1ad9b8065a2195349d1b5aac08010fffb818afe758b60dc4c7b91d382d1f1995d6d906f7474f3e8e22609ce7e3983b6eb809d0755e75788f1e96003e5bfed26967cfc46197c8161ab53abe005f0132f6637f4d61afd7501eac5e6e88ce1760ceb8011256fd2094414849037d4890179ffa230ee2f0aafb6992baa89f35dcaa68d815cfd80dfa79a2338e8ec19b836e0770bbeb60d36ecac87fec3d6731f8aa6ba54b87f6393c3c9036984a7f3f48609e4231e14896c5a36e2f175742da6677f02806bbc8ff4ffd17f3e5fd6bf43209e2e84786ae23a015763a16db39bd963065ad25306ec91596c2115e534e00de39aec5506fad748b232d4f12425a67585d5fa162c1764cfa36c98c3fc63aa93415dc57fa47de14fb531dc268fce91d5c8c60974aeb24f23f03e1ec1b930cd68a272a51a3e66efde6d279a90298c2b45b44f7644c5a475d54eacf21abad239ccc4668874f8027f7a6b2da740494c40ad90ef7a4a4cf3beeeb87f63ccb146578a815fe2cd59942817c4ec6eb10b0bece329591333293a235645198a4caeeb95a4c7c6363c5600a193a752868d52c659070a18d4ed499dc8a83b64f4e699bfb02406668e04b1d32d6f2ece44cb49d7ddbe83621e0133c9f1e98a491235a0423e75623cc6c7ebc7032b81c96b52b33c16b9e2ce0b1973dac006b91302ab272dd126a85976a846c0b1c60d40684f05c1d93d56ac4d5f63589c278343e309e08a18f148d8cb8d821bfda798b4bfc884320f502533af9c6bac5f22753a6c1751d82d8083f2d315a5431651cb0bcc0a9f0a53764a0c1f284223c03a6d4670e887ce7b38e2b26cdc5c474a52c6da4b12317f8c4be85120055d82229a4ec7f1bcb2a8af88617acef4319e654c548bf9f245bc6c2b6011e51817091bd3b2c5fb4cc9be56d9a7cf85ab8ec1f998baa27ede58d0828bb1ae59aa4572d5ef3fc03ce30ccd11f47aab8cc18781cba717a7f4a610c41ba81b9e427b6d88cefe220ec12ad4ba696ca5959f0325cc37aa3fc42921933f35b4943a70cef4d6dbed7456c1e4512f42bc0be0e64b33cc410efa6fe6b949c031d592b32674bbc03b093c5c4a264476ed1c3a3b5352f3596989893b9d6c88a2ca82a6d269f2130442e63b91e2beab7c5078d7fa64f93a6ad990e629e5b60a2053e561e291f4c50886f4dc8fc8acb05be5da0ba8e55b2e83d18c9c4c72a286e9012bf7ebaaaba14bb4488a77cb8eaf88d38a24cd54d865f5af67ee669b2853c77ebfeef93c1837bbe25fddb652eeb81a870d8618b99f54a59605a0b2278d5cad34d15f22e924566f672f735dd9260103161c5b9cf747a73c98df8774a50c98f142aa6661d35d3ae4804adfe2ac5990882463143c84ba051df08b2413a603f1d64440d7a94837e3da82cecdd20b4c526f7ac7d97dd4ab40cc6266e08e7aab1a9d8611d8ec7313325b8da6369341a8831e1704f69ace8e811acd596052f92c77d04b9766b2e2b5bd3438dee1056ef1e166be8adba87d8890fb41d10d33400a54174cf33f166c614eefad7e6b1285bf5ace74000634be45b717f483b8c8ce586ef3e7de659ffb3d041777cc3bce32fe0074d4bee8ecc3d3d29592bd24376de11a906b7798b0ac45576555b8182f0cfea83135ba00c3068cfce0568ea69da8a17b276f7ef89a1960bab5cc3f526ad22887d365df1c7c1548c7f3b90b80260ed1d42fcba04241bb88661fd709f002d0e3b080f2c105042bb8e22b244d9417b7d2a356f70d6bf7834281a406b1f484c481041c7095cba233b9d51e2e81b268de47a4e1ec1dd05460ddb71d18671fa9b4d6d5557d0fb5c2fcb8f794dcbdc5837fbf3223646b3a6c35081fede97ce702962f9680caf845eb2ab63406db8a8524d819acd82010dacfef1c1c53b21c69ae38099474cac31f8cb7a07e673279b8c02d032411c0cd5b0509d13296707a76ef4c78920795cb00dcc2e504ccada7332a107064ae0061b2fbc8432488fa7e0c0a495d03b352a3d05c9b23364c12b21c94ada766d64a7502660e2170dd56a5d9cd2a1d497dbdc26150a2c1c4e9acf474f9e51ae93dec587db26f308157a2e14d96d12348d92713fdee00d3341ddaca42ca70d4e95eca9e1a3a9c5cd2f22cb365a932c48ae9a8f659e3345dd71e5313bfffbe951266260d261eff9a05e0c3064467cefe92884e888c18775b5240f81db6cc2e9d4c94c975d9c6ced1eed99a104a72d870eb585d5deb81fb77f9af0d9c4fc2ddd4cc4db6ab0e0b5a247d7424bce90a61dd40fc330f27475e8a768ab05fdd8abe200a4b81983d2ff90a6f6ef38e8e51e74dbe6ad0c62e950d9b05034a6fcd266daadb1c3c38afde18be0e1413e417a235727e857d7d3edb8aec34c4e8ca6b1e7b977c2404273b6b38dd5a9859e4937473c147eb2a46a03f89b244c5f67f8d088949471f432cc3091905cdbeaf7dd0c8cf09866e92e0675321253073df8bbb72c1895a45f8f56620bdfeea205faad560e2efa2c1661a75a5c1fcbc859dcd43e754fc72f9c34eb2104b15e7a0d8af8128a08228b5740d8bbb137717b89195f3a524170b5a3109d338f1cea2cccaed0fa2b333672109cbb49d5be0aef85b0d6217e50712ef6a7dc861fd38c9f7c48a71736e20e720fcbfd10a9391c96e87da44bf3dbbc1d6659944670eea1e6f3af20ca829169f3ac5da1cc15e4acb06f003b8e771cf941b2c6ca7a65faa3b3f132e31584eee6be0fb96710d8647ec080e482a056ddf708e959b27aa74752430775c20d93ede87185f6aad40855c6f421ddf98a3478ad3b1565ebbfe6e86a19bbb4be879a79306aaec2844d2169d64114baa5bb154ce032010885d82bf78041d59b1b175e96660b089d6850e89fc48f16455e26b935452f1a5c2a3602e8e6a6a4bc9c29af9757b340640483893d6d77968d8962ff24789b7623d067cd34ae81e61eb634aff0bd6e12cb07404652d51725b8c383e35b25b366d80debb4b314a7b2d2b8798276879767dcbe4f921a5e88dff2b9c79cef404d4c22613d9064b7427ea89260e72d6afb816d500596c6ff4d7ad1dcae0116c497807cfd38a87a8288ad5604efbe11f2e69809d346af274968a82a483eb4c70388492d61d7d2a5ed14aed2b1a774a6bfae3e65af4b4db885d53ed683832074d8a084f05f0dc723750903caf4d96a695b3e8193f4daa1067ac162b47b907e8b930ae3d508ff1df54a598ca5cf59692b605e23eaded8c537a0bf870f3ef920facf8a4ba4631ff302ab393703bd053afb835a3801ab973093f1c39a2938d8f6249a794d6d9784a8bd9c5e798c51622aaac0cf199a3b3e0ec1bf0aa6848787a2e798ae0a91a8872189687c3aadcd52b65b5b6d7bd1500a1600a2751de323a39b4edacf71ae01b9faa1d0c097dd48607ab594e9aa54ad5584e5e76d30f4048fcaa9b59aae6f3c24f9bb03a29b4556e1ce5302210929d24f976b15073043fa753b2bf8ac3577d858720bdadb51f6b0ea845331988d4f16a6dbd69e11ee5cefc45d9911bd65193d9dba8f10908f7d125c05d25d00970e007e16ae338870dca3c64f2d933c5cc9d641f560079ec71fad24a166b1305df67b740ecd9a1b8392f574d321ffdedd0c0d13be2d69e2cc136df21639f6f9d170d97b7350ca188616400c523fd6f3d0c155f0d9f1660b4c3ab03ddd79d5be299b689da551c617d985a6bd133521f8c06216910488110a474c8dced745f8dd05cd958614da6d1a6c26c8aac2fcba719704069974710e50452ecd7283b9f4ef8ba32cddc8531da240af2f15fc44c792bbc6d4289f479efd0246e32db21d734b07cb4e6615bd23e39fb771652c9f142b1d54e0746727b124e6d7f6b5a47f047189c89ff913170fed673ea64732dcd9d9c55fc3d41a60a429afac0cee2ff77b78678d286a59087106cc12b76cc1e5eb6da8a9cb94e3814f3529096a9d3857ddcffd81198310ca4d1bf74c01251415eae65dbae85da12ac4fd070620362a203aa1cf7e8413ab8e5926ff496fb893e62e27675afd0f0419a8823ba1819986b1a68d92143f499c287e6af99ea2991b8d964b66b53ad1648d6889131684c19f09c942684785f2e2ca35029d630745b45d64bfa69a9ba0483ffc73e2904e21a1ef2135d952e5a60036b0e3a35598e4a706fe559b24698e011cd543c8c55162983148c71c5639827bc64df45e0349d2e897589c0a125172441a53f8bb67d57c9399315bf89a122dac5ec382f6ec8b0e21bdf76e7059d052f5b110f4cfe4a7a77dfe7f6ddb9b9858ba3135c03b7f11d84ac32aba6df977e198e5a935ed67c744340a3b1802e5f2884e352fdbf857a7021aec66548a0d53432ec5b3a851a3f17ffb41ccd3c5dc59210fc57c3fbfb9874cda4bee19a14e9494ef3800b2fba6994d4d96e62b41e509df064b5414700085072b822010e3e319f9d86b720bf217cf568b0e52de3895561c5cdaebe7a769c12cce23979de3129d311797a55fae5f52f22835f8c99a5adfc79f714b0c7e232a86c887eba6a057ef3e8fdeffc59a87484bc71ed33444d4fda03cbb66bb1269dec58aadde1d095c6a1834b7aa213533df06455965333836caa97317efd11169407a09ca018cfac0f906cd8fa4a117c7c3cb495c1c33ae9cdffdb96592dce37441ae6700a04798ad38193ac7283852b10d304d146f545f4e23d281b0106a495d40931cd7b4c9c9c71950318035b38aac8416909e812c6eb87a531e22b4131789b38fb8b900a71614bd18cc3140ae678be6c2c165bc9ea0a91ad02d47270ca2eda3cdf3418fbb463fdc15633f55845883e8686674aaf68645ad2430dbad1db2c24e80ba5cb90668b54de420a2fc422fadcd4f0bcb833ab2906524ca7af66085537cc23db0e191d476f81a0b56c4a30c9766910568ffa1cf320a5dcfcaa5a8a17595d5a95c799a6dba394193a826f0f7cdcd2f3221943738ee1db94b8fdd0e66ba166f2dccaf8ec59fdcd72076d6a039e06a4e1c1fdf5efb0ce158106c378572c8e9fa2bd60a611b197eb2598f02d2cf252d1c2d77dbf68e8271f43884030a300d1dad4d03bb0dc21c3db59174514dbbd4423cd7a40c6a165349712923cfd77ef782e9b455614f689631661a68ded405a3700d4349b84478a91726b8afe499c14b45af9196f4f33e563ea4dc5a04d5a0b277b3cda0a07</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">不要随便看别人日记哦</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-swup-reload-script src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
-      <categories>
-        <category>随记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>动态规划题目随解</title>
-    <url>/dp/</url>
-    <content><![CDATA[<p>持续更新。</p>
-<span id="more"></span>
-<h1 id="cf258d-little-elephant-and-broken-sorting">CF258D Little
-Elephant and Broken Sorting</h1>
-<p><a class="link"   href="https://codeforces.com/contest/258/problem/D" >Link</a><span
-class="math inline">\((^*2600)\)</span></p>
-<blockquote>
-<p>给定排列 <span class="math inline">\(p\)</span>，有 <span
-class="math inline">\(m\)</span> 次操作，每次操作给定 <span
-class="math inline">\(x,y\)</span>，等概率选择是否交换。求 <span
-class="math inline">\(\sum\limits_{i=1}^{n}\sum\limits_{j=i}^{n}P(p_i&gt;p_j)\)</span>。</p>
-<p><span class="math inline">\(n,m\leq 10^3\)</span>。</p>
-</blockquote>
-<p>考虑直接设 <span class="math inline">\(f_{l,r}\)</span> 表示 <span
-class="math inline">\(p_l&gt;p_r\)</span>
-的概率。初始化很好初始化，我们考虑直接对操作进行转移。</p>
-<p>假如我们要交换 <span class="math inline">\(p_l\)</span> 和 <span
-class="math inline">\(p_r\)</span>，那么此时其本身 <span
-class="math inline">\(f_{l,r}=f_{r,l}=0.5\)</span>。对于 <span
-class="math inline">\(\forall x\neq
-l,r\)</span>，考虑不交换和交换之后的改变。</p>
-<p>可以分以下情况讨论：</p>
-<ol type="1">
-<li><span
-class="math inline">\(f_{x,l}=\dfrac{f_{x,l}+f_{x,r}}{2}\)</span>；</li>
-<li><span
-class="math inline">\(f_{r,x}=\dfrac{f_{r,x}+f_{l,x}}{2}\)</span>；</li>
-<li><span
-class="math inline">\(f_{l,x}=\dfrac{f_{l,x}+f_{r,x}}{2}\)</span>；</li>
-<li><span
-class="math inline">\(f_{x,r}=\dfrac{f_{x,r}+f_{x,l}}{2}\)</span>。</li>
-</ol>
-<p>容易发现 <span class="math inline">\(1\)</span> 和 <span
-class="math inline">\(4\)</span>、<span class="math inline">\(2\)</span>
-和 <span class="math inline">\(3\)</span>
-的转移是相同的，可以一起处理。最后扫一遍即可，<span
-class="math inline">\(O(n^2)\)</span>。</p>
-<details>
-<summary>
-Code(Tap)
-</summary>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="built_in">read</span>(l, r);</span><br><span class="line">    f[l][r] = f[r][l] = <span class="number">0.5</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> x = <span class="number">1</span>; x &lt;= n; x++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(x == l || x == r) <span class="keyword">continue</span>;</span><br><span class="line">        f[x][l] = f[x][r] = ((f[x][l] + f[x][r]) / <span class="number">2.00</span>);</span><br><span class="line">        f[r][x] = f[l][x] = ((f[r][x] + f[l][x]) / <span class="number">2.00</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</details>
-<h1 id="cf1185g2-playlist-for-polycarp">CF1185G2 Playlist for
-Polycarp</h1>
-<p><a class="link" 
- href="https://codeforces.com/contest/1185/problem/G2" >Link</a><span
-class="math inline">\((^*2600)\)</span></p>
-<blockquote>
-<p>给定 <span class="math inline">\(n\)</span> 首歌，每首歌有时间 <span
-class="math inline">\(t_i\)</span> 与流派 <span
-class="math inline">\(g_i\)</span>。需要从中排列若干首歌，使得时间恰好为
-<span class="math inline">\(T\)</span>，且相邻流派不同。</p>
-<p><span class="math inline">\(1\leq n\leq 50,1\leq T\leq 2500,1\leq
-t_i\leq 50,1\leq g_i\leq 3\)</span>。</p>
-</blockquote>
-<p>不妨设 <span class="math inline">\(f_{i,j,k,1/2/3}\)</span>
-表示三种流派分别选了 <span class="math inline">\(i,j,k\)</span>
-首，最后一首为 <span class="math inline">\(1/2/3\)</span>
-的方案数。这个显然是很好转移的，时间复杂度 <span
-class="math inline">\(O(n^3)\)</span>。由于我们要求的是排列，因此还要乘一个
-<span class="math inline">\(i!j!k!\)</span>。</p>
-<p>然后我们在考虑相邻流派不同，时间恰好为 <span
-class="math inline">\(T\)</span>
-的方程。这个有点类似于背包，但是直接背包时间复杂度是 <span
-class="math inline">\(O(n^3T)\)</span> 的，不能接受。</p>
-<p>这里有一个比较巧妙的方法：将背包拆分成两个背包之后再分别求解。即我们记
-<span class="math inline">\(g_{i,t}\)</span> 为选择 <span
-class="math inline">\(1\)</span> 的背包，<span
-class="math inline">\(h_{j,k,t}\)</span> 为选择 <span
-class="math inline">\(2,3\)</span> 的背包。这样时间复杂度分别为 <span
-class="math inline">\(O(nT),O(n^2T)\)</span>。最后我们只需要枚举 <span
-class="math inline">\(g\)</span> 的 <span
-class="math inline">\(t\)</span>，<span class="math inline">\(h\)</span>
-的 <span class="math inline">\(t\)</span> 可以由 <span
-class="math inline">\(T-t\)</span> 得出。</p>
-<p>最后我们将答案乘在一起即可。</p>
-<details>
-<summary>
-Code(Tap)
-</summary>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line">f[<span class="number">1</span>][<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>] = f[<span class="number">0</span>][<span class="number">1</span>][<span class="number">0</span>][<span class="number">2</span>] = f[<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>][<span class="number">3</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = <span class="number">1</span>; v &lt;= <span class="number">3</span>; v++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(f[i][j][k][v] == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">1</span>) f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] += f[i][j][k][v], f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">2</span>) f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] += f[i][j][k][v], f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">3</span>) f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] += f[i][j][k][v], f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] %= mod;</span><br><span class="line">            &#125;</span><br><span class="line">g[<span class="number">0</span>][<span class="number">0</span>] = h[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">1</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] += g[j][k], g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n2; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">2</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] += h[j][<span class="number">0</span>][k], h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n3; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = n2; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = i; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = T - a[<span class="number">3</span>][i]; v &gt;= <span class="number">0</span>; v--)</span><br><span class="line">                h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] += h[j][k][v], h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] %= mod;</span><br><span class="line"><span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> t = <span class="number">0</span>; t &lt;= T; t++)</span><br><span class="line">                <span class="keyword">if</span>(g[i][T - t])</span><br><span class="line">                    ans += ((f[i][j][k][<span class="number">1</span>] + f[i][j][k][<span class="number">2</span>]) % mod + f[i][j][k][<span class="number">3</span>]) % mod * fct[i] % mod * fct[j] % mod * fct[k] % mod * h[j][k][t] % mod * g[i][T - t] % mod, ans %= mod;</span><br></pre></td></tr></table></figure></div>
-</details>
-<h1 id="cf1699e-three-days-grace">CF1699E Three Days Grace</h1>
-<p><a class="link"   href="https://codeforces.com/contest/1699/problem/E" >link</a><span
-class="math inline">\((^*2600)\)</span></p>
-<blockquote>
-<p>给定 <span class="math inline">\(n\)</span> 个元素的可重集 <span
-class="math inline">\(S\)</span>，值域为 <span
-class="math inline">\([1,m]\)</span>，你可以进行若干次操作：选择 <span
-class="math inline">\(A_i\in S\)</span>，将其拆分成 <span
-class="math inline">\(p\cdot q=A_i\)</span>，删除 <span
-class="math inline">\(A_i\)</span> 并加入 <span
-class="math inline">\(p,q\)</span>。需要最小化极差。</p>
-<p><span class="math inline">\(1\leq n\leq 10^6, 1\leq m\leq 5\cdot
-10^6\)</span>。</p>
-</blockquote>
-<p>想象一个竖直的数轴，考虑将一个点拆分的过程实际相当于将比较高的点变换到比较低的位置。</p>
-<p>这给我们一个启示：答案一定在一个区间 <span
-class="math inline">\([l,r]\)</span>
-内，进一步我们可以找出类似于双指针的方法：固定 <span
-class="math inline">\(l\)</span>，并从大到小维护 <span
-class="math inline">\(r\)</span>。</p>
-<p>于是我们不妨设 <span class="math inline">\(f_{l,i}\)</span>
-表示区间下界在 <span class="math inline">\(l\)</span>，当前枚举到点
-<span class="math inline">\(i\)</span>，此时的最小最大值。</p>
-<p>考虑转移到 <span class="math inline">\(j\)</span>，若 <span
-class="math inline">\(j\)</span> 不能被拆分出来，那么 <span
-class="math inline">\(f_{l,i}=f_{l+1,i}\)</span>；如果 <span
-class="math inline">\(j\)</span>
-可以被拆分出来，那么我们把这个拆出去，<span
-class="math inline">\(f_{l,i}=\min\{f_{l,\frac{j}{i}}\,f_{l,i}\}\)</span>。由于不一定只拆出来一个
-<span
-class="math inline">\(i\)</span>，所以这里我们可以用一些多重背包的思想。</p>
-<p>但是这样是不能接受的。考虑怎么优化：首先可以压掉第一维，然后第二维从
-<span class="math inline">\(i\times i\)</span> 开始每次 <span
-class="math inline">\(+i\)</span>，是调和级数级别的。</p>
-<p>然后我们考虑在 <span class="math inline">\(i\)</span>
-不变的情况下，随着 <span class="math inline">\(l\)</span> 下降，<span
-class="math inline">\(f\)</span> 是单调递减的。因此我们可以对 <span
-class="math inline">\(f\)</span>
-数组开桶，用指针向下扫到第一个存在值的位置。</p>
-<p>这样的时间复杂度是 <span class="math inline">\(O(m\log m)\)</span>
-的。</p>
-<details>
-<summary>
-Code(Tap)
-</summary>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">read</span>(n, m);</span><br><span class="line"><span class="built_in">memset</span>(a, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="built_in">memset</span>(t, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="type">int</span> lim = <span class="number">1e9</span> + <span class="number">7</span>, ans = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="built_in">read</span>();</span><br><span class="line">    lim = <span class="built_in">min</span>(lim, x);</span><br><span class="line">    a[x] = t[x] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) f[i] = i;</span><br><span class="line"><span class="type">int</span> pt = m;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = m; i; i--)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(i * i &lt;= m)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = i * i; j &lt;= m; j += i)</span><br><span class="line">        &#123;</span><br><span class="line">            t[f[j]] -= a[j];</span><br><span class="line">            f[j] = <span class="built_in">min</span>(f[j], f[j / i]);</span><br><span class="line">            t[f[j]] += a[j]; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(!t[pt]) pt--;</span><br><span class="line">    <span class="keyword">if</span>(i &lt;= lim) ans = <span class="built_in">min</span>(ans, pt - i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br></pre></td></tr></table></figure></div>
-</details>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -3700,6 +3539,167 @@ class="math inline">\(L,R,T\)</span>，求：</p>
       </categories>
       <tags>
         <tag>线段树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NOIP 日记</title>
+    <url>/diary/</url>
+    <content><![CDATA[
+<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="密码错误。" data-whm="出错。">
+  <script id="hbeData" type="hbeData" data-hmacdigest="bbe24ecee7631e4136367ab8223ab736cf7924b871aa2db3f53720cb023b341c">9ab61599d64bb7443567a78f19eaa4bbfe22a018854dd97a275d48fb7a080fa8c0da90925f8a2cbd4c146ecdae32376f7225e81788324510a769d5c9b7cb389807394deaa3a955138fe6c091217de68c2a93a90e05b42abea282cec1009fb67a52858487851aad26ad91d25ccc18aaf34f16a3f490d7a2e413382e0180b8e8903aaf91902d707ffbbaf5f9bee1e10619c58c50a5fc9c68eb788dea87b40e4fb3e9f02aeb335456cb0c8bd509e5c2b32219c54c70f43afecb3f0864467cbfb4ba84f1eae95fa43ecd63c8184114116e006d1c43615ab3a690ed71e256038ca708f8b69fd502ee0b473e13d218e33facbb437b6238b3c533338bf00bf6a3a5120d13a2f16153dfd360b0b2494df170adb345293904fbe1792ede67c70c78fa90aaf47e18330021d43beea3904a5c9fefb358550f4c4ec5c99a925d3ce787b928be30260eec63facfebe1e434e36b8fe86f7883866ae2d94fae280bd4d7ceb4351df35e4479f5e6e0d8f3ddbfd14b21f71733a685d327184b1b20148e129419f7efd8882c9dd48904c662307cb00298982f0d11f1f7e14d101e30e11ca6e0dcc9468fbaefa4e20724cffdffe9c02cff9179d3f7b62562e31914998635f0839adffc11588b9cbd7abdffd6e41f43cc99e2e8cb86bf680d4e14b9aa6593bd82bfa5a6daa3d3582756ecf29d3f57cf042e13bac48fe6a7a0246f0da4233d915ffecc510aa8cb89e4d3fd5a3bf9f0d70d69cb5ea3cfa5222fc7350f98dfe65620cb0df42afc32084e70dab6cbbd97a1d719543c6b16e1a59c16c12d39eb13a7aacb756c240390246675decb9bc71e7aa68e9c79f72f9cc0d5b9152fab7b492a995c888336d2ef7019b2be0c44d142c4d0face99e67aac28e4fdd14da80122c133e56dce4f6ed5f2771aa6edc4c8c70c53dab1e157678043676bb5ad52e149b6442984878d8427dc69e4d49717a778c514f1e030366bd4c74de40006d2c7c0de132cfe34e4b083661c9624a8aed0c60573e73e1bd1127205cf65580b057d0f23e5fab958164d5f5df4a34909849d7cbff697a13cc15b36cc63ea3a49c4c3054564edc4c6d32e9e8ac3d7c7856be5621f4a43b2131c300258144d2e534e37bc03e402f7bbb408f1f3555fded67b02ecac4ed55b41d0262fb9942e787548a53dc8a29cb611deb28bcc554c41cf9e593caff2c31a2fb5bc96ff8b7e50a5d605a76d21d4a690cf829fa4f0bc0841543583b896be253553b8a4b76c3a9391b1e6b127c3632e5df3a30cad7f074cca7b257e5b32a19c9bc2c8743f55a0432b63ba4fdb203c9406f9a088fd2f879f346febc2be63d073c38eb64542dfdc9c9c33c13effed5e4baa833c9e3e28b98a2119aa5d7ea1e59cde86e27631f5f99099ffdb6dd54071bf20bcc6ac041ce74db27db7f6847ca15e50cadcfad1e6a5e0697e22244159bc66ced45beb32e71c73c39e8a22c54adaec45a6d52ef806dfe78860505a6c8bfc6e0b2ee6a8ac345783f9a1b16128d9fb16f80c6d72952fe2d26c97b91970c1ce864648393601dc4a2fce09182b7e86392c34d86d26bda886f3b8b88d182187c8d84fe3c3b254b421c0f661a0e9b0bfd98109080380f6f0338e3e9334a708458dd4a95454c5513241a742a86db7ac5fd767ffd0e2c861867dcf62b8fe29757b6dff4b66ed660c8a43424e3f9fc6ffb80ba570380381c1063a23023a97b1ddb10ffce3ad7a38cfcc4cec01de0838b958f407af74574b8e9886eb41d07f669a3e065435a22f62540eee087dc159d63540f9f4e991f0a035b19cca5b570acc45819d9dc038dbeac8fe44e9e7fca2634bb34ed4df1dc05fae94bde711e012add1a17458adc3741eaafbfc093767f585396d8e9682621c6839ab1154ea0df9c0a4f1e7d677eb3f30a6f230a95846b9fd47cb3749a50acd953a3225810e1b3d3f6ae556de719618feb97f7848aa588579cb1eda4843c6db3fc3901c9800a8bce8db36fcd533732378a8d2222dfa5a1783c8d50521fc9f54cad622339f5c874880303ae99a4eeb9d1ab44d912846bb5029514631f88cf5b474dcc2e5d715f5750057b67d3c700981ade05ef9eba69fe05c8be36c276d9affba26a4e76668ffe1116cae923542071fdeaf13fb1eada223215c1c809f5653fd54a8fe04adcebe14c968e762427b19222348c4c1d0c11a87fe21c0988c8c91a6c15a500667892f88e128e8a6b7a2e3ca69d2828f54c3b08df9971d5470d2b80dc4ad06450c167b424a648b66bf9739972a9a384b212776b40758d2eb8082528d174ebfe1c34c93bbdb40ab4cf6f801793d2cad013aeca4f6dde2d8c8e08b6b94ac7f210588c43f59b082ef1ac24143a3d3147900ca3e3262dd3d6594b62f8d12ffae7e1fb38086c647200fd0f2ddc629e4bc64492041757082b6b3a76de31a0e75c6dd05184d68be5aa51060777d5eb56da71b166f47a7657581a57b1a91314f2a3b35bf59a973068dfb89fdec4568e6cad8334e8522562994bc448883bf25b0c27c6b22fae0a85487ca8a422583e1404e9f0f3b082f4c23af8094cde4315b64d1bc4fa2c6ff4297efd7f8524e047337f4dcb8fac731b29c19e553759534a1e159ea9df2d2b9346721b9eac8cb87649114c72bb4a27df2692ddaeedc9c19c6708ef856fa73257332561ebcb19c4d01622e0f9b263b82cd86c0b9ed0ee78a0c8dd5ff3232558b1fffd71b5b151f5fbe8edd26ad5f230e14fe455b9ae33f044b5fdef050eac5eb5264d56b580624ded4dd807deec9f38d340988ef486a3d9c7535bc309393edb757331d03b218b6afc1270f1314aa06e5e08299976e063346b3e91588550abcf28017aa38577dd63df0cd8498c23535e95830a349f298902a0c71f9b36d8f6f80764766350f4ce8fab0f2ecaef76be3ea042c28e89a38c7647dbd093882e0f5c8da45436d1584452e8d24327b39c818ee836491235e07bbdfe446a4b6bfb545b5c15e79a1b874c4656cc8f9f9468804f8c1075ec93b1a5aede3ed1fbfe4292812de0700fbf41d4a361a54d648921f7954c0e8bd4e07e24ec5191e9573c68433a7428f1f4a6c53f4cf488df44d09d90f6ea3b8460bf48886e4c2a5b4fb0c0c14da01a9742cfbbbbc28a9c483efd2b7ecce50b4af3e0e80efb685427dd8bb47f29e8024c171f4c7ce71f27192a169e01c97b9c1d967d0c3b75c17d3379b76fa3e01384c65d614ff3f00e7cdf8d654042ceb1b23f80172632949f78bdf87055e609015e67027ec06364532df88040bb1e6ae105327b58ae3e1aba2c89952dd3f2b0a023583db46e5afa577ab9ae086c7f8d2e5c9ade6807d9079cc15789f62b651049876138d6d971d17731abbe4cffaca911b2c78ae5a8cbbbc51325e1de4ba5d8ec275ba25e89af1cdb3b4941b4c3788b2989d6b983bc9c02419b43d0f4c3b644c3ad3ca4aeac4b80808f5d1abecec8566ddf2b2f07a3c1116c80fdf7be99c45eef3cdc6ef52c6dbb8f64ec3c2bf9f11e3be0d760ef270d5b9553b82eb225149ce749a74d1e30d3bf7afb07457fc9e4d927df7ebac6dcc407ee9a6c48bf75e7fecb789c281a48fc366af23700acb0ae83ef35f270edaada2771e51f49774473cb09d82f9dc0c788e933f634642018c91e240d3892167fea8a3dd2eaea0d896d9346dcd8df8f71bf8f55d02999c6df33a096bc0a3a40df681a09bca1055d214045c4d3e594f5a9b9c4e4b17e6c76edfc1a6afd157ce47e773445736a958e5ac4987cae3a3602d94696d1fc4cb7241e28b300dde20ea8cad960f9093552b1bf94cc5f0e17cfc5870366c33be7e8471e13a78c35168ac51741d4ba46ba3e7bdfc5485f8eabb5c6827b1f8b37ac95615c05f208e0bd7f61d18793ff12c96d744b7e55212b887597ff77f5172014fa0f33894dd4cbf04cd0f6cc625ced97445211796e09c741813200f686b15d4044d69edade8c52e327b7d12dfa32848e61d399717fe64fd4606edcc5e22c96875c8207e999982d0aae73f65153cce910574e2bd32abaee0c4b2f0b36505532c6b787c80ff39f3e19b47d97e3f182bcf37a0d00022d430670e3e31a17222c69613ae57cc37a85afd565741a3bfaed14ad343902daabca06c7dd66330b39e5c904131134cd7b2f37cca501304134f96587b3614a7815f94ab95d88132d7119efc7ba9a2ff8fc9eca09d49e9c420989439636adf26b25304804862edcb8ecf6ea4761052dc5fa2934de97c64cd399d31e13e900c508269b4e90336996c2281d9bb58266de096dd4291ffbebb43baebed1d0b27fe51da568fc46793dd9c07b5dd21187a0e4a4f7582550c6ecd7829ef8b554ab43eac25a20ad6eedd136382787195f0ecc18987d238281db79fb03ed309d5474df55aa7225167a8d59b6a495243f86d3b94d1ad9b8065a2195349d1b5aac08010fffb818afe758b60dc4c7b91d382d1f1995d6d906f7474f3e8e22609ce7e3983b6eb809d0755e75788f1e96003e5bfed26967cfc46197c8161ab53abe005f0132f6637f4d61afd7501eac5e6e88ce1760ceb8011256fd2094414849037d4890179ffa230ee2f0aafb6992baa89f35dcaa68d815cfd80dfa79a2338e8ec19b836e0770bbeb60d36ecac87fec3d6731f8aa6ba54b87f6393c3c9036984a7f3f48609e4231e14896c5a36e2f175742da6677f02806bbc8ff4ffd17f3e5fd6bf43209e2e84786ae23a015763a16db39bd963065ad25306ec91596c2115e534e00de39aec5506fad748b232d4f12425a67585d5fa162c1764cfa36c98c3fc63aa93415dc57fa47de14fb531dc268fce91d5c8c60974aeb24f23f03e1ec1b930cd68a272a51a3e66efde6d279a90298c2b45b44f7644c5a475d54eacf21abad239ccc4668874f8027f7a6b2da740494c40ad90ef7a4a4cf3beeeb87f63ccb146578a815fe2cd59942817c4ec6eb10b0bece329591333293a235645198a4caeeb95a4c7c6363c5600a193a752868d52c659070a18d4ed499dc8a83b64f4e699bfb02406668e04b1d32d6f2ece44cb49d7ddbe83621e0133c9f1e98a491235a0423e75623cc6c7ebc7032b81c96b52b33c16b9e2ce0b1973dac006b91302ab272dd126a85976a846c0b1c60d40684f05c1d93d56ac4d5f63589c278343e309e08a18f148d8cb8d821bfda798b4bfc884320f502533af9c6bac5f22753a6c1751d82d8083f2d315a5431651cb0bcc0a9f0a53764a0c1f284223c03a6d4670e887ce7b38e2b26cdc5c474a52c6da4b12317f8c4be85120055d82229a4ec7f1bcb2a8af88617acef4319e654c548bf9f245bc6c2b6011e51817091bd3b2c5fb4cc9be56d9a7cf85ab8ec1f998baa27ede58d0828bb1ae59aa4572d5ef3fc03ce30ccd11f47aab8cc18781cba717a7f4a610c41ba81b9e427b6d88cefe220ec12ad4ba696ca5959f0325cc37aa3fc42921933f35b4943a70cef4d6dbed7456c1e4512f42bc0be0e64b33cc410efa6fe6b949c031d592b32674bbc03b093c5c4a264476ed1c3a3b5352f3596989893b9d6c88a2ca82a6d269f2130442e63b91e2beab7c5078d7fa64f93a6ad990e629e5b60a2053e561e291f4c50886f4dc8fc8acb05be5da0ba8e55b2e83d18c9c4c72a286e9012bf7ebaaaba14bb4488a77cb8eaf88d38a24cd54d865f5af67ee669b2853c77ebfeef93c1837bbe25fddb652eeb81a870d8618b99f54a59605a0b2278d5cad34d15f22e924566f672f735dd9260103161c5b9cf747a73c98df8774a50c98f142aa6661d35d3ae4804adfe2ac5990882463143c84ba051df08b2413a603f1d64440d7a94837e3da82cecdd20b4c526f7ac7d97dd4ab40cc6266e08e7aab1a9d8611d8ec7313325b8da6369341a8831e1704f69ace8e811acd596052f92c77d04b9766b2e2b5bd3438dee1056ef1e166be8adba87d8890fb41d10d33400a54174cf33f166c614eefad7e6b1285bf5ace74000634be45b717f483b8c8ce586ef3e7de659ffb3d041777cc3bce32fe0074d4bee8ecc3d3d29592bd24376de11a906b7798b0ac45576555b8182f0cfea83135ba00c3068cfce0568ea69da8a17b276f7ef89a1960bab5cc3f526ad22887d365df1c7c1548c7f3b90b80260ed1d42fcba04241bb88661fd709f002d0e3b080f2c105042bb8e22b244d9417b7d2a356f70d6bf7834281a406b1f484c481041c7095cba233b9d51e2e81b268de47a4e1ec1dd05460ddb71d18671fa9b4d6d5557d0fb5c2fcb8f794dcbdc5837fbf3223646b3a6c35081fede97ce702962f9680caf845eb2ab63406db8a8524d819acd82010dacfef1c1c53b21c69ae38099474cac31f8cb7a07e673279b8c02d032411c0cd5b0509d13296707a76ef4c78920795cb00dcc2e504ccada7332a107064ae0061b2fbc8432488fa7e0c0a495d03b352a3d05c9b23364c12b21c94ada766d64a7502660e2170dd56a5d9cd2a1d497dbdc26150a2c1c4e9acf474f9e51ae93dec587db26f308157a2e14d96d12348d92713fdee00d3341ddaca42ca70d4e95eca9e1a3a9c5cd2f22cb365a932c48ae9a8f659e3345dd71e5313bfffbe951266260d261eff9a05e0c3064467cefe92884e888c18775b5240f81db6cc2e9d4c94c975d9c6ced1eed99a104a72d870eb585d5deb81fb77f9af0d9c4fc2ddd4cc4db6ab0e0b5a247d7424bce90a61dd40fc330f27475e8a768ab05fdd8abe200a4b81983d2ff90a6f6ef38e8e51e74dbe6ad0c62e950d9b05034a6fcd266daadb1c3c38afde18be0e1413e417a235727e857d7d3edb8aec34c4e8ca6b1e7b977c2404273b6b38dd5a9859e4937473c147eb2a46a03f89b244c5f67f8d088949471f432cc3091905cdbeaf7dd0c8cf09866e92e0675321253073df8bbb72c1895a45f8f56620bdfeea205faad560e2efa2c1661a75a5c1fcbc859dcd43e754fc72f9c34eb2104b15e7a0d8af8128a08228b5740d8bbb137717b89195f3a524170b5a3109d338f1cea2cccaed0fa2b333672109cbb49d5be0aef85b0d6217e50712ef6a7dc861fd38c9f7c48a71736e20e720fcbfd10a9391c96e87da44bf3dbbc1d6659944670eea1e6f3af20ca829169f3ac5da1cc15e4acb06f003b8e771cf941b2c6ca7a65faa3b3f132e31584eee6be0fb96710d8647ec080e482a056ddf708e959b27aa74752430775c20d93ede87185f6aad40855c6f421ddf98a3478ad3b1565ebbfe6e86a19bbb4be879a79306aaec2844d2169d64114baa5bb154ce032010885d82bf78041d59b1b175e96660b089d6850e89fc48f16455e26b935452f1a5c2a3602e8e6a6a4bc9c29af9757b340640483893d6d77968d8962ff24789b7623d067cd34ae81e61eb634aff0bd6e12cb07404652d51725b8c383e35b25b366d80debb4b314a7b2d2b8798276879767dcbe4f921a5e88dff2b9c79cef404d4c22613d9064b7427ea89260e72d6afb816d500596c6ff4d7ad1dcae0116c497807cfd38a87a8288ad5604efbe11f2e69809d346af274968a82a483eb4c70388492d61d7d2a5ed14aed2b1a774a6bfae3e65af4b4db885d53ed683832074d8a084f05f0dc723750903caf4d96a695b3e8193f4daa1067ac162b47b907e8b930ae3d508ff1df54a598ca5cf59692b605e23eaded8c537a0bf870f3ef920facf8a4ba4631ff302ab393703bd053afb835a3801ab973093f1c39a2938d8f6249a794d6d9784a8bd9c5e798c51622aaac0cf199a3b3e0ec1bf0aa6848787a2e798ae0a91a8872189687c3aadcd52b65b5b6d7bd1500a1600a2751de323a39b4edacf71ae01b9faa1d0c097dd48607ab594e9aa54ad5584e5e76d30f4048fcaa9b59aae6f3c24f9bb03a29b4556e1ce5302210929d24f976b15073043fa753b2bf8ac3577d858720bdadb51f6b0ea845331988d4f16a6dbd69e11ee5cefc45d9911bd65193d9dba8f10908f7d125c05d25d00970e007e16ae338870dca3c64f2d933c5cc9d641f560079ec71fad24a166b1305df67b740ecd9a1b8392f574d321ffdedd0c0d13be2d69e2cc136df21639f6f9d170d97b7350ca188616400c523fd6f3d0c155f0d9f1660b4c3ab03ddd79d5be299b689da551c617d985a6bd133521f8c06216910488110a474c8dced745f8dd05cd958614da6d1a6c26c8aac2fcba719704069974710e50452ecd7283b9f4ef8ba32cddc8531da240af2f15fc44c792bbc6d4289f479efd0246e32db21d734b07cb4e6615bd23e39fb771652c9f142b1d54e0746727b124e6d7f6b5a47f047189c89ff913170fed673ea64732dcd9d9c55fc3d41a60a429afac0cee2ff77b78678d286a59087106cc12b76cc1e5eb6da8a9cb94e3814f3529096a9d3857ddcffd81198310ca4d1bf74c01251415eae65dbae85da12ac4fd070620362a203aa1cf7e8413ab8e5926ff496fb893e62e27675afd0f0419a8823ba1819986b1a68d92143f499c287e6af99ea2991b8d964b66b53ad1648d6889131684c19f09c942684785f2e2ca35029d630745b45d64bfa69a9ba0483ffc73e2904e21a1ef2135d952e5a60036b0e3a35598e4a706fe559b24698e011cd543c8c55162983148c71c5639827bc64df45e0349d2e897589c0a125172441a53f8bb67d57c9399315bf89a122dac5ec382f6ec8b0e21bdf76e7059d052f5b110f4cfe4a7a77dfe7f6ddb9b9858ba3135c03b7f11d84ac32aba6df977e198e5a935ed67c744340a3b1802e5f2884e352fdbf857a7021aec66548a0d53432ec5b3a851a3f17ffb41ccd3c5dc59210fc57c3fbfb9874cda4bee19a14e9494ef3800b2fba6994d4d96e62b41e509df064b5414700085072b822010e3e319f9d86b720bf217cf568b0e52de3895561c5cdaebe7a769c12cce23979de3129d311797a55fae5f52f22835f8c99a5adfc79f714b0c7e232a86c887eba6a057ef3e8fdeffc59a87484bc71ed33444d4fda03cbb66bb1269dec58aadde1d095c6a1834b7aa213533df06455965333836caa97317efd11169407a09ca018cfac0f906cd8fa4a117c7c3cb495c1c33ae9cdffdb96592dce37441ae6700a04798ad38193ac7283852b10d304d146f545f4e23d281b0106a495d40931cd7b4c9c9c71950318035b38aac8416909e812c6eb87a531e22b4131789b38fb8b900a71614bd18cc3140ae678be6c2c165bc9ea0a91ad02d47270ca2eda3cdf3418fbb463fdc15633f55845883e8686674aaf68645ad2430dbad1db2c24e80ba5cb90668b54de420a2fc422fadcd4f0bcb833ab2906524ca7af66085537cc23db0e191d476f81a0b56c4a30c9766910568ffa1cf320a5dcfcaa5a8a17595d5a95c799a6dba394193a826f0f7cdcd2f3221943738ee1db94b8fdd0e66ba166f2dccaf8ec59fdcd72076d6a039e06a4e1c1fdf5efb0ce158106c378572c8e9fa2bd60a611b197eb2598f02d2cf252d1c2d77dbf68e8271f43884030a300d1dad4d03bb0dc21c3db59174514dbbd4423cd7a40c6a165349712923cfd77ef782e9b455614f689631661a68ded405a3700d4349b84478a91726b8afe499c14b45af9196f4f33e563ea4dc5a04d5a0b277b3cda0a07</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">不要随便看别人日记哦</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-swup-reload-script src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>随记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>动态规划题目随解</title>
+    <url>/dp/</url>
+    <content><![CDATA[<p>持续更新。</p>
+<span id="more"></span>
+<h1 id="cf258d-little-elephant-and-broken-sorting">CF258D Little
+Elephant and Broken Sorting</h1>
+<p><a class="link"   href="https://codeforces.com/contest/258/problem/D" >Link</a><span
+class="math inline">\((^*2600)\)</span></p>
+<blockquote>
+<p>给定排列 <span class="math inline">\(p\)</span>，有 <span
+class="math inline">\(m\)</span> 次操作，每次操作给定 <span
+class="math inline">\(x,y\)</span>，等概率选择是否交换。求 <span
+class="math inline">\(\sum\limits_{i=1}^{n}\sum\limits_{j=i}^{n}P(p_i&gt;p_j)\)</span>。</p>
+<p><span class="math inline">\(n,m\leq 10^3\)</span>。</p>
+</blockquote>
+<p>考虑直接设 <span class="math inline">\(f_{l,r}\)</span> 表示 <span
+class="math inline">\(p_l&gt;p_r\)</span>
+的概率。初始化很好初始化，我们考虑直接对操作进行转移。</p>
+<p>假如我们要交换 <span class="math inline">\(p_l\)</span> 和 <span
+class="math inline">\(p_r\)</span>，那么此时其本身 <span
+class="math inline">\(f_{l,r}=f_{r,l}=0.5\)</span>。对于 <span
+class="math inline">\(\forall x\neq
+l,r\)</span>，考虑不交换和交换之后的改变。</p>
+<p>可以分以下情况讨论：</p>
+<ol type="1">
+<li><span
+class="math inline">\(f_{x,l}=\dfrac{f_{x,l}+f_{x,r}}{2}\)</span>；</li>
+<li><span
+class="math inline">\(f_{r,x}=\dfrac{f_{r,x}+f_{l,x}}{2}\)</span>；</li>
+<li><span
+class="math inline">\(f_{l,x}=\dfrac{f_{l,x}+f_{r,x}}{2}\)</span>；</li>
+<li><span
+class="math inline">\(f_{x,r}=\dfrac{f_{x,r}+f_{x,l}}{2}\)</span>。</li>
+</ol>
+<p>容易发现 <span class="math inline">\(1\)</span> 和 <span
+class="math inline">\(4\)</span>、<span class="math inline">\(2\)</span>
+和 <span class="math inline">\(3\)</span>
+的转移是相同的，可以一起处理。最后扫一遍即可，<span
+class="math inline">\(O(n^2)\)</span>。</p>
+<details>
+<summary>
+Code(Tap)
+</summary>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="built_in">read</span>(l, r);</span><br><span class="line">    f[l][r] = f[r][l] = <span class="number">0.5</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> x = <span class="number">1</span>; x &lt;= n; x++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(x == l || x == r) <span class="keyword">continue</span>;</span><br><span class="line">        f[x][l] = f[x][r] = ((f[x][l] + f[x][r]) / <span class="number">2.00</span>);</span><br><span class="line">        f[r][x] = f[l][x] = ((f[r][x] + f[l][x]) / <span class="number">2.00</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</details>
+<h1 id="cf1185g2-playlist-for-polycarp">CF1185G2 Playlist for
+Polycarp</h1>
+<p><a class="link" 
+ href="https://codeforces.com/contest/1185/problem/G2" >Link</a><span
+class="math inline">\((^*2600)\)</span></p>
+<blockquote>
+<p>给定 <span class="math inline">\(n\)</span> 首歌，每首歌有时间 <span
+class="math inline">\(t_i\)</span> 与流派 <span
+class="math inline">\(g_i\)</span>。需要从中排列若干首歌，使得时间恰好为
+<span class="math inline">\(T\)</span>，且相邻流派不同。</p>
+<p><span class="math inline">\(1\leq n\leq 50,1\leq T\leq 2500,1\leq
+t_i\leq 50,1\leq g_i\leq 3\)</span>。</p>
+</blockquote>
+<p>不妨设 <span class="math inline">\(f_{i,j,k,1/2/3}\)</span>
+表示三种流派分别选了 <span class="math inline">\(i,j,k\)</span>
+首，最后一首为 <span class="math inline">\(1/2/3\)</span>
+的方案数。这个显然是很好转移的，时间复杂度 <span
+class="math inline">\(O(n^3)\)</span>。由于我们要求的是排列，因此还要乘一个
+<span class="math inline">\(i!j!k!\)</span>。</p>
+<p>然后我们在考虑相邻流派不同，时间恰好为 <span
+class="math inline">\(T\)</span>
+的方程。这个有点类似于背包，但是直接背包时间复杂度是 <span
+class="math inline">\(O(n^3T)\)</span> 的，不能接受。</p>
+<p>这里有一个比较巧妙的方法：将背包拆分成两个背包之后再分别求解。即我们记
+<span class="math inline">\(g_{i,t}\)</span> 为选择 <span
+class="math inline">\(1\)</span> 的背包，<span
+class="math inline">\(h_{j,k,t}\)</span> 为选择 <span
+class="math inline">\(2,3\)</span> 的背包。这样时间复杂度分别为 <span
+class="math inline">\(O(nT),O(n^2T)\)</span>。最后我们只需要枚举 <span
+class="math inline">\(g\)</span> 的 <span
+class="math inline">\(t\)</span>，<span class="math inline">\(h\)</span>
+的 <span class="math inline">\(t\)</span> 可以由 <span
+class="math inline">\(T-t\)</span> 得出。</p>
+<p>最后我们将答案乘在一起即可。</p>
+<details>
+<summary>
+Code(Tap)
+</summary>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line">f[<span class="number">1</span>][<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>] = f[<span class="number">0</span>][<span class="number">1</span>][<span class="number">0</span>][<span class="number">2</span>] = f[<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>][<span class="number">3</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = <span class="number">1</span>; v &lt;= <span class="number">3</span>; v++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(f[i][j][k][v] == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">1</span>) f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] += f[i][j][k][v], f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">2</span>) f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] += f[i][j][k][v], f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">3</span>) f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] += f[i][j][k][v], f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] %= mod;</span><br><span class="line">            &#125;</span><br><span class="line">g[<span class="number">0</span>][<span class="number">0</span>] = h[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">1</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] += g[j][k], g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n2; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">2</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] += h[j][<span class="number">0</span>][k], h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n3; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = n2; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = i; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = T - a[<span class="number">3</span>][i]; v &gt;= <span class="number">0</span>; v--)</span><br><span class="line">                h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] += h[j][k][v], h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] %= mod;</span><br><span class="line"><span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> t = <span class="number">0</span>; t &lt;= T; t++)</span><br><span class="line">                <span class="keyword">if</span>(g[i][T - t])</span><br><span class="line">                    ans += ((f[i][j][k][<span class="number">1</span>] + f[i][j][k][<span class="number">2</span>]) % mod + f[i][j][k][<span class="number">3</span>]) % mod * fct[i] % mod * fct[j] % mod * fct[k] % mod * h[j][k][t] % mod * g[i][T - t] % mod, ans %= mod;</span><br></pre></td></tr></table></figure></div>
+</details>
+<h1 id="cf1699e-three-days-grace">CF1699E Three Days Grace</h1>
+<p><a class="link"   href="https://codeforces.com/contest/1699/problem/E" >link</a><span
+class="math inline">\((^*2600)\)</span></p>
+<blockquote>
+<p>给定 <span class="math inline">\(n\)</span> 个元素的可重集 <span
+class="math inline">\(S\)</span>，值域为 <span
+class="math inline">\([1,m]\)</span>，你可以进行若干次操作：选择 <span
+class="math inline">\(A_i\in S\)</span>，将其拆分成 <span
+class="math inline">\(p\cdot q=A_i\)</span>，删除 <span
+class="math inline">\(A_i\)</span> 并加入 <span
+class="math inline">\(p,q\)</span>。需要最小化极差。</p>
+<p><span class="math inline">\(1\leq n\leq 10^6, 1\leq m\leq 5\cdot
+10^6\)</span>。</p>
+</blockquote>
+<p>想象一个竖直的数轴，考虑将一个点拆分的过程实际相当于将比较高的点变换到比较低的位置。</p>
+<p>这给我们一个启示：答案一定在一个区间 <span
+class="math inline">\([l,r]\)</span>
+内，进一步我们可以找出类似于双指针的方法：固定 <span
+class="math inline">\(l\)</span>，并从大到小维护 <span
+class="math inline">\(r\)</span>。</p>
+<p>于是我们不妨设 <span class="math inline">\(f_{l,i}\)</span>
+表示区间下界在 <span class="math inline">\(l\)</span>，当前枚举到点
+<span class="math inline">\(i\)</span>，此时的最小最大值。</p>
+<p>考虑转移到 <span class="math inline">\(j\)</span>，若 <span
+class="math inline">\(j\)</span> 不能被拆分出来，那么 <span
+class="math inline">\(f_{l,i}=f_{l+1,i}\)</span>；如果 <span
+class="math inline">\(j\)</span>
+可以被拆分出来，那么我们把这个拆出去，<span
+class="math inline">\(f_{l,i}=\min\{f_{l,\frac{j}{i}}\,f_{l,i}\}\)</span>。由于不一定只拆出来一个
+<span
+class="math inline">\(i\)</span>，所以这里我们可以用一些多重背包的思想。</p>
+<p>但是这样是不能接受的。考虑怎么优化：首先可以压掉第一维，然后第二维从
+<span class="math inline">\(i\times i\)</span> 开始每次 <span
+class="math inline">\(+i\)</span>，是调和级数级别的。</p>
+<p>然后我们考虑在 <span class="math inline">\(i\)</span>
+不变的情况下，随着 <span class="math inline">\(l\)</span> 下降，<span
+class="math inline">\(f\)</span> 是单调递减的。因此我们可以对 <span
+class="math inline">\(f\)</span>
+数组开桶，用指针向下扫到第一个存在值的位置。</p>
+<p>这样的时间复杂度是 <span class="math inline">\(O(m\log m)\)</span>
+的。</p>
+<details>
+<summary>
+Code(Tap)
+</summary>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">read</span>(n, m);</span><br><span class="line"><span class="built_in">memset</span>(a, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="built_in">memset</span>(t, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="type">int</span> lim = <span class="number">1e9</span> + <span class="number">7</span>, ans = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="built_in">read</span>();</span><br><span class="line">    lim = <span class="built_in">min</span>(lim, x);</span><br><span class="line">    a[x] = t[x] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) f[i] = i;</span><br><span class="line"><span class="type">int</span> pt = m;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = m; i; i--)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(i * i &lt;= m)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = i * i; j &lt;= m; j += i)</span><br><span class="line">        &#123;</span><br><span class="line">            t[f[j]] -= a[j];</span><br><span class="line">            f[j] = <span class="built_in">min</span>(f[j], f[j / i]);</span><br><span class="line">            t[f[j]] += a[j]; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(!t[pt]) pt--;</span><br><span class="line">    <span class="keyword">if</span>(i &lt;= lim) ans = <span class="built_in">min</span>(ans, pt - i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br></pre></td></tr></table></figure></div>
+</details>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
