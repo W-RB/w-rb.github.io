@@ -1,70 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>AGC020D Min Max Repetition</title>
-    <url>/AGC020D/</url>
-    <content><![CDATA[<p>有生之年想出来的 AGC 构造题，值得记一下。</p>
-<span id="more"></span>
-<p><a class="link" 
- href="https://atcoder.jp/contests/agc020/tasks/agc020_d" >Link</a></p>
-<blockquote>
-<p>多组询问。每个询问给定四个整数 <span
-class="math inline">\(A,B,C,D\)</span>，求一个满足这个条件的字符串：</p>
-<ol type="1">
-<li><p>长度为 <span class="math inline">\(A+B\)</span>，由 <span
-class="math inline">\(A\)</span> 个字符 <span
-class="math inline">\(\mathtt{A}\)</span> 和 <span
-class="math inline">\(B\)</span> 个字符 <span
-class="math inline">\(\mathtt{B}\)</span> 构成。</p></li>
-<li><p>在此基础上，连续的相同字符个数的最大值最小。</p></li>
-<li><p>在此基础上，字典序最小。</p></li>
-</ol>
-<p>输出这个字符串的第 <span class="math inline">\(C\)</span> 位到第
-<span class="math inline">\(D\)</span> 位。</p>
-</blockquote>
-<p>不妨先考虑一下，<span class="math inline">\(A=B\)</span>
-的时候我们会如何安排。显然，由于要满足条件 <span
-class="math inline">\(2\)</span>，我们一定会交叉放置。而由于条件 <span
-class="math inline">\(3\)</span>，我们会安排成 <span
-class="math inline">\(\underbrace{\mathtt{AB\cdots
-AB}}_{若干个\mathtt{AB}}\)</span>。</p>
-<p>现在如果我们放了上述个 <span
-class="math inline">\(\mathtt{A,B}\)</span>，还多出若干个 <span
-class="math inline">\(\mathtt{A}\)</span>，那么多出的 <span
-class="math inline">\(\mathtt{A}\)</span> 就一定会插入到前半部分的 <span
-class="math inline">\(\mathtt{AB}\)</span> 中，形成 <span
-class="math inline">\(\mathtt A\underbrace{\cdots}_{若干个\mathtt{A}}
-\mathtt B\)</span>。经过这样操作之后，我们发现我们条件 <span
-class="math inline">\(2\)</span> 的需求放宽了，也就是说我们原本的某些
-<span class="math inline">\(\mathtt{B}\)</span>
-可以向后调整。最终，整个序列会变成这样：</p>
-<p><span class="math display">\[
-\mathtt{(A\cdots B)\cdots|A\cdots AB\cdots B|(B\cdots A)\cdots}
-\]</span></p>
-<p>其中 <span class="math inline">\(\cdots\)</span>
-表示前部分的反复。</p>
-<p>容易得到 <span
-class="math inline">\(k=\lceil\dfrac{a+b}{\min(a,b)+1}\rceil\)</span>，<span
-class="math inline">\(k\)</span> 是的连续相同字符个数，</p>
-<p>那么我们可以二分出来中间的 <span
-class="math inline">\(\mathtt{A\cdots AB\cdots B}\)</span> 的 <span
-class="math inline">\(\mathtt{AB}\)</span>
-中界，然后就可以按照构造的方式输出。发现如果我们当前还剩 <span
-class="math inline">\(a\)</span> 个 <span class="math inline">\(\mathtt
-A\)</span>，<span class="math inline">\(b\)</span> 个 <span
-class="math inline">\(\mathtt B\)</span>，我们需要满足 <span
-class="math inline">\(b&gt;ak\)</span>。输出的时候分为左右两边判断即可。</p>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">(<span class="type">int</span> mid)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> a = A - mid / (k + <span class="number">1</span>) * k - mid % (k + <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> b = B - mid / (k + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> b &lt;= a * k;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">read</span>(A, B, C, D);</span><br><span class="line">    k = (A + B) / (<span class="built_in">min</span>(A, B) + <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> l = <span class="number">0</span>, r = A + B + <span class="number">1</span>, mid;</span><br><span class="line">    <span class="keyword">while</span>(l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">check</span>(mid)) l = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> r = mid;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> a = A - l / (k + <span class="number">1</span>) * k - l % (k + <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> b = B - l / (k + <span class="number">1</span>);</span><br><span class="line">    r = l + <span class="number">1</span> + b - a * k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = C; i &lt;= D; i++)</span><br><span class="line">        <span class="keyword">if</span>(i &lt;= l) <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, (i % (k + <span class="number">1</span>)) ? <span class="string">&#x27;A&#x27;</span> : <span class="string">&#x27;B&#x27;</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, ((i - r) % (k + <span class="number">1</span>)) ? <span class="string">&#x27;B&#x27;</span> : <span class="string">&#x27;A&#x27;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>二分</tag>
-        <tag>构造</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>哈希学习笔记（NJU）</title>
     <url>/Hashing-Sketching/</url>
     <content><![CDATA[<p>南京大学研究生课程 Advanced Algorithm。</p>
@@ -178,6 +114,70 @@ class="math inline">\(k=c\ln 2\)</span>。</p>
       </tags>
   </entry>
   <entry>
+    <title>AGC020D Min Max Repetition</title>
+    <url>/AGC020D/</url>
+    <content><![CDATA[<p>有生之年想出来的 AGC 构造题，值得记一下。</p>
+<span id="more"></span>
+<p><a class="link" 
+ href="https://atcoder.jp/contests/agc020/tasks/agc020_d" >Link</a></p>
+<blockquote>
+<p>多组询问。每个询问给定四个整数 <span
+class="math inline">\(A,B,C,D\)</span>，求一个满足这个条件的字符串：</p>
+<ol type="1">
+<li><p>长度为 <span class="math inline">\(A+B\)</span>，由 <span
+class="math inline">\(A\)</span> 个字符 <span
+class="math inline">\(\mathtt{A}\)</span> 和 <span
+class="math inline">\(B\)</span> 个字符 <span
+class="math inline">\(\mathtt{B}\)</span> 构成。</p></li>
+<li><p>在此基础上，连续的相同字符个数的最大值最小。</p></li>
+<li><p>在此基础上，字典序最小。</p></li>
+</ol>
+<p>输出这个字符串的第 <span class="math inline">\(C\)</span> 位到第
+<span class="math inline">\(D\)</span> 位。</p>
+</blockquote>
+<p>不妨先考虑一下，<span class="math inline">\(A=B\)</span>
+的时候我们会如何安排。显然，由于要满足条件 <span
+class="math inline">\(2\)</span>，我们一定会交叉放置。而由于条件 <span
+class="math inline">\(3\)</span>，我们会安排成 <span
+class="math inline">\(\underbrace{\mathtt{AB\cdots
+AB}}_{若干个\mathtt{AB}}\)</span>。</p>
+<p>现在如果我们放了上述个 <span
+class="math inline">\(\mathtt{A,B}\)</span>，还多出若干个 <span
+class="math inline">\(\mathtt{A}\)</span>，那么多出的 <span
+class="math inline">\(\mathtt{A}\)</span> 就一定会插入到前半部分的 <span
+class="math inline">\(\mathtt{AB}\)</span> 中，形成 <span
+class="math inline">\(\mathtt A\underbrace{\cdots}_{若干个\mathtt{A}}
+\mathtt B\)</span>。经过这样操作之后，我们发现我们条件 <span
+class="math inline">\(2\)</span> 的需求放宽了，也就是说我们原本的某些
+<span class="math inline">\(\mathtt{B}\)</span>
+可以向后调整。最终，整个序列会变成这样：</p>
+<p><span class="math display">\[
+\mathtt{(A\cdots B)\cdots|A\cdots AB\cdots B|(B\cdots A)\cdots}
+\]</span></p>
+<p>其中 <span class="math inline">\(\cdots\)</span>
+表示前部分的反复。</p>
+<p>容易得到 <span
+class="math inline">\(k=\lceil\dfrac{a+b}{\min(a,b)+1}\rceil\)</span>，<span
+class="math inline">\(k\)</span> 是的连续相同字符个数，</p>
+<p>那么我们可以二分出来中间的 <span
+class="math inline">\(\mathtt{A\cdots AB\cdots B}\)</span> 的 <span
+class="math inline">\(\mathtt{AB}\)</span>
+中界，然后就可以按照构造的方式输出。发现如果我们当前还剩 <span
+class="math inline">\(a\)</span> 个 <span class="math inline">\(\mathtt
+A\)</span>，<span class="math inline">\(b\)</span> 个 <span
+class="math inline">\(\mathtt B\)</span>，我们需要满足 <span
+class="math inline">\(b&gt;ak\)</span>。输出的时候分为左右两边判断即可。</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">(<span class="type">int</span> mid)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> a = A - mid / (k + <span class="number">1</span>) * k - mid % (k + <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> b = B - mid / (k + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> b &lt;= a * k;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">read</span>(A, B, C, D);</span><br><span class="line">    k = (A + B) / (<span class="built_in">min</span>(A, B) + <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> l = <span class="number">0</span>, r = A + B + <span class="number">1</span>, mid;</span><br><span class="line">    <span class="keyword">while</span>(l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">check</span>(mid)) l = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> r = mid;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> a = A - l / (k + <span class="number">1</span>) * k - l % (k + <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> b = B - l / (k + <span class="number">1</span>);</span><br><span class="line">    r = l + <span class="number">1</span> + b - a * k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = C; i &lt;= D; i++)</span><br><span class="line">        <span class="keyword">if</span>(i &lt;= l) <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, (i % (k + <span class="number">1</span>)) ? <span class="string">&#x27;A&#x27;</span> : <span class="string">&#x27;B&#x27;</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, ((i - r) % (k + <span class="number">1</span>)) ? <span class="string">&#x27;B&#x27;</span> : <span class="string">&#x27;A&#x27;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>二分</tag>
+        <tag>构造</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>KMP算法与border浅记</title>
     <url>/KMP/</url>
     <content><![CDATA[<p>终于完全明白了困扰多年的 KMP 算法，果然从 border
@@ -237,50 +237,6 @@ s\)</span>，那么这是一个成功的匹配。</p>
         <tag>字符串</tag>
         <tag>KMP</tag>
         <tag>border 理论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LuoguP1253 扶苏的问题</title>
-    <url>/LGP1253/</url>
-    <content><![CDATA[<p>线段树。</p>
-<span id="more"></span>
-<h1 id="sol.">Sol.</h1>
-<p>实际上相当于维护一颗线段树，支持区间覆盖、区间加和区间查询最大值。</p>
-<p>维护最大值很好办，区间覆盖和区间加我们怎么维护呢？</p>
-<p>首先，区间覆盖和区间加一定都分别需要记一个懒标记。我们把区间覆盖的懒标记记为
-<span class="math inline">\(ctag\)</span>，区间加的懒标记记为 <span
-class="math inline">\(atag\)</span>，那么我们如何把标记 <span
-class="math inline">\(\text{pushdown}\)</span> 呢？</p>
-<p>首先，初始化要选择一个尽量不影响之后操作的值。<span
-class="math inline">\(atag\)</span> 显然选择 <span
-class="math inline">\(0\)</span> 即可。由于要更改的数字有正有负，<span
-class="math inline">\(ctag\)</span> 可以选取 <span
-class="math inline">\(-\infty\)</span>，在程序中我选用了 <span
-class="math inline">\(1e18+7\)</span> 作为 <span
-class="math inline">\(\text{INF}\)</span>。</p>
-<p>考虑到如果我们当前节点有一个 <span
-class="math inline">\(atag\)</span> 标记，之后又打上了一个 <span
-class="math inline">\(ctag\)</span>
-标记，那么<strong>要覆盖的值会直接把要加的值覆盖</strong>，也就是说
-<span class="math inline">\(ctag\)</span> 会直接清除 <span
-class="math inline">\(atag\)</span>。而如果先打上 <span
-class="math inline">\(ctag\)</span>，再打上 <span
-class="math inline">\(atag\)</span>，则需要<strong>先把 <span
-class="math inline">\(ctag\)</span> 下放，再下放 <span
-class="math inline">\(atag\)</span></strong>。那么我们的 <span
-class="math inline">\(\text{pushdown}\)</span> 可以这么写：</p>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">af</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span> <span class="comment">//把下放的操作封装一下可以使代码更简洁</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx += v;</span><br><span class="line">    t[k].atag += v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = v;</span><br><span class="line">    t[k].ctag = v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cpushdown</span><span class="params">(<span class="type">int</span> k)</span> <span class="comment">//ctag 的下放</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].ctag == -INF) <span class="keyword">return</span>; <span class="comment">//如果没有标记，返回</span></span><br><span class="line">    t[ls].atag = t[rs].atag = <span class="number">0</span>; <span class="comment">//抹除 atag</span></span><br><span class="line">    <span class="built_in">cf</span>(ls, t[k].ctag), <span class="built_in">cf</span>(rs, t[k].ctag); <span class="comment">//ctag 下放</span></span><br><span class="line">    t[k].ctag = -INF; <span class="comment">//当前节点 ctag 清零</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">apushdown</span><span class="params">(<span class="type">int</span> k)</span> <span class="comment">//atag 的下放</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].atag == <span class="number">0</span>) <span class="keyword">return</span>; <span class="comment">//如果没有标记，返回</span></span><br><span class="line">    <span class="built_in">cpushdown</span>(k); <span class="comment">//先把 ctag 下放</span></span><br><span class="line">    <span class="built_in">af</span>(ls, t[k].atag), <span class="built_in">af</span>(rs, t[k].atag); <span class="comment">//atag 下放</span></span><br><span class="line">    t[k].atag = <span class="number">0</span>; <span class="comment">//当前节点 atag 清零</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">apushdown</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//一次 pushdown 操作包括 ctag 的下放和 atag 的下放，都要进行</span></span><br></pre></td></tr></table></figure></div>
-<p>那么操作呢？区间加操作和之前一样即可，区间覆盖操作需要清除当前节点的
-<span class="math inline">\(atag\)</span>。</p>
-<p>其他部分即为普通线段树模板。</p>
-<h1 id="code">Code</h1>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long </span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">1e6</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">1e18</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ls (k &lt;&lt; 1)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> rs (k &lt;&lt; 1 | 1)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> s = <span class="number">0</span>, f = <span class="number">1</span>;</span><br><span class="line">    <span class="type">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span> || ch &gt; <span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(ch == <span class="string">&#x27;-&#x27;</span>)f = <span class="number">-1</span>; ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>)&#123;s = s * <span class="number">10</span> + ch - <span class="string">&#x27;0&#x27;</span>; ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">return</span> s * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Tree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> maxx;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="type">int</span> atag, ctag;</span><br><span class="line">&#125;t[MAXN &lt;&lt; <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> a[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushup</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = <span class="built_in">max</span>(t[ls].maxx, t[rs].maxx);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">af</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx += v;</span><br><span class="line">    t[k].atag += v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = v;</span><br><span class="line">    t[k].ctag = v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cpushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].ctag == -INF) <span class="keyword">return</span>;</span><br><span class="line">    t[ls].atag = t[rs].atag = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">cf</span>(ls, t[k].ctag), <span class="built_in">cf</span>(rs, t[k].ctag);</span><br><span class="line">    t[k].ctag = -INF;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">apushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].atag == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">af</span>(ls, t[k].atag), <span class="built_in">af</span>(rs, t[k].atag);</span><br><span class="line">    t[k].atag = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">apushdown</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].l = l;</span><br><span class="line">    t[k].r = r;</span><br><span class="line">    t[k].atag = <span class="number">0</span>;</span><br><span class="line">    t[k].ctag = -INF;</span><br><span class="line">    <span class="keyword">if</span>(l == r)</span><br><span class="line">    &#123;</span><br><span class="line">        t[k].maxx = a[l];</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">build</span>(ls, l, mid);</span><br><span class="line">    <span class="built_in">build</span>(rs, mid + <span class="number">1</span>, r);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">af</span>(k, v);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">update</span>(ls, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">update</span>(rs, l, r, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cover</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r)</span><br><span class="line">    &#123;</span><br><span class="line">        t[k].atag = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">cf</span>(k, v);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">cover</span>(ls, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">cover</span>(rs, l, r, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> res = -INF;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r) <span class="keyword">return</span> t[k].maxx;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) res = <span class="built_in">max</span>(res, <span class="built_in">query</span>(ls, l, r));</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) res = <span class="built_in">max</span>(res, <span class="built_in">query</span>(rs, l, r));</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    n = <span class="built_in">read</span>(), q = <span class="built_in">read</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) a[i] = <span class="built_in">read</span>();</span><br><span class="line">    <span class="built_in">build</span>(<span class="number">1</span>, <span class="number">1</span>, n);</span><br><span class="line">    <span class="keyword">while</span>(q--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> opt = <span class="built_in">read</span>();</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>(), x = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">cover</span>(<span class="number">1</span>, l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>(), x = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">update</span>(<span class="number">1</span>, l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">query</span>(<span class="number">1</span>, l, r));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>线段树</tag>
       </tags>
   </entry>
   <entry>
@@ -500,6 +456,107 @@ class="math inline">\(pre_i+suf_{i+1}+w_{(1,m)}\)</span>。</p>
       </tags>
   </entry>
   <entry>
+    <title>SDOI2006 保安站岗</title>
+    <url>/LGP2458/</url>
+    <content><![CDATA[<p>一道很经典的树形dp题目。</p>
+<span id="more"></span>
+<h1 id="sol.">Sol.</h1>
+<p>很明显的树形dp，先把方程设出来：</p>
+<p><span class="math inline">\(f_{x,0/1/2}\)</span> 表示当前节点为 <span
+class="math inline">\(x\)</span>，<span
+class="math inline">\(0(自己覆盖)/1(儿子覆盖)/2(父亲覆盖)\)</span>，且其子节点都已全部覆盖的最小权值。</p>
+<p>很套路的树形dp方程，分别考虑如何转移：</p>
+<p>记 <span class="math inline">\(son(i)\)</span> 表示 <span
+class="math inline">\(i\)</span> 的所有子节点，<span
+class="math inline">\(k_i\)</span> 表示控制 <span
+class="math inline">\(i\)</span> 点所需的代价。</p>
+<h2 id="f_x0自己覆盖">1. <span
+class="math inline">\(f_{x,0}\)</span>（自己覆盖）</h2>
+<p><span class="math inline">\(f_{x,0} = \sum\limits_{y\in
+son(x)}\min\{f_{y,0},f_{y,1},f_{y,2}\}+k_x\)</span></p>
+<p>解释：由于当前节点自己覆盖自己，所以不需考虑其他的节点，在所有子节点中找到最小值转移即可。</p>
+<h2 id="f_x1儿子覆盖">2. <span
+class="math inline">\(f_{x,1}\)</span>（儿子覆盖）</h2>
+<p><span class="math inline">\(f_{x,1} = \sum\limits_{y\in
+son(x)}\min\{f_{y,0},f_{y,1}\}\)</span></p>
+<p>解释：当当前节点被儿子覆盖时，说明当前节点不可能覆盖儿子节点，也就无法从
+<span class="math inline">\(f_{y,2}\)</span> 转移。</p>
+<p>但是有一种这样的情况：当儿子节点全部选择 <span
+class="math inline">\(f_{y,1}\)</span>
+时，即儿子节点全部被它的儿子节点覆盖，在这种情况下 <span
+class="math inline">\(x\)</span> 节点无法被儿子节点覆盖。</p>
+<p>所以我们在转移的时候记一个 <span class="math inline">\(q\)</span>
+表示是否全部选择的 <span
+class="math inline">\(f_{y,1}\)</span>，如果是，则强制选择一个节点让其选择
+<span
+class="math inline">\(f_{y,0}\)</span>。我们要向最小化代价，显然要让强制选择的节点
+<span class="math inline">\(f_{y,0}\)</span> 与 <span
+class="math inline">\(f_{y,1}\)</span>
+的差值最小。所以现在转移方程如下：</p>
+<p><span class="math inline">\(f_{x,1} = \sum\limits_{y\in
+son(x)}\min\{f_{y,0},f_{y,1}\},\text{if all choose }
+f_{y,1},\text{then}+\min\limits_{y\in
+son(x)}\{f_{y,0}-f_{y,1}\}\)</span></p>
+<h2 id="f_x2父亲覆盖">3. <span
+class="math inline">\(f_{x,2}\)</span>（父亲覆盖）</h2>
+<p><span class="math inline">\(f_{x,2} = \sum\limits_{y\in
+son(x)}\min\{f_{y,0},f_{y,1}\}\)</span></p>
+<p>解释：这个就比较简单了，当当前节点被父亲覆盖，直接从可能的方式转移即可。</p>
+<h1 id="code">Code</h1>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> s = <span class="number">0</span>, f = <span class="number">1</span>;</span><br><span class="line">    <span class="type">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span> || ch &gt; <span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(ch == <span class="string">&#x27;-&#x27;</span>)f = <span class="number">-1</span>;ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>)&#123;s = s * <span class="number">10</span> + ch - <span class="string">&#x27;0&#x27;</span>;ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">return</span> s * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">2000</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Edge</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> nxt, to;</span><br><span class="line">&#125;e[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> head[MAXN &lt;&lt; <span class="number">1</span>], k[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> f[MAXN][<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, cnt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add_edge</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++cnt].to = v;</span><br><span class="line">    e[cnt].nxt = head[u];</span><br><span class="line">    head[u] = cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> fa)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    f[x][<span class="number">0</span>] = k[x];</span><br><span class="line">    <span class="type">int</span> sum = <span class="number">0</span>, minn = INF;</span><br><span class="line">    <span class="type">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = head[x]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> y = e[i].to;</span><br><span class="line">        <span class="keyword">if</span>(y == fa) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(y, x);</span><br><span class="line">        f[x][<span class="number">0</span>] += <span class="built_in">min</span>(f[y][<span class="number">0</span>], <span class="built_in">min</span>(f[y][<span class="number">1</span>], f[y][<span class="number">2</span>]));</span><br><span class="line">        f[x][<span class="number">2</span>] += <span class="built_in">min</span>(f[y][<span class="number">0</span>], f[y][<span class="number">1</span>]);</span><br><span class="line">        <span class="type">int</span> tmp = <span class="built_in">min</span>(f[y][<span class="number">0</span>], f[y][<span class="number">1</span>]);</span><br><span class="line">        f[x][<span class="number">1</span>] += tmp;</span><br><span class="line">        <span class="keyword">if</span>(tmp == f[y][<span class="number">0</span>]) flag = <span class="literal">false</span>;</span><br><span class="line">        minn = <span class="built_in">min</span>(minn, f[y][<span class="number">0</span>] - f[y][<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag) f[x][<span class="number">1</span>] += minn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    n = <span class="built_in">read</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> x = <span class="built_in">read</span>();</span><br><span class="line">        k[x] = <span class="built_in">read</span>();</span><br><span class="line">        <span class="type">int</span> m = <span class="built_in">read</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> y = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">add_edge</span>(x, y);</span><br><span class="line">            <span class="built_in">add_edge</span>(y, x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">min</span>(f[<span class="number">1</span>][<span class="number">0</span>], f[<span class="number">1</span>][<span class="number">1</span>]));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LuoguP1253 扶苏的问题</title>
+    <url>/LGP1253/</url>
+    <content><![CDATA[<p>线段树。</p>
+<span id="more"></span>
+<h1 id="sol.">Sol.</h1>
+<p>实际上相当于维护一颗线段树，支持区间覆盖、区间加和区间查询最大值。</p>
+<p>维护最大值很好办，区间覆盖和区间加我们怎么维护呢？</p>
+<p>首先，区间覆盖和区间加一定都分别需要记一个懒标记。我们把区间覆盖的懒标记记为
+<span class="math inline">\(ctag\)</span>，区间加的懒标记记为 <span
+class="math inline">\(atag\)</span>，那么我们如何把标记 <span
+class="math inline">\(\text{pushdown}\)</span> 呢？</p>
+<p>首先，初始化要选择一个尽量不影响之后操作的值。<span
+class="math inline">\(atag\)</span> 显然选择 <span
+class="math inline">\(0\)</span> 即可。由于要更改的数字有正有负，<span
+class="math inline">\(ctag\)</span> 可以选取 <span
+class="math inline">\(-\infty\)</span>，在程序中我选用了 <span
+class="math inline">\(1e18+7\)</span> 作为 <span
+class="math inline">\(\text{INF}\)</span>。</p>
+<p>考虑到如果我们当前节点有一个 <span
+class="math inline">\(atag\)</span> 标记，之后又打上了一个 <span
+class="math inline">\(ctag\)</span>
+标记，那么<strong>要覆盖的值会直接把要加的值覆盖</strong>，也就是说
+<span class="math inline">\(ctag\)</span> 会直接清除 <span
+class="math inline">\(atag\)</span>。而如果先打上 <span
+class="math inline">\(ctag\)</span>，再打上 <span
+class="math inline">\(atag\)</span>，则需要<strong>先把 <span
+class="math inline">\(ctag\)</span> 下放，再下放 <span
+class="math inline">\(atag\)</span></strong>。那么我们的 <span
+class="math inline">\(\text{pushdown}\)</span> 可以这么写：</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">af</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span> <span class="comment">//把下放的操作封装一下可以使代码更简洁</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx += v;</span><br><span class="line">    t[k].atag += v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = v;</span><br><span class="line">    t[k].ctag = v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cpushdown</span><span class="params">(<span class="type">int</span> k)</span> <span class="comment">//ctag 的下放</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].ctag == -INF) <span class="keyword">return</span>; <span class="comment">//如果没有标记，返回</span></span><br><span class="line">    t[ls].atag = t[rs].atag = <span class="number">0</span>; <span class="comment">//抹除 atag</span></span><br><span class="line">    <span class="built_in">cf</span>(ls, t[k].ctag), <span class="built_in">cf</span>(rs, t[k].ctag); <span class="comment">//ctag 下放</span></span><br><span class="line">    t[k].ctag = -INF; <span class="comment">//当前节点 ctag 清零</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">apushdown</span><span class="params">(<span class="type">int</span> k)</span> <span class="comment">//atag 的下放</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].atag == <span class="number">0</span>) <span class="keyword">return</span>; <span class="comment">//如果没有标记，返回</span></span><br><span class="line">    <span class="built_in">cpushdown</span>(k); <span class="comment">//先把 ctag 下放</span></span><br><span class="line">    <span class="built_in">af</span>(ls, t[k].atag), <span class="built_in">af</span>(rs, t[k].atag); <span class="comment">//atag 下放</span></span><br><span class="line">    t[k].atag = <span class="number">0</span>; <span class="comment">//当前节点 atag 清零</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">apushdown</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//一次 pushdown 操作包括 ctag 的下放和 atag 的下放，都要进行</span></span><br></pre></td></tr></table></figure></div>
+<p>那么操作呢？区间加操作和之前一样即可，区间覆盖操作需要清除当前节点的
+<span class="math inline">\(atag\)</span>。</p>
+<p>其他部分即为普通线段树模板。</p>
+<h1 id="code">Code</h1>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long </span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">1e6</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">1e18</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ls (k &lt;&lt; 1)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> rs (k &lt;&lt; 1 | 1)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> s = <span class="number">0</span>, f = <span class="number">1</span>;</span><br><span class="line">    <span class="type">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span> || ch &gt; <span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(ch == <span class="string">&#x27;-&#x27;</span>)f = <span class="number">-1</span>; ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>)&#123;s = s * <span class="number">10</span> + ch - <span class="string">&#x27;0&#x27;</span>; ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">return</span> s * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Tree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> maxx;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="type">int</span> atag, ctag;</span><br><span class="line">&#125;t[MAXN &lt;&lt; <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> a[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, q;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushup</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = <span class="built_in">max</span>(t[ls].maxx, t[rs].maxx);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">af</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx += v;</span><br><span class="line">    t[k].atag += v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cf</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].maxx = v;</span><br><span class="line">    t[k].ctag = v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cpushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].ctag == -INF) <span class="keyword">return</span>;</span><br><span class="line">    t[ls].atag = t[rs].atag = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">cf</span>(ls, t[k].ctag), <span class="built_in">cf</span>(rs, t[k].ctag);</span><br><span class="line">    t[k].ctag = -INF;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">apushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(t[k].atag == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">af</span>(ls, t[k].atag), <span class="built_in">af</span>(rs, t[k].atag);</span><br><span class="line">    t[k].atag = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cpushdown</span>(k);</span><br><span class="line">    <span class="built_in">apushdown</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    t[k].l = l;</span><br><span class="line">    t[k].r = r;</span><br><span class="line">    t[k].atag = <span class="number">0</span>;</span><br><span class="line">    t[k].ctag = -INF;</span><br><span class="line">    <span class="keyword">if</span>(l == r)</span><br><span class="line">    &#123;</span><br><span class="line">        t[k].maxx = a[l];</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">build</span>(ls, l, mid);</span><br><span class="line">    <span class="built_in">build</span>(rs, mid + <span class="number">1</span>, r);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">af</span>(k, v);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">update</span>(ls, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">update</span>(rs, l, r, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">cover</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r)</span><br><span class="line">    &#123;</span><br><span class="line">        t[k].atag = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">cf</span>(k, v);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) <span class="built_in">cover</span>(ls, l, r, v);</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) <span class="built_in">cover</span>(rs, l, r, v);</span><br><span class="line">    <span class="built_in">pushup</span>(k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> res = -INF;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= t[k].l &amp;&amp; t[k].r &lt;= r) <span class="keyword">return</span> t[k].maxx;</span><br><span class="line">    <span class="built_in">pushdown</span>(k);</span><br><span class="line">    <span class="type">int</span> mid = (t[k].l + t[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(l &lt;= mid) res = <span class="built_in">max</span>(res, <span class="built_in">query</span>(ls, l, r));</span><br><span class="line">    <span class="keyword">if</span>(r &gt; mid) res = <span class="built_in">max</span>(res, <span class="built_in">query</span>(rs, l, r));</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    n = <span class="built_in">read</span>(), q = <span class="built_in">read</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) a[i] = <span class="built_in">read</span>();</span><br><span class="line">    <span class="built_in">build</span>(<span class="number">1</span>, <span class="number">1</span>, n);</span><br><span class="line">    <span class="keyword">while</span>(q--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> opt = <span class="built_in">read</span>();</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>(), x = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">cover</span>(<span class="number">1</span>, l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>(), x = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">update</span>(<span class="number">1</span>, l, r, x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(opt == <span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> l = <span class="built_in">read</span>(), r = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">query</span>(<span class="number">1</span>, l, r));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>线段树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>HAOI2012 高速公路</title>
     <url>/LGP2221/</url>
     <content><![CDATA[<p>一道非常好的线段树题。</p>
@@ -581,63 +638,6 @@ sum_1&#39;
       </categories>
       <tags>
         <tag>线段树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SDOI2006 保安站岗</title>
-    <url>/LGP2458/</url>
-    <content><![CDATA[<p>一道很经典的树形dp题目。</p>
-<span id="more"></span>
-<h1 id="sol.">Sol.</h1>
-<p>很明显的树形dp，先把方程设出来：</p>
-<p><span class="math inline">\(f_{x,0/1/2}\)</span> 表示当前节点为 <span
-class="math inline">\(x\)</span>，<span
-class="math inline">\(0(自己覆盖)/1(儿子覆盖)/2(父亲覆盖)\)</span>，且其子节点都已全部覆盖的最小权值。</p>
-<p>很套路的树形dp方程，分别考虑如何转移：</p>
-<p>记 <span class="math inline">\(son(i)\)</span> 表示 <span
-class="math inline">\(i\)</span> 的所有子节点，<span
-class="math inline">\(k_i\)</span> 表示控制 <span
-class="math inline">\(i\)</span> 点所需的代价。</p>
-<h2 id="f_x0自己覆盖">1. <span
-class="math inline">\(f_{x,0}\)</span>（自己覆盖）</h2>
-<p><span class="math inline">\(f_{x,0} = \sum\limits_{y\in
-son(x)}\min\{f_{y,0},f_{y,1},f_{y,2}\}+k_x\)</span></p>
-<p>解释：由于当前节点自己覆盖自己，所以不需考虑其他的节点，在所有子节点中找到最小值转移即可。</p>
-<h2 id="f_x1儿子覆盖">2. <span
-class="math inline">\(f_{x,1}\)</span>（儿子覆盖）</h2>
-<p><span class="math inline">\(f_{x,1} = \sum\limits_{y\in
-son(x)}\min\{f_{y,0},f_{y,1}\}\)</span></p>
-<p>解释：当当前节点被儿子覆盖时，说明当前节点不可能覆盖儿子节点，也就无法从
-<span class="math inline">\(f_{y,2}\)</span> 转移。</p>
-<p>但是有一种这样的情况：当儿子节点全部选择 <span
-class="math inline">\(f_{y,1}\)</span>
-时，即儿子节点全部被它的儿子节点覆盖，在这种情况下 <span
-class="math inline">\(x\)</span> 节点无法被儿子节点覆盖。</p>
-<p>所以我们在转移的时候记一个 <span class="math inline">\(q\)</span>
-表示是否全部选择的 <span
-class="math inline">\(f_{y,1}\)</span>，如果是，则强制选择一个节点让其选择
-<span
-class="math inline">\(f_{y,0}\)</span>。我们要向最小化代价，显然要让强制选择的节点
-<span class="math inline">\(f_{y,0}\)</span> 与 <span
-class="math inline">\(f_{y,1}\)</span>
-的差值最小。所以现在转移方程如下：</p>
-<p><span class="math inline">\(f_{x,1} = \sum\limits_{y\in
-son(x)}\min\{f_{y,0},f_{y,1}\},\text{if all choose }
-f_{y,1},\text{then}+\min\limits_{y\in
-son(x)}\{f_{y,0}-f_{y,1}\}\)</span></p>
-<h2 id="f_x2父亲覆盖">3. <span
-class="math inline">\(f_{x,2}\)</span>（父亲覆盖）</h2>
-<p><span class="math inline">\(f_{x,2} = \sum\limits_{y\in
-son(x)}\min\{f_{y,0},f_{y,1}\}\)</span></p>
-<p>解释：这个就比较简单了，当当前节点被父亲覆盖，直接从可能的方式转移即可。</p>
-<h1 id="code">Code</h1>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> s = <span class="number">0</span>, f = <span class="number">1</span>;</span><br><span class="line">    <span class="type">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">    <span class="keyword">while</span>(ch &lt; <span class="string">&#x27;0&#x27;</span> || ch &gt; <span class="string">&#x27;9&#x27;</span>)&#123;<span class="keyword">if</span>(ch == <span class="string">&#x27;-&#x27;</span>)f = <span class="number">-1</span>;ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>)&#123;s = s * <span class="number">10</span> + ch - <span class="string">&#x27;0&#x27;</span>;ch = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">return</span> s * f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">2000</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Edge</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> nxt, to;</span><br><span class="line">&#125;e[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> head[MAXN &lt;&lt; <span class="number">1</span>], k[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> f[MAXN][<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, cnt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add_edge</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[++cnt].to = v;</span><br><span class="line">    e[cnt].nxt = head[u];</span><br><span class="line">    head[u] = cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> fa)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    f[x][<span class="number">0</span>] = k[x];</span><br><span class="line">    <span class="type">int</span> sum = <span class="number">0</span>, minn = INF;</span><br><span class="line">    <span class="type">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = head[x]; i; i = e[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> y = e[i].to;</span><br><span class="line">        <span class="keyword">if</span>(y == fa) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(y, x);</span><br><span class="line">        f[x][<span class="number">0</span>] += <span class="built_in">min</span>(f[y][<span class="number">0</span>], <span class="built_in">min</span>(f[y][<span class="number">1</span>], f[y][<span class="number">2</span>]));</span><br><span class="line">        f[x][<span class="number">2</span>] += <span class="built_in">min</span>(f[y][<span class="number">0</span>], f[y][<span class="number">1</span>]);</span><br><span class="line">        <span class="type">int</span> tmp = <span class="built_in">min</span>(f[y][<span class="number">0</span>], f[y][<span class="number">1</span>]);</span><br><span class="line">        f[x][<span class="number">1</span>] += tmp;</span><br><span class="line">        <span class="keyword">if</span>(tmp == f[y][<span class="number">0</span>]) flag = <span class="literal">false</span>;</span><br><span class="line">        minn = <span class="built_in">min</span>(minn, f[y][<span class="number">0</span>] - f[y][<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(flag) f[x][<span class="number">1</span>] += minn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    n = <span class="built_in">read</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> x = <span class="built_in">read</span>();</span><br><span class="line">        k[x] = <span class="built_in">read</span>();</span><br><span class="line">        <span class="type">int</span> m = <span class="built_in">read</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> y = <span class="built_in">read</span>();</span><br><span class="line">            <span class="built_in">add_edge</span>(x, y);</span><br><span class="line">            <span class="built_in">add_edge</span>(y, x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dfs</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">min</span>(f[<span class="number">1</span>][<span class="number">0</span>], f[<span class="number">1</span>][<span class="number">1</span>]));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -759,127 +759,6 @@ r-l+1]）</del>。</li>
       </tags>
   </entry>
   <entry>
-    <title>CTSC2012 电阻网络</title>
-    <url>/LGP4020/</url>
-    <content><![CDATA[<p>在各学科交叉应用的潮流下，一道具有超前预见性的好题。</p>
-<span id="more"></span>
-<h1 id="solution">Solution</h1>
-<h2 id="前置知识">前置知识</h2>
-<h3 id="欧姆定律">欧姆定律</h3>
-<p>在同一电路中，通过某段导体的电流跟这段导体两端的电压成正比，跟这段导体的电阻成反比。</p>
-<p><span class="math display">\[I=\frac{U}{R}\]</span></p>
-<p>其中 <span class="math inline">\(I\)</span> 为电流，<span
-class="math inline">\(U\)</span> 为电压，<span
-class="math inline">\(R\)</span> 为电阻。</p>
-<h3 id="基尔霍夫第一定律">基尔霍夫第一定律</h3>
-<p>会合于任意节点的电流和等于零。</p>
-<p><span class="math display">\[\sum I=0\]</span></p>
-<h2 id="solution-1">Solution</h2>
-<p>本题中全部为相同电阻，所以答案与电阻大小无关，记电阻大小为 <span
-class="math inline">\(R\)</span>，钦定一个叶子节点为根。</p>
-<p>考虑第 <span class="math inline">\(i\)</span> 个节点，记 <span
-class="math inline">\(i\)</span> 的父亲为 <span
-class="math inline">\(fa\)</span>，儿子集合为 <span
-class="math inline">\(son\)</span>，<span
-class="math inline">\(fa\rightarrow i\)</span> 的电流为 <span
-class="math inline">\(I_i\)</span>。</p>
-<p>则从 <span class="math inline">\(fa\)</span> 到 <span
-class="math inline">\(i\)</span>
-的过程中，电势差的产生可以看作两部分，一部分是电阻导致的电势的下降，一部分是电源导致的电势的上升，这两部分之和等于电势差。即：</p>
-<p><span
-class="math display">\[\varphi_i=\varphi_{fa}-I_iR+E_i\]</span></p>
-<p>移项得：</p>
-<p><span
-class="math display">\[I_i=\frac{\varphi_{fa}-\varphi_i+E_i}{R}\]</span></p>
-<p>这是 <span class="math inline">\(i\)</span>
-祖先方向的电流，同理，对于儿子方向的任意 <span
-class="math inline">\(x\in son\)</span>，我们有：</p>
-<p><span
-class="math display">\[\varphi_x=\varphi_{i}-I_xR+E_x\]</span></p>
-<p>得：</p>
-<p><span
-class="math display">\[I_x=\frac{\varphi_{i}-\varphi_x+E_x}{R}\]</span></p>
-<p>求和得：</p>
-<p><span class="math display">\[\sum\limits_{x\in
-son}I_x=\sum\limits_{x\in
-son}\frac{\varphi_{i}-\varphi_x+E_x}{R}\]</span></p>
-<p>根据基尔霍夫第一定律：</p>
-<p><span class="math display">\[I_i=\sum\limits_{x\in
-son}I_x\]</span></p>
-<p>即：</p>
-<p><span
-class="math display">\[\frac{\varphi_{fa}-\varphi_i+E_i}{R}=\sum\limits_{x\in
-son}\frac{\varphi_{i}-\varphi_x+E_x}{R}\]</span></p>
-<p>继续化简：</p>
-<p><span
-class="math display">\[\varphi_{fa}-\varphi_i+E_i=\sum\limits_{x\in
-son}(\varphi_{i}-\varphi_x+E_x)\]</span></p>
-<p><span
-class="math display">\[\varphi_{fa}-\varphi_i+E_i=|son|\varphi_i-\sum\limits_{x\in
-son}(\varphi_x-E_x)\]</span></p>
-<p><span
-class="math display">\[(|son|+1)\varphi_i=\varphi_{fa}+E_i+\sum\limits_{x\in
-son}(\varphi_x-E_x)\]</span></p>
-<p>注意到 <span class="math inline">\(|son|\)</span>
-是儿子集合，相当于当前节点向儿子方向的度数；<span
-class="math inline">\(1\)</span> 相当于当前节点向父亲方向的度数，所以
-<span class="math inline">\(|son|+1\)</span> 实际上相当于节点 <span
-class="math inline">\(i\)</span> 的度数，记为 <span
-class="math inline">\(\deg_i\)</span>。</p>
-<p><span
-class="math display">\[\deg_i\varphi_i=\varphi_{fa}+E_i+\sum\limits_{x\in
-son}(\varphi_x-E_x)\]</span></p>
-<p>设 <span
-class="math inline">\(\varphi_i=K_i\varphi_{fa}+B_i\)</span>，其中 <span
-class="math inline">\(K_i,B_i\)</span> 都是只与 <span
-class="math inline">\(i\)</span> 和 <span
-class="math inline">\(son\)</span> 有关的常量。</p>
-<p>把 <span class="math inline">\(\varphi_x\)</span>
-用刚刚的形式表示出来：</p>
-<p><span
-class="math display">\[\varphi_x=K_x\varphi_{i}+B_x\]</span></p>
-<p>代入原式：</p>
-<p><span
-class="math display">\[\varphi_i=\frac{\varphi_{fa}+E_i+\sum\limits_{x\in
-son}(K_x\varphi_{i}+B_x-E_x)}{\deg_i}\]</span></p>
-<p>把这个式子表示成刚刚的形式：</p>
-<p><span
-class="math display">\[\deg_i\varphi_i=\varphi_{fa}+E_i+\sum\limits_{x\in
-son}(K_x\varphi_{i}+B_x-E_x)\]</span></p>
-<p><span
-class="math display">\[\deg_i\varphi_i=\varphi_{fa}+E_i+\varphi_i\sum\limits_{x\in
-son}K_x+\sum\limits_{x\in son}(B_x-E_x)\]</span></p>
-<p><span class="math display">\[\varphi_i(\deg_i-\sum\limits_{x\in
-son}K_x)=\varphi_{fa}+E_i+\sum\limits_{x\in son}(B_x-E_x)\]</span></p>
-<p><span
-class="math display">\[\varphi_i=\frac{1}{\deg_i-\sum\limits_{x\in
-son}K_x}\varphi_{fa}+\frac{\sum\limits_{x\in
-son}(B_x-E_x)+E_i}{\deg_i-\sum\limits_{x\in son}K_x}\]</span></p>
-<p>我们发现此时已经表示成 <span
-class="math inline">\(\varphi_i=K_i\varphi_{fa}+B_i\)</span>
-的形式了。那么：</p>
-<p><span class="math display">\[K_i=\frac{1}{\deg_i-\sum\limits_{x\in
-son}K_x}\]</span></p>
-<p><span class="math display">\[B_i=\frac{\sum\limits_{x\in
-son}(B_x-E_x)+E_i}{\deg_i-\sum\limits_{x\in
-son}K_x}=K_i(\sum\limits_{x\in son}(B_x-E_x)+E_i)\]</span></p>
-<p>因为我们要求 <span class="math inline">\(i\)</span>
-到地面，所以特判一下叶子。叶子度数为 <span
-class="math inline">\(2\)</span>，一条边连向地面，地面电势为 <span
-class="math inline">\(0\)</span>。</p>
-<h1 id="code">Code</h1>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXM = <span class="number">1e5</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">5e4</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Edge</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> to, nxt;</span><br><span class="line">&#125;edge[MAXM];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> head[MAXN], cnt;</span><br><span class="line"><span class="type">int</span> rt, n, m;</span><br><span class="line"><span class="type">int</span> deg[MAXN], fa[MAXN];</span><br><span class="line"><span class="type">double</span> k[MAXN], b[MAXN], sumb[MAXN], ph[MAXN], sumph[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add_edge</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    edge[++cnt] = (Edge)&#123;v, head[u]&#125;;</span><br><span class="line">    head[u] = cnt;</span><br><span class="line">    edge[++cnt] = (Edge)&#123;u, head[v]&#125;;</span><br><span class="line">    head[v] = cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    fa[u] = f;</span><br><span class="line">    <span class="type">double</span> sumk = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = head[u]; i; i = edge[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> v = edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(v != f)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">init</span>(v, u);</span><br><span class="line">            sumk += k[v];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    k[u] = <span class="number">1.0</span> / (deg[u] - sumk);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(u == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        sumb[fa[u]] -= b[u];</span><br><span class="line">        b[u] = (sumb[u] + sumph[u] - ph[u]) * k[u];</span><br><span class="line">        sumb[fa[u]] += b[u];</span><br><span class="line">        <span class="built_in">add</span>(fa[u], e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">modify</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v, <span class="type">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(fa[v] == u)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">swap</span>(u, v);</span><br><span class="line">        e = -e;</span><br><span class="line">    &#125;</span><br><span class="line">    ph[u] -= e;</span><br><span class="line">    sumph[v] -= e;</span><br><span class="line">    <span class="built_in">add</span>(u, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">query</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(u == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> k[u] * <span class="built_in">query</span>(fa[u]) + b[u];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> u, v;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;u, &amp;v);</span><br><span class="line">        <span class="built_in">add_edge</span>(u, v);</span><br><span class="line">        deg[u]++, deg[v]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(deg[i] == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">add_edge</span>(i, <span class="number">0</span>);</span><br><span class="line">            deg[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        <span class="keyword">if</span>(deg[i] == <span class="number">1</span>) deg[i] = <span class="number">2</span>;</span><br><span class="line">    <span class="built_in">init</span>(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> ch;</span><br><span class="line">        cin &gt;&gt; ch;</span><br><span class="line">        <span class="keyword">if</span>(ch == <span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> u;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;u);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%.10lf\n&quot;</span>, <span class="built_in">query</span>(u));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> u, v, e;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>, &amp;u, &amp;v, &amp;e);</span><br><span class="line">            <span class="built_in">modify</span>(u, v, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>物理</tag>
-        <tag>数学</tag>
-        <tag>递推</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CTSC2011 幸福路径</title>
     <url>/LGP4308/</url>
     <content><![CDATA[<p>一道不错的动态规划题目，需要一定思维。</p>
@@ -910,121 +789,6 @@ class="math inline">\(c_i=\max\limits_{k=1}^{n}\left\{\dfrac{f_{i,i,k}}{1-\rho^k
       <tags>
         <tag>动态规划</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>NOIP2022 爆零记</title>
-    <url>/NOIP2022/</url>
-    <content><![CDATA[<p>一次愉快的 NOIP，而又是与他们最后的诀别。</p>
-<span id="more"></span>
-<h1 id="day--8">Day -8</h1>
-<p>由于 CSP-S 和高一的同学们脱轨了，因此乖乖回去学
-whk。本来以为没啥希望了，结果晚上 🍬
-一通电话通知居然能去了。非常惊讶。但是一段时间没学 OI
-了，感觉更菜了。就当是体验一下。</p>
-<h1 id="day--7">Day -7</h1>
-<p>要在下午 <span class="math inline">\(17:00\)</span> 之前到平邑，因此
-<span class="math inline">\(14:30\)</span>
-就要走。学校要求交艺术节作品，趁上午写了写结果写挂了，气急败坏。RP--。</p>
-<p>然后下午睡了一路之后来到平邑，住在很豪华的全季酒店，感觉从来没住过如此豪华。酒店临着河（好像叫浚河，祊河支流），还算是河景房，环境非常优美。</p>
-<p>睡得很安稳。</p>
-<h1 id="day--6">Day -6</h1>
-<p>上午 vp 了一下 CF，没切出 F，RP--。</p>
-<p>题目里面有道题叫做 The Humanoid，是 ZTMY 歌名，RP++。</p>
-<p>酒店居然有咖啡机。喝了一杯，好苦。</p>
-<h1 id="day--5">Day -5</h1>
-<p>写了几道线段树，感觉对线段树理解更深了一点。</p>
-<p>写了几篇题解，但是发现自己换硬盘重装系统忘了把 Blog
-文件夹拷过来，只能等 m.2-&gt;usb 买来了在部署了，先写着。</p>
-<p>鸭子可爱捏。</p>
-<p>晚上和 <span class="citation" data-cites="chiptune">@chiptune</span>
-一起 vp 了一场 abc，没切出来 F，自闭了，RP--。</p>
-<h1 id="day--4">Day -4</h1>
-<p>下雨了。</p>
-<p>测了下分院帽，Slytherin。</p>
-<p>下午 vp 了一场 div4，本来想涨涨信心，结果没 AK，自闭了，RP--。</p>
-<p>鸭子给了一首<a class="link" 
- href="https://music.163.com/#/song?id=557581315" >好听的歌</a>，单循了，RP++。</p>
-<p>感觉自己菜炸了，模板都不会了。</p>
-<p>调整作息，<span class="math inline">\(22:00\)</span>
-就睡了，我真规律。</p>
-<h1 id="day--3">Day -3</h1>
-<p>上午敲了敲板子，愣神。</p>
-<p>感觉自己没救了。</p>
-<p>鸭子又给了一首<a class="link" 
- href="https://music.163.com/#/song?id=1347630432" >好听的歌</a>，单循了，但是没有
-VIP，气得我满地乱爬。于是从 B 站下载音频上传到云盘，我真聪明。</p>
-<p>写了个攒 RP 的程序，开始跑了。</p>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>; i; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%lld, %lld, RP++\n&quot;</span>, i, <span class="built_in">clock</span>());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<p>梦神锐评：“你是真无聊。”</p>
-<p>晚上头巨疼。不知道为什么。疼死我了。于是早早睡了。</p>
-<p>有点后怕，别上考场再头疼。</p>
-<h1 id="day--2">Day -2</h1>
-<p>🍬 给了一场 GMOJ 的比赛，难炸了，只拿了 B 题 20pts 暴力分。</p>
-<p>查询小w精神状态，结果为：就你还想打 NOIP？</p>
-<p>出考场了，5考场。</p>
-<p>测了一下 mbti，ENFJ-A。</p>
-<p>下午被精度给整自闭了。但是美婷姐姐理我了，很开心，RP++。</p>
-<p>写游记了。</p>
-<h1 id="day--1">Day -1</h1>
-<p>考前最后一天。上午意识到这一点有些紧张。</p>
-<p>然后就肆无忌惮地摆了一天。看了看KMP、逆元，感觉还可以。</p>
-<p>一直到晚上🍬开了个会，希望明天不要自闭吧。</p>
-<p>鸭子请了一杯奶茶，芋泥+珍珠，很好喝。</p>
-<p>领了前瞻的 300 原石，抽了一下，没想到 16
-抽就出了卢老爷，根据运气守恒定律，感觉明天会寄。</p>
-<p>早点睡觉吧。还是有点紧张。</p>
-<h1 id="day-1">Day 1</h1>
-<p>早上六点起床，早饭没吃凉的，吃的不多，有点担心会不会饿。但是实际上并没有。</p>
-<p>然后就坐（站）着大巴去 pyyz。终于见到 ss,lz1,lzy,zzk,lmt
-了，很开心。</p>
-<p>带着手机去结果根本没查码。</p>
-<p>上考场先把快读和对拍敲了，结果两个都没用到。</p>
-<p>考试还有个小风波，一开始给的密码不对，后来又给了，导致拖后了十分钟，不过在后面补上了。没想到是双重密码，pdf
-的密码是一开始给的。</p>
-<p>解压包的密码是 <code>biu#2019miss</code>，是不是在暗示错过了 2019
-年？（2019刚好疫情开始捏。）</p>
-<p>pdf 的密码是 <code>solo@2022</code>，是不是暗示 2022
-年单身啊呜呜。</p>
-<p>先看一遍题。T1 感觉可做，T2 是啥啊，名字倒是挺好听的。T3
-一眼图论，一眼要跑 Tarjan，一眼我不会。T4 一眼大数据结构，一眼不会。</p>
-<p>然后感觉先看看 T1。然后就想到可以对于每列 <span
-class="math inline">\(j\)</span> 的每行 <span
-class="math inline">\(i\)</span>
-预处理一下最长可以向上延伸多少，然后就可以想到对于每行 <span
-class="math inline">\(i\)</span>
-维护最多可以向右延伸多少，然后就可以想到统计。但是是 <span
-class="math inline">\(O(n^4)(假设n,m同阶)\)</span> 的。</p>
-<p>然后稍微一考虑就能想到前缀和优化一下到 <span
-class="math inline">\(O(n^2)\)</span>，然后就过了 <span
-class="math inline">\(114\ 514\)</span> 的大样例。好像也没法对拍，大概是
-<span class="math inline">\(10:00\)</span>，润了。</p>
-<p>然后看了看 T2，感觉是很牛逼的构造，不会。之后 T4
-暴力跑线段树维护最大值 <span class="math inline">\(O(Qn^2\log n)
-8pts\)</span> 跑路了。</p>
-<p>之后一直在 T4 和 T2 纠结，感觉都拿不到分。已经有点慌了。</p>
-<p>然后感觉 T2 <span class="math inline">\(k=2n-2\)</span>
-的部分分好像可做，想了很长时间感觉可以每个分配两种颜色，最后一个栈做闲余栈，写了写过了样例，自己造了几组也过了。</p>
-<p>然后感觉很没有头猪。又一直在想 T2 <span
-class="math inline">\(k=2n-1,n=2\)</span> 的部分分，写了一个 <span
-class="math inline">\(8\)</span> 个 <code>if</code>
-的大分类讨论，一直调不过去。眼看还有 <span
-class="math inline">\(10min\)</span>，先把东西都整理到 E
-盘，然后最后两分钟突然调出来了，过了样例，赶紧复制到文件里。感觉差不多了。</p>
-<p>估分 <span class="math inline">\(100+30+0+8=138pts\)</span>，但是
-T1、T2 都很不稳。</p>
-<p>水杯还落到教室里了，意识到的时候已经走了好几公里了，遂作罢。</p>
-<p>lmt 说能 <span class="math inline">\(255pts\)</span>，结果 T2
-假了，<span class="math inline">\(200pts\)</span> 左右。</p>
-<p>感觉是打的最烂的一次比赛。</p>
-<p>T2 果然是 zrf 投的题啊……果然恶心。</p>
-<p>luogu 测了一下 T1，过了，感觉安心一点了。</p>
-<p>luogu 和 infoj 测了所有的，一分没挂。感觉是打的最好的一次比赛。</p>
-<h1 id="days-later">Days Later</h1>
-<p>T1 挂了，省二。</p>
-]]></content>
-      <categories>
-        <category>随记</category>
-      </categories>
   </entry>
   <entry>
     <title>线性代数学习笔记</title>
@@ -1161,6 +925,302 @@ class="math inline">\(\dim V\)</span>，为线性基元素个数。</p>
       <tags>
         <tag>数学</tag>
         <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NOIP2022 爆零记</title>
+    <url>/NOIP2022/</url>
+    <content><![CDATA[<p>一次愉快的 NOIP，而又是与他们最后的诀别。</p>
+<span id="more"></span>
+<h1 id="day--8">Day -8</h1>
+<p>由于 CSP-S 和高一的同学们脱轨了，因此乖乖回去学
+whk。本来以为没啥希望了，结果晚上 🍬
+一通电话通知居然能去了。非常惊讶。但是一段时间没学 OI
+了，感觉更菜了。就当是体验一下。</p>
+<h1 id="day--7">Day -7</h1>
+<p>要在下午 <span class="math inline">\(17:00\)</span> 之前到平邑，因此
+<span class="math inline">\(14:30\)</span>
+就要走。学校要求交艺术节作品，趁上午写了写结果写挂了，气急败坏。RP--。</p>
+<p>然后下午睡了一路之后来到平邑，住在很豪华的全季酒店，感觉从来没住过如此豪华。酒店临着河（好像叫浚河，祊河支流），还算是河景房，环境非常优美。</p>
+<p>睡得很安稳。</p>
+<h1 id="day--6">Day -6</h1>
+<p>上午 vp 了一下 CF，没切出 F，RP--。</p>
+<p>题目里面有道题叫做 The Humanoid，是 ZTMY 歌名，RP++。</p>
+<p>酒店居然有咖啡机。喝了一杯，好苦。</p>
+<h1 id="day--5">Day -5</h1>
+<p>写了几道线段树，感觉对线段树理解更深了一点。</p>
+<p>写了几篇题解，但是发现自己换硬盘重装系统忘了把 Blog
+文件夹拷过来，只能等 m.2-&gt;usb 买来了在部署了，先写着。</p>
+<p>鸭子可爱捏。</p>
+<p>晚上和 <span class="citation" data-cites="chiptune">@chiptune</span>
+一起 vp 了一场 abc，没切出来 F，自闭了，RP--。</p>
+<h1 id="day--4">Day -4</h1>
+<p>下雨了。</p>
+<p>测了下分院帽，Slytherin。</p>
+<p>下午 vp 了一场 div4，本来想涨涨信心，结果没 AK，自闭了，RP--。</p>
+<p>鸭子给了一首<a class="link" 
+ href="https://music.163.com/#/song?id=557581315" >好听的歌</a>，单循了，RP++。</p>
+<p>感觉自己菜炸了，模板都不会了。</p>
+<p>调整作息，<span class="math inline">\(22:00\)</span>
+就睡了，我真规律。</p>
+<h1 id="day--3">Day -3</h1>
+<p>上午敲了敲板子，愣神。</p>
+<p>感觉自己没救了。</p>
+<p>鸭子又给了一首<a class="link" 
+ href="https://music.163.com/#/song?id=1347630432" >好听的歌</a>，单循了，但是没有
+VIP，气得我满地乱爬。于是从 B 站下载音频上传到云盘，我真聪明。</p>
+<p>写了个攒 RP 的程序，开始跑了。</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>; i; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%lld, %lld, RP++\n&quot;</span>, i, <span class="built_in">clock</span>());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>梦神锐评：“你是真无聊。”</p>
+<p>晚上头巨疼。不知道为什么。疼死我了。于是早早睡了。</p>
+<p>有点后怕，别上考场再头疼。</p>
+<h1 id="day--2">Day -2</h1>
+<p>🍬 给了一场 GMOJ 的比赛，难炸了，只拿了 B 题 20pts 暴力分。</p>
+<p>查询小w精神状态，结果为：就你还想打 NOIP？</p>
+<p>出考场了，5考场。</p>
+<p>测了一下 mbti，ENFJ-A。</p>
+<p>下午被精度给整自闭了。但是美婷姐姐理我了，很开心，RP++。</p>
+<p>写游记了。</p>
+<h1 id="day--1">Day -1</h1>
+<p>考前最后一天。上午意识到这一点有些紧张。</p>
+<p>然后就肆无忌惮地摆了一天。看了看KMP、逆元，感觉还可以。</p>
+<p>一直到晚上🍬开了个会，希望明天不要自闭吧。</p>
+<p>鸭子请了一杯奶茶，芋泥+珍珠，很好喝。</p>
+<p>领了前瞻的 300 原石，抽了一下，没想到 16
+抽就出了卢老爷，根据运气守恒定律，感觉明天会寄。</p>
+<p>早点睡觉吧。还是有点紧张。</p>
+<h1 id="day-1">Day 1</h1>
+<p>早上六点起床，早饭没吃凉的，吃的不多，有点担心会不会饿。但是实际上并没有。</p>
+<p>然后就坐（站）着大巴去 pyyz。终于见到 ss,lz1,lzy,zzk,lmt
+了，很开心。</p>
+<p>带着手机去结果根本没查码。</p>
+<p>上考场先把快读和对拍敲了，结果两个都没用到。</p>
+<p>考试还有个小风波，一开始给的密码不对，后来又给了，导致拖后了十分钟，不过在后面补上了。没想到是双重密码，pdf
+的密码是一开始给的。</p>
+<p>解压包的密码是 <code>biu#2019miss</code>，是不是在暗示错过了 2019
+年？（2019刚好疫情开始捏。）</p>
+<p>pdf 的密码是 <code>solo@2022</code>，是不是暗示 2022
+年单身啊呜呜。</p>
+<p>先看一遍题。T1 感觉可做，T2 是啥啊，名字倒是挺好听的。T3
+一眼图论，一眼要跑 Tarjan，一眼我不会。T4 一眼大数据结构，一眼不会。</p>
+<p>然后感觉先看看 T1。然后就想到可以对于每列 <span
+class="math inline">\(j\)</span> 的每行 <span
+class="math inline">\(i\)</span>
+预处理一下最长可以向上延伸多少，然后就可以想到对于每行 <span
+class="math inline">\(i\)</span>
+维护最多可以向右延伸多少，然后就可以想到统计。但是是 <span
+class="math inline">\(O(n^4)(假设n,m同阶)\)</span> 的。</p>
+<p>然后稍微一考虑就能想到前缀和优化一下到 <span
+class="math inline">\(O(n^2)\)</span>，然后就过了 <span
+class="math inline">\(114\ 514\)</span> 的大样例。好像也没法对拍，大概是
+<span class="math inline">\(10:00\)</span>，润了。</p>
+<p>然后看了看 T2，感觉是很牛逼的构造，不会。之后 T4
+暴力跑线段树维护最大值 <span class="math inline">\(O(Qn^2\log n)
+8pts\)</span> 跑路了。</p>
+<p>之后一直在 T4 和 T2 纠结，感觉都拿不到分。已经有点慌了。</p>
+<p>然后感觉 T2 <span class="math inline">\(k=2n-2\)</span>
+的部分分好像可做，想了很长时间感觉可以每个分配两种颜色，最后一个栈做闲余栈，写了写过了样例，自己造了几组也过了。</p>
+<p>然后感觉很没有头猪。又一直在想 T2 <span
+class="math inline">\(k=2n-1,n=2\)</span> 的部分分，写了一个 <span
+class="math inline">\(8\)</span> 个 <code>if</code>
+的大分类讨论，一直调不过去。眼看还有 <span
+class="math inline">\(10min\)</span>，先把东西都整理到 E
+盘，然后最后两分钟突然调出来了，过了样例，赶紧复制到文件里。感觉差不多了。</p>
+<p>估分 <span class="math inline">\(100+30+0+8=138pts\)</span>，但是
+T1、T2 都很不稳。</p>
+<p>水杯还落到教室里了，意识到的时候已经走了好几公里了，遂作罢。</p>
+<p>lmt 说能 <span class="math inline">\(255pts\)</span>，结果 T2
+假了，<span class="math inline">\(200pts\)</span> 左右。</p>
+<p>感觉是打的最烂的一次比赛。</p>
+<p>T2 果然是 zrf 投的题啊……果然恶心。</p>
+<p>luogu 测了一下 T1，过了，感觉安心一点了。</p>
+<p>luogu 和 infoj 测了所有的，一分没挂。感觉是打的最好的一次比赛。</p>
+<h1 id="days-later">Days Later</h1>
+<p>T1 挂了，省二。</p>
+]]></content>
+      <categories>
+        <category>随记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>CTSC2012 电阻网络</title>
+    <url>/LGP4020/</url>
+    <content><![CDATA[<p>在各学科交叉应用的潮流下，一道具有超前预见性的好题。</p>
+<span id="more"></span>
+<h1 id="solution">Solution</h1>
+<h2 id="前置知识">前置知识</h2>
+<h3 id="欧姆定律">欧姆定律</h3>
+<p>在同一电路中，通过某段导体的电流跟这段导体两端的电压成正比，跟这段导体的电阻成反比。</p>
+<p><span class="math display">\[I=\frac{U}{R}\]</span></p>
+<p>其中 <span class="math inline">\(I\)</span> 为电流，<span
+class="math inline">\(U\)</span> 为电压，<span
+class="math inline">\(R\)</span> 为电阻。</p>
+<h3 id="基尔霍夫第一定律">基尔霍夫第一定律</h3>
+<p>会合于任意节点的电流和等于零。</p>
+<p><span class="math display">\[\sum I=0\]</span></p>
+<h2 id="solution-1">Solution</h2>
+<p>本题中全部为相同电阻，所以答案与电阻大小无关，记电阻大小为 <span
+class="math inline">\(R\)</span>，钦定一个叶子节点为根。</p>
+<p>考虑第 <span class="math inline">\(i\)</span> 个节点，记 <span
+class="math inline">\(i\)</span> 的父亲为 <span
+class="math inline">\(fa\)</span>，儿子集合为 <span
+class="math inline">\(son\)</span>，<span
+class="math inline">\(fa\rightarrow i\)</span> 的电流为 <span
+class="math inline">\(I_i\)</span>。</p>
+<p>则从 <span class="math inline">\(fa\)</span> 到 <span
+class="math inline">\(i\)</span>
+的过程中，电势差的产生可以看作两部分，一部分是电阻导致的电势的下降，一部分是电源导致的电势的上升，这两部分之和等于电势差。即：</p>
+<p><span
+class="math display">\[\varphi_i=\varphi_{fa}-I_iR+E_i\]</span></p>
+<p>移项得：</p>
+<p><span
+class="math display">\[I_i=\frac{\varphi_{fa}-\varphi_i+E_i}{R}\]</span></p>
+<p>这是 <span class="math inline">\(i\)</span>
+祖先方向的电流，同理，对于儿子方向的任意 <span
+class="math inline">\(x\in son\)</span>，我们有：</p>
+<p><span
+class="math display">\[\varphi_x=\varphi_{i}-I_xR+E_x\]</span></p>
+<p>得：</p>
+<p><span
+class="math display">\[I_x=\frac{\varphi_{i}-\varphi_x+E_x}{R}\]</span></p>
+<p>求和得：</p>
+<p><span class="math display">\[\sum\limits_{x\in
+son}I_x=\sum\limits_{x\in
+son}\frac{\varphi_{i}-\varphi_x+E_x}{R}\]</span></p>
+<p>根据基尔霍夫第一定律：</p>
+<p><span class="math display">\[I_i=\sum\limits_{x\in
+son}I_x\]</span></p>
+<p>即：</p>
+<p><span
+class="math display">\[\frac{\varphi_{fa}-\varphi_i+E_i}{R}=\sum\limits_{x\in
+son}\frac{\varphi_{i}-\varphi_x+E_x}{R}\]</span></p>
+<p>继续化简：</p>
+<p><span
+class="math display">\[\varphi_{fa}-\varphi_i+E_i=\sum\limits_{x\in
+son}(\varphi_{i}-\varphi_x+E_x)\]</span></p>
+<p><span
+class="math display">\[\varphi_{fa}-\varphi_i+E_i=|son|\varphi_i-\sum\limits_{x\in
+son}(\varphi_x-E_x)\]</span></p>
+<p><span
+class="math display">\[(|son|+1)\varphi_i=\varphi_{fa}+E_i+\sum\limits_{x\in
+son}(\varphi_x-E_x)\]</span></p>
+<p>注意到 <span class="math inline">\(|son|\)</span>
+是儿子集合，相当于当前节点向儿子方向的度数；<span
+class="math inline">\(1\)</span> 相当于当前节点向父亲方向的度数，所以
+<span class="math inline">\(|son|+1\)</span> 实际上相当于节点 <span
+class="math inline">\(i\)</span> 的度数，记为 <span
+class="math inline">\(\deg_i\)</span>。</p>
+<p><span
+class="math display">\[\deg_i\varphi_i=\varphi_{fa}+E_i+\sum\limits_{x\in
+son}(\varphi_x-E_x)\]</span></p>
+<p>设 <span
+class="math inline">\(\varphi_i=K_i\varphi_{fa}+B_i\)</span>，其中 <span
+class="math inline">\(K_i,B_i\)</span> 都是只与 <span
+class="math inline">\(i\)</span> 和 <span
+class="math inline">\(son\)</span> 有关的常量。</p>
+<p>把 <span class="math inline">\(\varphi_x\)</span>
+用刚刚的形式表示出来：</p>
+<p><span
+class="math display">\[\varphi_x=K_x\varphi_{i}+B_x\]</span></p>
+<p>代入原式：</p>
+<p><span
+class="math display">\[\varphi_i=\frac{\varphi_{fa}+E_i+\sum\limits_{x\in
+son}(K_x\varphi_{i}+B_x-E_x)}{\deg_i}\]</span></p>
+<p>把这个式子表示成刚刚的形式：</p>
+<p><span
+class="math display">\[\deg_i\varphi_i=\varphi_{fa}+E_i+\sum\limits_{x\in
+son}(K_x\varphi_{i}+B_x-E_x)\]</span></p>
+<p><span
+class="math display">\[\deg_i\varphi_i=\varphi_{fa}+E_i+\varphi_i\sum\limits_{x\in
+son}K_x+\sum\limits_{x\in son}(B_x-E_x)\]</span></p>
+<p><span class="math display">\[\varphi_i(\deg_i-\sum\limits_{x\in
+son}K_x)=\varphi_{fa}+E_i+\sum\limits_{x\in son}(B_x-E_x)\]</span></p>
+<p><span
+class="math display">\[\varphi_i=\frac{1}{\deg_i-\sum\limits_{x\in
+son}K_x}\varphi_{fa}+\frac{\sum\limits_{x\in
+son}(B_x-E_x)+E_i}{\deg_i-\sum\limits_{x\in son}K_x}\]</span></p>
+<p>我们发现此时已经表示成 <span
+class="math inline">\(\varphi_i=K_i\varphi_{fa}+B_i\)</span>
+的形式了。那么：</p>
+<p><span class="math display">\[K_i=\frac{1}{\deg_i-\sum\limits_{x\in
+son}K_x}\]</span></p>
+<p><span class="math display">\[B_i=\frac{\sum\limits_{x\in
+son}(B_x-E_x)+E_i}{\deg_i-\sum\limits_{x\in
+son}K_x}=K_i(\sum\limits_{x\in son}(B_x-E_x)+E_i)\]</span></p>
+<p>因为我们要求 <span class="math inline">\(i\)</span>
+到地面，所以特判一下叶子。叶子度数为 <span
+class="math inline">\(2\)</span>，一条边连向地面，地面电势为 <span
+class="math inline">\(0\)</span>。</p>
+<h1 id="code">Code</h1>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXM = <span class="number">1e5</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">5e4</span> + <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Edge</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> to, nxt;</span><br><span class="line">&#125;edge[MAXM];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> head[MAXN], cnt;</span><br><span class="line"><span class="type">int</span> rt, n, m;</span><br><span class="line"><span class="type">int</span> deg[MAXN], fa[MAXN];</span><br><span class="line"><span class="type">double</span> k[MAXN], b[MAXN], sumb[MAXN], ph[MAXN], sumph[MAXN];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add_edge</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    edge[++cnt] = (Edge)&#123;v, head[u]&#125;;</span><br><span class="line">    head[u] = cnt;</span><br><span class="line">    edge[++cnt] = (Edge)&#123;u, head[v]&#125;;</span><br><span class="line">    head[v] = cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    fa[u] = f;</span><br><span class="line">    <span class="type">double</span> sumk = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = head[u]; i; i = edge[i].nxt)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> v = edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(v != f)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">init</span>(v, u);</span><br><span class="line">            sumk += k[v];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    k[u] = <span class="number">1.0</span> / (deg[u] - sumk);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(u == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        sumb[fa[u]] -= b[u];</span><br><span class="line">        b[u] = (sumb[u] + sumph[u] - ph[u]) * k[u];</span><br><span class="line">        sumb[fa[u]] += b[u];</span><br><span class="line">        <span class="built_in">add</span>(fa[u], e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">modify</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v, <span class="type">int</span> e)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(fa[v] == u)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">swap</span>(u, v);</span><br><span class="line">        e = -e;</span><br><span class="line">    &#125;</span><br><span class="line">    ph[u] -= e;</span><br><span class="line">    sumph[v] -= e;</span><br><span class="line">    <span class="built_in">add</span>(u, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">query</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(u == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> k[u] * <span class="built_in">query</span>(fa[u]) + b[u];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> u, v;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;u, &amp;v);</span><br><span class="line">        <span class="built_in">add_edge</span>(u, v);</span><br><span class="line">        deg[u]++, deg[v]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(deg[i] == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">add_edge</span>(i, <span class="number">0</span>);</span><br><span class="line">            deg[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        <span class="keyword">if</span>(deg[i] == <span class="number">1</span>) deg[i] = <span class="number">2</span>;</span><br><span class="line">    <span class="built_in">init</span>(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> ch;</span><br><span class="line">        cin &gt;&gt; ch;</span><br><span class="line">        <span class="keyword">if</span>(ch == <span class="string">&#x27;Q&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> u;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;u);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%.10lf\n&quot;</span>, <span class="built_in">query</span>(u));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> u, v, e;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>, &amp;u, &amp;v, &amp;e);</span><br><span class="line">            <span class="built_in">modify</span>(u, v, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>数学</tag>
+        <tag>物理</tag>
+        <tag>递推</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>概率论学习笔记（NJU）</title>
+    <url>/Probability-Theory/</url>
+    <content><![CDATA[<p>南京大学本科课程概率论。</p>
+<span id="more"></span>
+<h1 id="全概率公式">全概率公式</h1>
+<p>记 <span class="math inline">\(A_i,B\)</span> 为事件，<span
+class="math inline">\(B\)</span> 为结果，<span
+class="math inline">\(A_i\)</span> 为条件，则有全概率公式：</p>
+<p><span class="math display">\[
+P(B)=\sum\limits_{i=1}^{n}P(BA_i)=\sum\limits_{i=1}^{n}P(A_i)P(B|A_i)
+\]</span></p>
+<p>其中，<span class="math inline">\(P(AB)\)</span> 表示满足条件 <span
+class="math inline">\(A\land B\)</span> 的概率，<span
+class="math inline">\(P(B|A)\)</span> 表示条件 <span
+class="math inline">\(A\)</span> 下发生 <span
+class="math inline">\(B\)</span> 的概率。</p>
+<h1 id="贝叶斯公式">贝叶斯公式</h1>
+<p>遵循上述约定，若有 <span
+class="math inline">\(P(B)&gt;0\)</span>，则有贝叶斯公式：</p>
+<p><span class="math display">\[
+P(A_i|B)=\dfrac{P(A_iB)}{P(B)}=\dfrac{P(A_i)P(B|A_i)}{\sum\limits_{j=1}^{n}P(A_j)P(B|A_j)}
+\]</span></p>
+<p>其中 <span class="math inline">\(P(A|B)\)</span> 表示事件 <span
+class="math inline">\(B\)</span> 由 <span
+class="math inline">\(A\)</span> 引发的概率。</p>
+<p>特别地，若 <span class="math inline">\(n=1\)</span>，则有：</p>
+<p><span class="math display">\[
+P(A|B)=\dfrac{P(AB)}{P(B)}=\dfrac{P(A)P(B|A)}{P(A)P(B|A)+P(\overline{A})P(B|\overline{A})}
+\]</span></p>
+<p>其中 <span class="math inline">\(\overline{A}\)</span> 表示 <span
+class="math inline">\(A\)</span> 的反事件。</p>
+<p>全概率公式和贝叶斯公式均需要得知 <span
+class="math inline">\(P(A_i)\)</span> 与 <span
+class="math inline">\(P(B|A_i)\)</span>，不同之处在于全概率公式是通过这些概率推出
+<span class="math inline">\(B\)</span>
+的概率，即由因推果。而贝叶斯公式则是在已知 <span
+class="math inline">\(B\)</span> 发生的概率下，求出 <span
+class="math inline">\(A_i\)</span> 对其的影响，即由果推因。</p>
+<p>由此观之，全概率公式与贝叶斯公式呈现因果颠倒的关系。</p>
+<p>我们称 <span class="math inline">\(P(A_i)\)</span> 为先验概率，称
+<span class="math inline">\(P(A_i|B)\)</span> 为后验概率，<span
+class="math inline">\(P(B)\)</span> 为证据概率，<span
+class="math inline">\(P(B|A_i)\)</span>
+为似然度，则贝叶斯公式可用下式表示：</p>
+<p><span class="math display">\[
+\text{后验概率}=\dfrac{\text{先验概率}}{\text{证据概率}}\times
+\text{似然度}
+\]</span></p>
+<p>许多算法为提高后验概率，会尽量提高似然度。</p>
+<p>贝叶斯公式存在的争议：先验概率可能不存在或者存在主观性。</p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>概率论</tag>
+        <tag>数学</tag>
       </tags>
   </entry>
   <entry>
@@ -2319,63 +2379,144 @@ class="math inline">\(0pts\)</span>。</p>
       </categories>
   </entry>
   <entry>
-    <title>概率论学习笔记（NJU）</title>
-    <url>/Probability-Theory/</url>
-    <content><![CDATA[<p>南京大学本科课程概率论。</p>
+    <title>动态规划题目随解</title>
+    <url>/dp/</url>
+    <content><![CDATA[<p>持续更新。</p>
 <span id="more"></span>
-<h1 id="全概率公式">全概率公式</h1>
-<p>记 <span class="math inline">\(A_i,B\)</span> 为事件，<span
-class="math inline">\(B\)</span> 为结果，<span
-class="math inline">\(A_i\)</span> 为条件，则有全概率公式：</p>
-<p><span class="math display">\[
-P(B)=\sum\limits_{i=1}^{n}P(BA_i)=\sum\limits_{i=1}^{n}P(A_i)P(B|A_i)
-\]</span></p>
-<p>其中，<span class="math inline">\(P(AB)\)</span> 表示满足条件 <span
-class="math inline">\(A\land B\)</span> 的概率，<span
-class="math inline">\(P(B|A)\)</span> 表示条件 <span
-class="math inline">\(A\)</span> 下发生 <span
-class="math inline">\(B\)</span> 的概率。</p>
-<h1 id="贝叶斯公式">贝叶斯公式</h1>
-<p>遵循上述约定，若有 <span
-class="math inline">\(P(B)&gt;0\)</span>，则有贝叶斯公式：</p>
-<p><span class="math display">\[
-P(A_i|B)=\dfrac{P(A_iB)}{P(B)}=\dfrac{P(A_i)P(B|A_i)}{\sum\limits_{j=1}^{n}P(A_j)P(B|A_j)}
-\]</span></p>
-<p>其中 <span class="math inline">\(P(A|B)\)</span> 表示事件 <span
-class="math inline">\(B\)</span> 由 <span
-class="math inline">\(A\)</span> 引发的概率。</p>
-<p>特别地，若 <span class="math inline">\(n=1\)</span>，则有：</p>
-<p><span class="math display">\[
-P(A|B)=\dfrac{P(AB)}{P(B)}=\dfrac{P(A)P(B|A)}{P(A)P(B|A)+P(\overline{A})P(B|\overline{A})}
-\]</span></p>
-<p>其中 <span class="math inline">\(\overline{A}\)</span> 表示 <span
-class="math inline">\(A\)</span> 的反事件。</p>
-<p>全概率公式和贝叶斯公式均需要得知 <span
-class="math inline">\(P(A_i)\)</span> 与 <span
-class="math inline">\(P(B|A_i)\)</span>，不同之处在于全概率公式是通过这些概率推出
-<span class="math inline">\(B\)</span>
-的概率，即由因推果。而贝叶斯公式则是在已知 <span
-class="math inline">\(B\)</span> 发生的概率下，求出 <span
-class="math inline">\(A_i\)</span> 对其的影响，即由果推因。</p>
-<p>由此观之，全概率公式与贝叶斯公式呈现因果颠倒的关系。</p>
-<p>我们称 <span class="math inline">\(P(A_i)\)</span> 为先验概率，称
-<span class="math inline">\(P(A_i|B)\)</span> 为后验概率，<span
-class="math inline">\(P(B)\)</span> 为证据概率，<span
-class="math inline">\(P(B|A_i)\)</span>
-为似然度，则贝叶斯公式可用下式表示：</p>
-<p><span class="math display">\[
-\text{后验概率}=\dfrac{\text{先验概率}}{\text{证据概率}}\times
-\text{似然度}
-\]</span></p>
-<p>许多算法为提高后验概率，会尽量提高似然度。</p>
-<p>贝叶斯公式存在的争议：先验概率可能不存在或者存在主观性。</p>
+<h1 id="cf258d-little-elephant-and-broken-sorting">CF258D Little
+Elephant and Broken Sorting</h1>
+<p><a class="link"   href="https://codeforces.com/contest/258/problem/D" >Link</a><span
+class="math inline">\((^*2600)\)</span></p>
+<blockquote>
+<p>给定排列 <span class="math inline">\(p\)</span>，有 <span
+class="math inline">\(m\)</span> 次操作，每次操作给定 <span
+class="math inline">\(x,y\)</span>，等概率选择是否交换。求 <span
+class="math inline">\(\sum\limits_{i=1}^{n}\sum\limits_{j=i}^{n}P(p_i&gt;p_j)\)</span>。</p>
+<p><span class="math inline">\(n,m\leq 10^3\)</span>。</p>
+</blockquote>
+<p>考虑直接设 <span class="math inline">\(f_{l,r}\)</span> 表示 <span
+class="math inline">\(p_l&gt;p_r\)</span>
+的概率。初始化很好初始化，我们考虑直接对操作进行转移。</p>
+<p>假如我们要交换 <span class="math inline">\(p_l\)</span> 和 <span
+class="math inline">\(p_r\)</span>，那么此时其本身 <span
+class="math inline">\(f_{l,r}=f_{r,l}=0.5\)</span>。对于 <span
+class="math inline">\(\forall x\neq
+l,r\)</span>，考虑不交换和交换之后的改变。</p>
+<p>可以分以下情况讨论：</p>
+<ol type="1">
+<li><span
+class="math inline">\(f_{x,l}=\dfrac{f_{x,l}+f_{x,r}}{2}\)</span>；</li>
+<li><span
+class="math inline">\(f_{r,x}=\dfrac{f_{r,x}+f_{l,x}}{2}\)</span>；</li>
+<li><span
+class="math inline">\(f_{l,x}=\dfrac{f_{l,x}+f_{r,x}}{2}\)</span>；</li>
+<li><span
+class="math inline">\(f_{x,r}=\dfrac{f_{x,r}+f_{x,l}}{2}\)</span>。</li>
+</ol>
+<p>容易发现 <span class="math inline">\(1\)</span> 和 <span
+class="math inline">\(4\)</span>、<span class="math inline">\(2\)</span>
+和 <span class="math inline">\(3\)</span>
+的转移是相同的，可以一起处理。最后扫一遍即可，<span
+class="math inline">\(O(n^2)\)</span>。</p>
+<details>
+<summary>
+Code(Tap)
+</summary>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="built_in">read</span>(l, r);</span><br><span class="line">    f[l][r] = f[r][l] = <span class="number">0.5</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> x = <span class="number">1</span>; x &lt;= n; x++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(x == l || x == r) <span class="keyword">continue</span>;</span><br><span class="line">        f[x][l] = f[x][r] = ((f[x][l] + f[x][r]) / <span class="number">2.00</span>);</span><br><span class="line">        f[r][x] = f[l][x] = ((f[r][x] + f[l][x]) / <span class="number">2.00</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+</details>
+<h1 id="cf1185g2-playlist-for-polycarp">CF1185G2 Playlist for
+Polycarp</h1>
+<p><a class="link" 
+ href="https://codeforces.com/contest/1185/problem/G2" >Link</a><span
+class="math inline">\((^*2600)\)</span></p>
+<blockquote>
+<p>给定 <span class="math inline">\(n\)</span> 首歌，每首歌有时间 <span
+class="math inline">\(t_i\)</span> 与流派 <span
+class="math inline">\(g_i\)</span>。需要从中排列若干首歌，使得时间恰好为
+<span class="math inline">\(T\)</span>，且相邻流派不同。</p>
+<p><span class="math inline">\(1\leq n\leq 50,1\leq T\leq 2500,1\leq
+t_i\leq 50,1\leq g_i\leq 3\)</span>。</p>
+</blockquote>
+<p>不妨设 <span class="math inline">\(f_{i,j,k,1/2/3}\)</span>
+表示三种流派分别选了 <span class="math inline">\(i,j,k\)</span>
+首，最后一首为 <span class="math inline">\(1/2/3\)</span>
+的方案数。这个显然是很好转移的，时间复杂度 <span
+class="math inline">\(O(n^3)\)</span>。由于我们要求的是排列，因此还要乘一个
+<span class="math inline">\(i!j!k!\)</span>。</p>
+<p>然后我们在考虑相邻流派不同，时间恰好为 <span
+class="math inline">\(T\)</span>
+的方程。这个有点类似于背包，但是直接背包时间复杂度是 <span
+class="math inline">\(O(n^3T)\)</span> 的，不能接受。</p>
+<p>这里有一个比较巧妙的方法：将背包拆分成两个背包之后再分别求解。即我们记
+<span class="math inline">\(g_{i,t}\)</span> 为选择 <span
+class="math inline">\(1\)</span> 的背包，<span
+class="math inline">\(h_{j,k,t}\)</span> 为选择 <span
+class="math inline">\(2,3\)</span> 的背包。这样时间复杂度分别为 <span
+class="math inline">\(O(nT),O(n^2T)\)</span>。最后我们只需要枚举 <span
+class="math inline">\(g\)</span> 的 <span
+class="math inline">\(t\)</span>，<span class="math inline">\(h\)</span>
+的 <span class="math inline">\(t\)</span> 可以由 <span
+class="math inline">\(T-t\)</span> 得出。</p>
+<p>最后我们将答案乘在一起即可。</p>
+<details>
+<summary>
+Code(Tap)
+</summary>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line">f[<span class="number">1</span>][<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>] = f[<span class="number">0</span>][<span class="number">1</span>][<span class="number">0</span>][<span class="number">2</span>] = f[<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>][<span class="number">3</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = <span class="number">1</span>; v &lt;= <span class="number">3</span>; v++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(f[i][j][k][v] == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">1</span>) f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] += f[i][j][k][v], f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">2</span>) f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] += f[i][j][k][v], f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">3</span>) f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] += f[i][j][k][v], f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] %= mod;</span><br><span class="line">            &#125;</span><br><span class="line">g[<span class="number">0</span>][<span class="number">0</span>] = h[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">1</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] += g[j][k], g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n2; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">2</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] += h[j][<span class="number">0</span>][k], h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n3; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = n2; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = i; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = T - a[<span class="number">3</span>][i]; v &gt;= <span class="number">0</span>; v--)</span><br><span class="line">                h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] += h[j][k][v], h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] %= mod;</span><br><span class="line"><span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> t = <span class="number">0</span>; t &lt;= T; t++)</span><br><span class="line">                <span class="keyword">if</span>(g[i][T - t])</span><br><span class="line">                    ans += ((f[i][j][k][<span class="number">1</span>] + f[i][j][k][<span class="number">2</span>]) % mod + f[i][j][k][<span class="number">3</span>]) % mod * fct[i] % mod * fct[j] % mod * fct[k] % mod * h[j][k][t] % mod * g[i][T - t] % mod, ans %= mod;</span><br></pre></td></tr></table></figure></div>
+</details>
+<h1 id="cf1699e-three-days-grace">CF1699E Three Days Grace</h1>
+<p><a class="link"   href="https://codeforces.com/contest/1699/problem/E" >link</a><span
+class="math inline">\((^*2600)\)</span></p>
+<blockquote>
+<p>给定 <span class="math inline">\(n\)</span> 个元素的可重集 <span
+class="math inline">\(S\)</span>，值域为 <span
+class="math inline">\([1,m]\)</span>，你可以进行若干次操作：选择 <span
+class="math inline">\(A_i\in S\)</span>，将其拆分成 <span
+class="math inline">\(p\cdot q=A_i\)</span>，删除 <span
+class="math inline">\(A_i\)</span> 并加入 <span
+class="math inline">\(p,q\)</span>。需要最小化极差。</p>
+<p><span class="math inline">\(1\leq n\leq 10^6, 1\leq m\leq 5\cdot
+10^6\)</span>。</p>
+</blockquote>
+<p>想象一个竖直的数轴，考虑将一个点拆分的过程实际相当于将比较高的点变换到比较低的位置。</p>
+<p>这给我们一个启示：答案一定在一个区间 <span
+class="math inline">\([l,r]\)</span>
+内，进一步我们可以找出类似于双指针的方法：固定 <span
+class="math inline">\(l\)</span>，并从大到小维护 <span
+class="math inline">\(r\)</span>。</p>
+<p>于是我们不妨设 <span class="math inline">\(f_{l,i}\)</span>
+表示区间下界在 <span class="math inline">\(l\)</span>，当前枚举到点
+<span class="math inline">\(i\)</span>，此时的最小最大值。</p>
+<p>考虑转移到 <span class="math inline">\(j\)</span>，若 <span
+class="math inline">\(j\)</span> 不能被拆分出来，那么 <span
+class="math inline">\(f_{l,i}=f_{l+1,i}\)</span>；如果 <span
+class="math inline">\(j\)</span>
+可以被拆分出来，那么我们把这个拆出去，<span
+class="math inline">\(f_{l,i}=\min\{f_{l,\frac{j}{i}}\,f_{l,i}\}\)</span>。由于不一定只拆出来一个
+<span
+class="math inline">\(i\)</span>，所以这里我们可以用一些多重背包的思想。</p>
+<p>但是这样是不能接受的。考虑怎么优化：首先可以压掉第一维，然后第二维从
+<span class="math inline">\(i\times i\)</span> 开始每次 <span
+class="math inline">\(+i\)</span>，是调和级数级别的。</p>
+<p>然后我们考虑在 <span class="math inline">\(i\)</span>
+不变的情况下，随着 <span class="math inline">\(l\)</span> 下降，<span
+class="math inline">\(f\)</span> 是单调递减的。因此我们可以对 <span
+class="math inline">\(f\)</span>
+数组开桶，用指针向下扫到第一个存在值的位置。</p>
+<p>这样的时间复杂度是 <span class="math inline">\(O(m\log m)\)</span>
+的。</p>
+<details>
+<summary>
+Code(Tap)
+</summary>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">read</span>(n, m);</span><br><span class="line"><span class="built_in">memset</span>(a, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="built_in">memset</span>(t, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="type">int</span> lim = <span class="number">1e9</span> + <span class="number">7</span>, ans = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="built_in">read</span>();</span><br><span class="line">    lim = <span class="built_in">min</span>(lim, x);</span><br><span class="line">    a[x] = t[x] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) f[i] = i;</span><br><span class="line"><span class="type">int</span> pt = m;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = m; i; i--)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(i * i &lt;= m)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = i * i; j &lt;= m; j += i)</span><br><span class="line">        &#123;</span><br><span class="line">            t[f[j]] -= a[j];</span><br><span class="line">            f[j] = <span class="built_in">min</span>(f[j], f[j / i]);</span><br><span class="line">            t[f[j]] += a[j]; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(!t[pt]) pt--;</span><br><span class="line">    <span class="keyword">if</span>(i &lt;= lim) ans = <span class="built_in">min</span>(ans, pt - i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br></pre></td></tr></table></figure></div>
+</details>
 ]]></content>
       <categories>
-        <category>学习笔记</category>
+        <category>题解</category>
       </categories>
       <tags>
-        <tag>概率论</tag>
-        <tag>数学</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>
@@ -3560,147 +3701,6 @@ class="math inline">\(L,R,T\)</span>，求：</p>
       <categories>
         <category>随记</category>
       </categories>
-  </entry>
-  <entry>
-    <title>动态规划题目随解</title>
-    <url>/dp/</url>
-    <content><![CDATA[<p>持续更新。</p>
-<span id="more"></span>
-<h1 id="cf258d-little-elephant-and-broken-sorting">CF258D Little
-Elephant and Broken Sorting</h1>
-<p><a class="link"   href="https://codeforces.com/contest/258/problem/D" >Link</a><span
-class="math inline">\((^*2600)\)</span></p>
-<blockquote>
-<p>给定排列 <span class="math inline">\(p\)</span>，有 <span
-class="math inline">\(m\)</span> 次操作，每次操作给定 <span
-class="math inline">\(x,y\)</span>，等概率选择是否交换。求 <span
-class="math inline">\(\sum\limits_{i=1}^{n}\sum\limits_{j=i}^{n}P(p_i&gt;p_j)\)</span>。</p>
-<p><span class="math inline">\(n,m\leq 10^3\)</span>。</p>
-</blockquote>
-<p>考虑直接设 <span class="math inline">\(f_{l,r}\)</span> 表示 <span
-class="math inline">\(p_l&gt;p_r\)</span>
-的概率。初始化很好初始化，我们考虑直接对操作进行转移。</p>
-<p>假如我们要交换 <span class="math inline">\(p_l\)</span> 和 <span
-class="math inline">\(p_r\)</span>，那么此时其本身 <span
-class="math inline">\(f_{l,r}=f_{r,l}=0.5\)</span>。对于 <span
-class="math inline">\(\forall x\neq
-l,r\)</span>，考虑不交换和交换之后的改变。</p>
-<p>可以分以下情况讨论：</p>
-<ol type="1">
-<li><span
-class="math inline">\(f_{x,l}=\dfrac{f_{x,l}+f_{x,r}}{2}\)</span>；</li>
-<li><span
-class="math inline">\(f_{r,x}=\dfrac{f_{r,x}+f_{l,x}}{2}\)</span>；</li>
-<li><span
-class="math inline">\(f_{l,x}=\dfrac{f_{l,x}+f_{r,x}}{2}\)</span>；</li>
-<li><span
-class="math inline">\(f_{x,r}=\dfrac{f_{x,r}+f_{x,l}}{2}\)</span>。</li>
-</ol>
-<p>容易发现 <span class="math inline">\(1\)</span> 和 <span
-class="math inline">\(4\)</span>、<span class="math inline">\(2\)</span>
-和 <span class="math inline">\(3\)</span>
-的转移是相同的，可以一起处理。最后扫一遍即可，<span
-class="math inline">\(O(n^2)\)</span>。</p>
-<details>
-<summary>
-Code(Tap)
-</summary>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> l, r;</span><br><span class="line">    <span class="built_in">read</span>(l, r);</span><br><span class="line">    f[l][r] = f[r][l] = <span class="number">0.5</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> x = <span class="number">1</span>; x &lt;= n; x++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(x == l || x == r) <span class="keyword">continue</span>;</span><br><span class="line">        f[x][l] = f[x][r] = ((f[x][l] + f[x][r]) / <span class="number">2.00</span>);</span><br><span class="line">        f[r][x] = f[l][x] = ((f[r][x] + f[l][x]) / <span class="number">2.00</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-</details>
-<h1 id="cf1185g2-playlist-for-polycarp">CF1185G2 Playlist for
-Polycarp</h1>
-<p><a class="link" 
- href="https://codeforces.com/contest/1185/problem/G2" >Link</a><span
-class="math inline">\((^*2600)\)</span></p>
-<blockquote>
-<p>给定 <span class="math inline">\(n\)</span> 首歌，每首歌有时间 <span
-class="math inline">\(t_i\)</span> 与流派 <span
-class="math inline">\(g_i\)</span>。需要从中排列若干首歌，使得时间恰好为
-<span class="math inline">\(T\)</span>，且相邻流派不同。</p>
-<p><span class="math inline">\(1\leq n\leq 50,1\leq T\leq 2500,1\leq
-t_i\leq 50,1\leq g_i\leq 3\)</span>。</p>
-</blockquote>
-<p>不妨设 <span class="math inline">\(f_{i,j,k,1/2/3}\)</span>
-表示三种流派分别选了 <span class="math inline">\(i,j,k\)</span>
-首，最后一首为 <span class="math inline">\(1/2/3\)</span>
-的方案数。这个显然是很好转移的，时间复杂度 <span
-class="math inline">\(O(n^3)\)</span>。由于我们要求的是排列，因此还要乘一个
-<span class="math inline">\(i!j!k!\)</span>。</p>
-<p>然后我们在考虑相邻流派不同，时间恰好为 <span
-class="math inline">\(T\)</span>
-的方程。这个有点类似于背包，但是直接背包时间复杂度是 <span
-class="math inline">\(O(n^3T)\)</span> 的，不能接受。</p>
-<p>这里有一个比较巧妙的方法：将背包拆分成两个背包之后再分别求解。即我们记
-<span class="math inline">\(g_{i,t}\)</span> 为选择 <span
-class="math inline">\(1\)</span> 的背包，<span
-class="math inline">\(h_{j,k,t}\)</span> 为选择 <span
-class="math inline">\(2,3\)</span> 的背包。这样时间复杂度分别为 <span
-class="math inline">\(O(nT),O(n^2T)\)</span>。最后我们只需要枚举 <span
-class="math inline">\(g\)</span> 的 <span
-class="math inline">\(t\)</span>，<span class="math inline">\(h\)</span>
-的 <span class="math inline">\(t\)</span> 可以由 <span
-class="math inline">\(T-t\)</span> 得出。</p>
-<p>最后我们将答案乘在一起即可。</p>
-<details>
-<summary>
-Code(Tap)
-</summary>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line">f[<span class="number">1</span>][<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>] = f[<span class="number">0</span>][<span class="number">1</span>][<span class="number">0</span>][<span class="number">2</span>] = f[<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>][<span class="number">3</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = <span class="number">1</span>; v &lt;= <span class="number">3</span>; v++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(f[i][j][k][v] == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">1</span>) f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] += f[i][j][k][v], f[i + <span class="number">1</span>][j][k][<span class="number">1</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">2</span>) f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] += f[i][j][k][v], f[i][j + <span class="number">1</span>][k][<span class="number">2</span>] %= mod;</span><br><span class="line">                <span class="keyword">if</span>(v != <span class="number">3</span>) f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] += f[i][j][k][v], f[i][j][k + <span class="number">1</span>][<span class="number">3</span>] %= mod;</span><br><span class="line">            &#125;</span><br><span class="line">g[<span class="number">0</span>][<span class="number">0</span>] = h[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">1</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] += g[j][k], g[j + <span class="number">1</span>][k + a[<span class="number">1</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n2; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = i; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = T - a[<span class="number">2</span>][i]; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] += h[j][<span class="number">0</span>][k], h[j + <span class="number">1</span>][<span class="number">0</span>][k + a[<span class="number">2</span>][i]] %= mod;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n3; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = n2; j &gt;= <span class="number">0</span>; j--)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = i; k &gt;= <span class="number">0</span>; k--)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> v = T - a[<span class="number">3</span>][i]; v &gt;= <span class="number">0</span>; v--)</span><br><span class="line">                h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] += h[j][k][v], h[j][k + <span class="number">1</span>][v + a[<span class="number">3</span>][i]] %= mod;</span><br><span class="line"><span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n1; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= n2; j++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">0</span>; k &lt;= n3; k++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> t = <span class="number">0</span>; t &lt;= T; t++)</span><br><span class="line">                <span class="keyword">if</span>(g[i][T - t])</span><br><span class="line">                    ans += ((f[i][j][k][<span class="number">1</span>] + f[i][j][k][<span class="number">2</span>]) % mod + f[i][j][k][<span class="number">3</span>]) % mod * fct[i] % mod * fct[j] % mod * fct[k] % mod * h[j][k][t] % mod * g[i][T - t] % mod, ans %= mod;</span><br></pre></td></tr></table></figure></div>
-</details>
-<h1 id="cf1699e-three-days-grace">CF1699E Three Days Grace</h1>
-<p><a class="link"   href="https://codeforces.com/contest/1699/problem/E" >link</a><span
-class="math inline">\((^*2600)\)</span></p>
-<blockquote>
-<p>给定 <span class="math inline">\(n\)</span> 个元素的可重集 <span
-class="math inline">\(S\)</span>，值域为 <span
-class="math inline">\([1,m]\)</span>，你可以进行若干次操作：选择 <span
-class="math inline">\(A_i\in S\)</span>，将其拆分成 <span
-class="math inline">\(p\cdot q=A_i\)</span>，删除 <span
-class="math inline">\(A_i\)</span> 并加入 <span
-class="math inline">\(p,q\)</span>。需要最小化极差。</p>
-<p><span class="math inline">\(1\leq n\leq 10^6, 1\leq m\leq 5\cdot
-10^6\)</span>。</p>
-</blockquote>
-<p>想象一个竖直的数轴，考虑将一个点拆分的过程实际相当于将比较高的点变换到比较低的位置。</p>
-<p>这给我们一个启示：答案一定在一个区间 <span
-class="math inline">\([l,r]\)</span>
-内，进一步我们可以找出类似于双指针的方法：固定 <span
-class="math inline">\(l\)</span>，并从大到小维护 <span
-class="math inline">\(r\)</span>。</p>
-<p>于是我们不妨设 <span class="math inline">\(f_{l,i}\)</span>
-表示区间下界在 <span class="math inline">\(l\)</span>，当前枚举到点
-<span class="math inline">\(i\)</span>，此时的最小最大值。</p>
-<p>考虑转移到 <span class="math inline">\(j\)</span>，若 <span
-class="math inline">\(j\)</span> 不能被拆分出来，那么 <span
-class="math inline">\(f_{l,i}=f_{l+1,i}\)</span>；如果 <span
-class="math inline">\(j\)</span>
-可以被拆分出来，那么我们把这个拆出去，<span
-class="math inline">\(f_{l,i}=\min\{f_{l,\frac{j}{i}}\,f_{l,i}\}\)</span>。由于不一定只拆出来一个
-<span
-class="math inline">\(i\)</span>，所以这里我们可以用一些多重背包的思想。</p>
-<p>但是这样是不能接受的。考虑怎么优化：首先可以压掉第一维，然后第二维从
-<span class="math inline">\(i\times i\)</span> 开始每次 <span
-class="math inline">\(+i\)</span>，是调和级数级别的。</p>
-<p>然后我们考虑在 <span class="math inline">\(i\)</span>
-不变的情况下，随着 <span class="math inline">\(l\)</span> 下降，<span
-class="math inline">\(f\)</span> 是单调递减的。因此我们可以对 <span
-class="math inline">\(f\)</span>
-数组开桶，用指针向下扫到第一个存在值的位置。</p>
-<p>这样的时间复杂度是 <span class="math inline">\(O(m\log m)\)</span>
-的。</p>
-<details>
-<summary>
-Code(Tap)
-</summary>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">read</span>(n, m);</span><br><span class="line"><span class="built_in">memset</span>(a, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="built_in">memset</span>(t, <span class="number">0</span>, (m + <span class="number">1</span>) * <span class="number">8</span>);</span><br><span class="line"><span class="type">int</span> lim = <span class="number">1e9</span> + <span class="number">7</span>, ans = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> x = <span class="built_in">read</span>();</span><br><span class="line">    lim = <span class="built_in">min</span>(lim, x);</span><br><span class="line">    a[x] = t[x] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) f[i] = i;</span><br><span class="line"><span class="type">int</span> pt = m;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = m; i; i--)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(i * i &lt;= m)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = i * i; j &lt;= m; j += i)</span><br><span class="line">        &#123;</span><br><span class="line">            t[f[j]] -= a[j];</span><br><span class="line">            f[j] = <span class="built_in">min</span>(f[j], f[j / i]);</span><br><span class="line">            t[f[j]] += a[j]; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(!t[pt]) pt--;</span><br><span class="line">    <span class="keyword">if</span>(i &lt;= lim) ans = <span class="built_in">min</span>(ans, pt - i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br></pre></td></tr></table></figure></div>
-</details>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-      </tags>
   </entry>
   <entry>
     <title>摆烂日志</title>
