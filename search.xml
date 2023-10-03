@@ -65,6 +65,41 @@ class="math inline">\(b&gt;ak\)</span>。输出的时候分为左右两边判断
       </tags>
   </entry>
   <entry>
+    <title>CF442D Adam and Tree</title>
+    <url>/CF442D/</url>
+    <content><![CDATA[<p>有生之年独立做出来的黑题（至少现在是）。</p>
+<span id="more"></span>
+<p>首先，一定有一种最优情况使得一条颜色的路径不会同时包含某个节点的多于一个儿子。</p>
+<p>证明：如果有存在同时包含某个节点多于一个儿子的路径，那么由于我们只关心某个节点到根节点的颜色数量，而不关心总颜色数量，因此将这条路径拆成两条即可。</p>
+<p>然后考虑设 <span class="math inline">\(f_u\)</span> 表示以 <span
+class="math inline">\(u\)</span>
+为根的子树，包括其连向父亲的那条边的最优解。</p>
+<p>考虑到我们现在要给 <span class="math inline">\(u\rightarrow
+fa_u\)</span>
+染色，那么我们应当将其染成儿子的最大值的颜色。因为这样一定可以尽量减少对答案的贡献。那么儿子的次大值就会加上
+<span class="math inline">\(1\)</span>。因此我们同时维护最大值 <span
+class="math inline">\(max1\)</span>，次大值 <span
+class="math inline">\(max2\)</span>，可以得到转移方程：</p>
+<p><span class="math display">\[
+f_u=\max\{max1_u, max2_u+1\}
+\]</span></p>
+<p>考虑这样暴力转移是 <span class="math inline">\(O(n)\)</span>
+的，总时间复杂度 <span class="math inline">\(O(n^2)\)</span>。</p>
+<p>我们加入这样一个优化：如果加入一个节点，向上更新的过程中，发现已经无法更新该节点，那么就直接停止更新。这样的时间复杂度是
+<span class="math inline">\(O(n\log n)\)</span> 的。</p>
+<p>为什么呢？因为可以发现，我们每次更新的一定是一条链。而我们染色的过程类似于重链剖分，一个节点到根的过程经过的链的数量是
+<span class="math inline">\(O(\log n)\)</span> 的，因此总时间复杂度
+<span class="math inline">\(O(n\log n)\)</span>。</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(u == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span>(max1[fa[u]] &lt; f[u])</span><br><span class="line">    &#123;</span><br><span class="line">        max2[fa[u]] = max1[fa[u]];</span><br><span class="line">        max1[fa[u]] = f[u];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(max2[fa[u]] &lt; f[u])</span><br><span class="line">    &#123;</span><br><span class="line">        max2[fa[u]] = f[u];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> ans = <span class="built_in">max</span>(max1[fa[u]], max2[fa[u]] + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(f[fa[u]] == ans) <span class="keyword">return</span>;</span><br><span class="line">    f[fa[u]] = ans;</span><br><span class="line">    <span class="built_in">dfs</span>(fa[u]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">read</span>(n);</span><br><span class="line">    f[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n + <span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        f[i] = <span class="number">1</span>;</span><br><span class="line">        fa[i] = <span class="built_in">read</span>();</span><br><span class="line">        <span class="built_in">dfs</span>(i);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, max1[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>哈希学习笔记（NJU）</title>
     <url>/Hashing-Sketching/</url>
     <content><![CDATA[<p>南京大学研究生课程 Advanced Algorithm。</p>
@@ -335,6 +370,90 @@ class="math inline">\(\text{pushdown}\)</span> 可以这么写：</p>
       </tags>
   </entry>
   <entry>
+    <title>HAOI2012 高速公路</title>
+    <url>/LGP2221/</url>
+    <content><![CDATA[<p>一道非常好的线段树题。</p>
+<span id="more"></span>
+<h1 id="sol.">Sol.</h1>
+<p>优先想到线段树，考虑怎么维护。</p>
+<p>记第 <span class="math inline">\(i\)</span> 到第 <span
+class="math inline">\(i+1\)</span> 条边为第 <span
+class="math inline">\(i\)</span> 条边，将问题转化成维护 <span
+class="math inline">\(n-1\)</span> 个数。</p>
+<p>那么，我们维护一个前缀和 <span
+class="math inline">\(sum\)</span>，根据题意：</p>
+<p><span class="math display">\[
+Ans=\frac{\sum\limits_{i=l}^{r}\sum\limits_{j=l}^{r}sum_j-sum_i}{\binom{r-l+1}{2}}(i\neq
+j)
+\]</span></p>
+<p>下面的东西很好算，重点是上面的东西怎么维护。</p>
+<p>我们把上面的东西记作 <span
+class="math inline">\(ans\)</span>，考虑枚举每条边被计算的次数，可以理解成枚举每个点左右两条路。</p>
+<p>所以：</p>
+<p><span class="math display">\[
+\begin{split}
+ans &amp;=\sum\limits_{i=l}^{r}a_i\times (r-i+1)(i-l+1)\\
+    &amp;=\sum\limits_{i=l}^{r}a_i\times (ir-lr+r-i^2+il-i+i-l+1)\\
+    &amp;=\sum\limits_{i=l}^{r}a_i\times (-i^2+(l+r)i-lr+r-l+1)\\
+    &amp;=-\sum\limits_{i=l}^{r}a_i\times
+i^2+(l+r)\sum\limits_{i=l}^{r}a_i\times
+i+(r-l-lr+1)\sum\limits_{i=l}^{r}a_i
+\end{split}
+\]</span></p>
+<p>现在需要维护 <span
+class="math inline">\(sum_1=\sum_{i=l}^{r}a_i\times i^2\)</span>，<span
+class="math inline">\(sum_2=\sum_{i=l}^{r}a_i\times i\)</span>，<span
+class="math inline">\(sum_3=\sum_{i=l}^{r}a_i\)</span>。</p>
+<p>即变成：</p>
+<p><span
+class="math display">\[ans=-sum1+(l+r)sum2+(r-l-lr+1)sum3\]</span></p>
+<p>考虑 <code>pushup</code> 的时候，直接相加就可以了。</p>
+<p>考虑在区间 <span class="math inline">\([L,R]\)</span> 加上一个 <span
+class="math inline">\(x\)</span> 的时候怎么做：</p>
+<p><span class="math display">\[
+\begin{split}
+sum_3&#39;
+&amp;= \sum\limits_{i=L}^{R}(a_i+x)\\
+&amp;= (R-L+1)x+\sum\limits_{i=L}^{R}a_i\\
+&amp;= (R-L+1)x+sum_3\\
+\Delta sum_3 &amp;= (R-L+1)x
+\end{split}
+\]</span></p>
+<p>直接维护。</p>
+<p><span class="math display">\[
+\begin{split}
+sum_2&#39;
+&amp;= \sum\limits_{i=L}^{R}i(a_i+x)\\
+&amp;= \sum\limits_{i=L}^{R}i\times a_i+\sum\limits_{i=L}^{R}ix\\
+&amp;= \sum\limits_{i=L}^{R}i\times a_i+x\sum\limits_{i=L}^{R}i\\
+&amp;= x\sum\limits_{i=L}^{R}i+sum_2\\
+\Delta sum_2 &amp;= x\sum\limits_{i=L}^{R}i
+\end{split}
+\]</span></p>
+<p>维护区间和。</p>
+<p><span class="math display">\[
+\begin{split}
+sum_1&#39;
+&amp;= \sum\limits_{i=L}^{R}i^2(a_i+x)\\
+&amp;= \sum\limits_{i=L}^{R}i^2\times a_i+\sum\limits_{i=L}^{R}i^2x\\
+&amp;= \sum\limits_{i=L}^{R}i^2\times a_i+x\sum\limits_{i=L}^{R}i^2\\
+&amp;= x\sum\limits_{i=L}^{R}i^2+sum_1\\
+\Delta sum_1 &amp;= x\sum\limits_{i=L}^{R}i^2
+\end{split}
+\]</span></p>
+<p>维护区间平方和。</p>
+<p>最后求期望约分即可。</p>
+<h1 id="code">Code</h1>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">100007</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> ans1, ans2, ans3;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Tree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">		<span class="keyword">struct</span> <span class="title class_">Node</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> sum1, sum2, sum3, sum4, sum5;</span><br><span class="line">            <span class="type">int</span> lazy;</span><br><span class="line">            <span class="type">int</span> l, r;</span><br><span class="line">        &#125;tree[MAXN &lt;&lt; <span class="number">2</span>];</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">lc</span><span class="params">(<span class="type">int</span> k)</span></span>&#123;<span class="keyword">return</span> k &lt;&lt; <span class="number">1</span>;&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">rc</span><span class="params">(<span class="type">int</span> k)</span></span>&#123;<span class="keyword">return</span> k &lt;&lt; <span class="number">1</span> | <span class="number">1</span>;&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			tree[k].lazy += v;</span><br><span class="line">			tree[k].sum1 += (tree[k].r - tree[k].l + <span class="number">1</span>) * v;</span><br><span class="line">            tree[k].sum2 += v * tree[k].sum5;</span><br><span class="line">            tree[k].sum3 += v * tree[k].sum4;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">pushup</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			tree[k].sum1 = tree[<span class="built_in">lc</span>(k)].sum1 + tree[<span class="built_in">rc</span>(k)].sum1;</span><br><span class="line">            tree[k].sum2 = tree[<span class="built_in">lc</span>(k)].sum2 + tree[<span class="built_in">rc</span>(k)].sum2;</span><br><span class="line">            tree[k].sum3 = tree[<span class="built_in">lc</span>(k)].sum3 + tree[<span class="built_in">rc</span>(k)].sum3;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="built_in">f</span>(<span class="built_in">lc</span>(k), tree[k].lazy);</span><br><span class="line">			<span class="built_in">f</span>(<span class="built_in">rc</span>(k), tree[k].lazy);</span><br><span class="line">			tree[k].lazy = <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> k,<span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			tree[k].lazy = <span class="number">0</span>;</span><br><span class="line">            tree[k].l = l;</span><br><span class="line">            tree[k].r = r;</span><br><span class="line">			<span class="keyword">if</span>(l == r)</span><br><span class="line">			&#123;</span><br><span class="line">				tree[k].sum4 = l * l;</span><br><span class="line">                tree[k].sum5 = l;</span><br><span class="line">				<span class="keyword">return</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			<span class="built_in">build</span>(<span class="built_in">lc</span>(k), l, mid);</span><br><span class="line">			<span class="built_in">build</span>(<span class="built_in">rc</span>(k), mid + <span class="number">1</span>, r);</span><br><span class="line">			tree[k].sum4 = tree[<span class="built_in">lc</span>(k)].sum4 + tree[<span class="built_in">rc</span>(k)].sum4;</span><br><span class="line">            tree[k].sum5 = tree[<span class="built_in">lc</span>(k)].sum5 + tree[<span class="built_in">rc</span>(k)].sum5;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> L, <span class="type">int</span> R, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= tree[k].l &amp;&amp; tree[k].r &lt;= R)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">f</span>(k, v);</span><br><span class="line">				<span class="keyword">return</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">pushdown</span>(k);</span><br><span class="line">			<span class="type">int</span> mid = (tree[k].l + tree[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= mid) <span class="built_in">update</span>(<span class="built_in">lc</span>(k), L, R, v);</span><br><span class="line">			<span class="keyword">if</span>(R &gt; mid) <span class="built_in">update</span>(<span class="built_in">rc</span>(k), L, R, v);</span><br><span class="line">			<span class="built_in">pushup</span>(k);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> L, <span class="type">int</span> R)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= tree[k].l &amp;&amp; tree[k].r &lt;= R)</span><br><span class="line">            &#123;</span><br><span class="line">                ans1 += tree[k].sum1;</span><br><span class="line">                ans2 += tree[k].sum2;</span><br><span class="line">                ans3 += tree[k].sum3;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="built_in">pushdown</span>(k);</span><br><span class="line">			<span class="type">int</span> mid = (tree[k].l + tree[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= mid) <span class="built_in">query</span>(<span class="built_in">lc</span>(k), L, R);</span><br><span class="line">			<span class="keyword">if</span>(R &gt; mid) <span class="built_in">query</span>(<span class="built_in">rc</span>(k), L, R);</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Tree t;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">gcd</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !b ? a : <span class="built_in">gcd</span>(b, a % b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">    t.<span class="built_in">build</span>(<span class="number">1</span>, <span class="number">1</span>, n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> op;</span><br><span class="line">        <span class="type">int</span> l, r, v;</span><br><span class="line">        cin &gt;&gt; op;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld&quot;</span>, &amp;l, &amp;r);</span><br><span class="line">        r--;</span><br><span class="line">        <span class="keyword">if</span>(op == <span class="string">&#x27;C&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;v);</span><br><span class="line">            t.<span class="built_in">update</span>(<span class="number">1</span>, l, r, v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            ans1 = ans2 = ans3 = <span class="number">0</span>;</span><br><span class="line">            t.<span class="built_in">query</span>(<span class="number">1</span>, l, r);</span><br><span class="line">            <span class="type">int</span> a, b, c;</span><br><span class="line">            a = (r - l + <span class="number">1</span> - r * l) * ans1 + (r + l) * ans2 - ans3;</span><br><span class="line">            b = (r - l + <span class="number">2</span>) * (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            c = <span class="built_in">gcd</span>(a, b);</span><br><span class="line">            <span class="comment">//cout &lt;&lt; l &lt;&lt; r &lt;&lt; b;</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lld/%lld\n&quot;</span>, a / c, b / c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>线段树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NOI2013 快餐店</title>
     <url>/LGP1399/</url>
     <content><![CDATA[<p>图片炸了，难过。本地也没有存。</p>
@@ -497,90 +616,6 @@ class="math inline">\(pre_i+suf_{i+1}+w_{(1,m)}\)</span>。</p>
       </categories>
       <tags>
         <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HAOI2012 高速公路</title>
-    <url>/LGP2221/</url>
-    <content><![CDATA[<p>一道非常好的线段树题。</p>
-<span id="more"></span>
-<h1 id="sol.">Sol.</h1>
-<p>优先想到线段树，考虑怎么维护。</p>
-<p>记第 <span class="math inline">\(i\)</span> 到第 <span
-class="math inline">\(i+1\)</span> 条边为第 <span
-class="math inline">\(i\)</span> 条边，将问题转化成维护 <span
-class="math inline">\(n-1\)</span> 个数。</p>
-<p>那么，我们维护一个前缀和 <span
-class="math inline">\(sum\)</span>，根据题意：</p>
-<p><span class="math display">\[
-Ans=\frac{\sum\limits_{i=l}^{r}\sum\limits_{j=l}^{r}sum_j-sum_i}{\binom{r-l+1}{2}}(i\neq
-j)
-\]</span></p>
-<p>下面的东西很好算，重点是上面的东西怎么维护。</p>
-<p>我们把上面的东西记作 <span
-class="math inline">\(ans\)</span>，考虑枚举每条边被计算的次数，可以理解成枚举每个点左右两条路。</p>
-<p>所以：</p>
-<p><span class="math display">\[
-\begin{split}
-ans &amp;=\sum\limits_{i=l}^{r}a_i\times (r-i+1)(i-l+1)\\
-    &amp;=\sum\limits_{i=l}^{r}a_i\times (ir-lr+r-i^2+il-i+i-l+1)\\
-    &amp;=\sum\limits_{i=l}^{r}a_i\times (-i^2+(l+r)i-lr+r-l+1)\\
-    &amp;=-\sum\limits_{i=l}^{r}a_i\times
-i^2+(l+r)\sum\limits_{i=l}^{r}a_i\times
-i+(r-l-lr+1)\sum\limits_{i=l}^{r}a_i
-\end{split}
-\]</span></p>
-<p>现在需要维护 <span
-class="math inline">\(sum_1=\sum_{i=l}^{r}a_i\times i^2\)</span>，<span
-class="math inline">\(sum_2=\sum_{i=l}^{r}a_i\times i\)</span>，<span
-class="math inline">\(sum_3=\sum_{i=l}^{r}a_i\)</span>。</p>
-<p>即变成：</p>
-<p><span
-class="math display">\[ans=-sum1+(l+r)sum2+(r-l-lr+1)sum3\]</span></p>
-<p>考虑 <code>pushup</code> 的时候，直接相加就可以了。</p>
-<p>考虑在区间 <span class="math inline">\([L,R]\)</span> 加上一个 <span
-class="math inline">\(x\)</span> 的时候怎么做：</p>
-<p><span class="math display">\[
-\begin{split}
-sum_3&#39;
-&amp;= \sum\limits_{i=L}^{R}(a_i+x)\\
-&amp;= (R-L+1)x+\sum\limits_{i=L}^{R}a_i\\
-&amp;= (R-L+1)x+sum_3\\
-\Delta sum_3 &amp;= (R-L+1)x
-\end{split}
-\]</span></p>
-<p>直接维护。</p>
-<p><span class="math display">\[
-\begin{split}
-sum_2&#39;
-&amp;= \sum\limits_{i=L}^{R}i(a_i+x)\\
-&amp;= \sum\limits_{i=L}^{R}i\times a_i+\sum\limits_{i=L}^{R}ix\\
-&amp;= \sum\limits_{i=L}^{R}i\times a_i+x\sum\limits_{i=L}^{R}i\\
-&amp;= x\sum\limits_{i=L}^{R}i+sum_2\\
-\Delta sum_2 &amp;= x\sum\limits_{i=L}^{R}i
-\end{split}
-\]</span></p>
-<p>维护区间和。</p>
-<p><span class="math display">\[
-\begin{split}
-sum_1&#39;
-&amp;= \sum\limits_{i=L}^{R}i^2(a_i+x)\\
-&amp;= \sum\limits_{i=L}^{R}i^2\times a_i+\sum\limits_{i=L}^{R}i^2x\\
-&amp;= \sum\limits_{i=L}^{R}i^2\times a_i+x\sum\limits_{i=L}^{R}i^2\\
-&amp;= x\sum\limits_{i=L}^{R}i^2+sum_1\\
-\Delta sum_1 &amp;= x\sum\limits_{i=L}^{R}i^2
-\end{split}
-\]</span></p>
-<p>维护区间平方和。</p>
-<p>最后求期望约分即可。</p>
-<h1 id="code">Code</h1>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXN = <span class="number">100007</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> ans1, ans2, ans3;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Tree</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> int long long</span></span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">		<span class="keyword">struct</span> <span class="title class_">Node</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> sum1, sum2, sum3, sum4, sum5;</span><br><span class="line">            <span class="type">int</span> lazy;</span><br><span class="line">            <span class="type">int</span> l, r;</span><br><span class="line">        &#125;tree[MAXN &lt;&lt; <span class="number">2</span>];</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">lc</span><span class="params">(<span class="type">int</span> k)</span></span>&#123;<span class="keyword">return</span> k &lt;&lt; <span class="number">1</span>;&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">rc</span><span class="params">(<span class="type">int</span> k)</span></span>&#123;<span class="keyword">return</span> k &lt;&lt; <span class="number">1</span> | <span class="number">1</span>;&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			tree[k].lazy += v;</span><br><span class="line">			tree[k].sum1 += (tree[k].r - tree[k].l + <span class="number">1</span>) * v;</span><br><span class="line">            tree[k].sum2 += v * tree[k].sum5;</span><br><span class="line">            tree[k].sum3 += v * tree[k].sum4;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">pushup</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			tree[k].sum1 = tree[<span class="built_in">lc</span>(k)].sum1 + tree[<span class="built_in">rc</span>(k)].sum1;</span><br><span class="line">            tree[k].sum2 = tree[<span class="built_in">lc</span>(k)].sum2 + tree[<span class="built_in">rc</span>(k)].sum2;</span><br><span class="line">            tree[k].sum3 = tree[<span class="built_in">lc</span>(k)].sum3 + tree[<span class="built_in">rc</span>(k)].sum3;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">pushdown</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="built_in">f</span>(<span class="built_in">lc</span>(k), tree[k].lazy);</span><br><span class="line">			<span class="built_in">f</span>(<span class="built_in">rc</span>(k), tree[k].lazy);</span><br><span class="line">			tree[k].lazy = <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> k,<span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			tree[k].lazy = <span class="number">0</span>;</span><br><span class="line">            tree[k].l = l;</span><br><span class="line">            tree[k].r = r;</span><br><span class="line">			<span class="keyword">if</span>(l == r)</span><br><span class="line">			&#123;</span><br><span class="line">				tree[k].sum4 = l * l;</span><br><span class="line">                tree[k].sum5 = l;</span><br><span class="line">				<span class="keyword">return</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="type">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			<span class="built_in">build</span>(<span class="built_in">lc</span>(k), l, mid);</span><br><span class="line">			<span class="built_in">build</span>(<span class="built_in">rc</span>(k), mid + <span class="number">1</span>, r);</span><br><span class="line">			tree[k].sum4 = tree[<span class="built_in">lc</span>(k)].sum4 + tree[<span class="built_in">rc</span>(k)].sum4;</span><br><span class="line">            tree[k].sum5 = tree[<span class="built_in">lc</span>(k)].sum5 + tree[<span class="built_in">rc</span>(k)].sum5;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> L, <span class="type">int</span> R, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= tree[k].l &amp;&amp; tree[k].r &lt;= R)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">f</span>(k, v);</span><br><span class="line">				<span class="keyword">return</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">pushdown</span>(k);</span><br><span class="line">			<span class="type">int</span> mid = (tree[k].l + tree[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= mid) <span class="built_in">update</span>(<span class="built_in">lc</span>(k), L, R, v);</span><br><span class="line">			<span class="keyword">if</span>(R &gt; mid) <span class="built_in">update</span>(<span class="built_in">rc</span>(k), L, R, v);</span><br><span class="line">			<span class="built_in">pushup</span>(k);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="function"><span class="type">void</span> <span class="title">query</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> L, <span class="type">int</span> R)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= tree[k].l &amp;&amp; tree[k].r &lt;= R)</span><br><span class="line">            &#123;</span><br><span class="line">                ans1 += tree[k].sum1;</span><br><span class="line">                ans2 += tree[k].sum2;</span><br><span class="line">                ans3 += tree[k].sum3;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="built_in">pushdown</span>(k);</span><br><span class="line">			<span class="type">int</span> mid = (tree[k].l + tree[k].r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(L &lt;= mid) <span class="built_in">query</span>(<span class="built_in">lc</span>(k), L, R);</span><br><span class="line">			<span class="keyword">if</span>(R &gt; mid) <span class="built_in">query</span>(<span class="built_in">rc</span>(k), L, R);</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Tree t;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">gcd</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !b ? a : <span class="built_in">gcd</span>(b, a % b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">    t.<span class="built_in">build</span>(<span class="number">1</span>, <span class="number">1</span>, n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> op;</span><br><span class="line">        <span class="type">int</span> l, r, v;</span><br><span class="line">        cin &gt;&gt; op;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld&quot;</span>, &amp;l, &amp;r);</span><br><span class="line">        r--;</span><br><span class="line">        <span class="keyword">if</span>(op == <span class="string">&#x27;C&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;v);</span><br><span class="line">            t.<span class="built_in">update</span>(<span class="number">1</span>, l, r, v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            ans1 = ans2 = ans3 = <span class="number">0</span>;</span><br><span class="line">            t.<span class="built_in">query</span>(<span class="number">1</span>, l, r);</span><br><span class="line">            <span class="type">int</span> a, b, c;</span><br><span class="line">            a = (r - l + <span class="number">1</span> - r * l) * ans1 + (r + l) * ans2 - ans3;</span><br><span class="line">            b = (r - l + <span class="number">2</span>) * (r - l + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            c = <span class="built_in">gcd</span>(a, b);</span><br><span class="line">            <span class="comment">//cout &lt;&lt; l &lt;&lt; r &lt;&lt; b;</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%lld/%lld\n&quot;</span>, a / c, b / c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>线段树</tag>
       </tags>
   </entry>
   <entry>
@@ -1049,121 +1084,6 @@ class="math inline">\(\dim V\)</span>，为线性基元素个数。</p>
       </tags>
   </entry>
   <entry>
-    <title>NOIP2022 爆零记</title>
-    <url>/NOIP2022/</url>
-    <content><![CDATA[<p>一次愉快的 NOIP，而又是与他们最后的诀别。</p>
-<span id="more"></span>
-<h1 id="day--8">Day -8</h1>
-<p>由于 CSP-S 和高一的同学们脱轨了，因此乖乖回去学
-whk。本来以为没啥希望了，结果晚上 🍬
-一通电话通知居然能去了。非常惊讶。但是一段时间没学 OI
-了，感觉更菜了。就当是体验一下。</p>
-<h1 id="day--7">Day -7</h1>
-<p>要在下午 <span class="math inline">\(17:00\)</span> 之前到平邑，因此
-<span class="math inline">\(14:30\)</span>
-就要走。学校要求交艺术节作品，趁上午写了写结果写挂了，气急败坏。RP--。</p>
-<p>然后下午睡了一路之后来到平邑，住在很豪华的全季酒店，感觉从来没住过如此豪华。酒店临着河（好像叫浚河，祊河支流），还算是河景房，环境非常优美。</p>
-<p>睡得很安稳。</p>
-<h1 id="day--6">Day -6</h1>
-<p>上午 vp 了一下 CF，没切出 F，RP--。</p>
-<p>题目里面有道题叫做 The Humanoid，是 ZTMY 歌名，RP++。</p>
-<p>酒店居然有咖啡机。喝了一杯，好苦。</p>
-<h1 id="day--5">Day -5</h1>
-<p>写了几道线段树，感觉对线段树理解更深了一点。</p>
-<p>写了几篇题解，但是发现自己换硬盘重装系统忘了把 Blog
-文件夹拷过来，只能等 m.2-&gt;usb 买来了在部署了，先写着。</p>
-<p>鸭子可爱捏。</p>
-<p>晚上和 <span class="citation" data-cites="chiptune">@chiptune</span>
-一起 vp 了一场 abc，没切出来 F，自闭了，RP--。</p>
-<h1 id="day--4">Day -4</h1>
-<p>下雨了。</p>
-<p>测了下分院帽，Slytherin。</p>
-<p>下午 vp 了一场 div4，本来想涨涨信心，结果没 AK，自闭了，RP--。</p>
-<p>鸭子给了一首<a class="link" 
- href="https://music.163.com/#/song?id=557581315" >好听的歌</a>，单循了，RP++。</p>
-<p>感觉自己菜炸了，模板都不会了。</p>
-<p>调整作息，<span class="math inline">\(22:00\)</span>
-就睡了，我真规律。</p>
-<h1 id="day--3">Day -3</h1>
-<p>上午敲了敲板子，愣神。</p>
-<p>感觉自己没救了。</p>
-<p>鸭子又给了一首<a class="link" 
- href="https://music.163.com/#/song?id=1347630432" >好听的歌</a>，单循了，但是没有
-VIP，气得我满地乱爬。于是从 B 站下载音频上传到云盘，我真聪明。</p>
-<p>写了个攒 RP 的程序，开始跑了。</p>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>; i; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%lld, %lld, RP++\n&quot;</span>, i, <span class="built_in">clock</span>());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-<p>梦神锐评：“你是真无聊。”</p>
-<p>晚上头巨疼。不知道为什么。疼死我了。于是早早睡了。</p>
-<p>有点后怕，别上考场再头疼。</p>
-<h1 id="day--2">Day -2</h1>
-<p>🍬 给了一场 GMOJ 的比赛，难炸了，只拿了 B 题 20pts 暴力分。</p>
-<p>查询小w精神状态，结果为：就你还想打 NOIP？</p>
-<p>出考场了，5考场。</p>
-<p>测了一下 mbti，ENFJ-A。</p>
-<p>下午被精度给整自闭了。但是美婷姐姐理我了，很开心，RP++。</p>
-<p>写游记了。</p>
-<h1 id="day--1">Day -1</h1>
-<p>考前最后一天。上午意识到这一点有些紧张。</p>
-<p>然后就肆无忌惮地摆了一天。看了看KMP、逆元，感觉还可以。</p>
-<p>一直到晚上🍬开了个会，希望明天不要自闭吧。</p>
-<p>鸭子请了一杯奶茶，芋泥+珍珠，很好喝。</p>
-<p>领了前瞻的 300 原石，抽了一下，没想到 16
-抽就出了卢老爷，根据运气守恒定律，感觉明天会寄。</p>
-<p>早点睡觉吧。还是有点紧张。</p>
-<h1 id="day-1">Day 1</h1>
-<p>早上六点起床，早饭没吃凉的，吃的不多，有点担心会不会饿。但是实际上并没有。</p>
-<p>然后就坐（站）着大巴去 pyyz。终于见到 ss,lz1,lzy,zzk,lmt
-了，很开心。</p>
-<p>带着手机去结果根本没查码。</p>
-<p>上考场先把快读和对拍敲了，结果两个都没用到。</p>
-<p>考试还有个小风波，一开始给的密码不对，后来又给了，导致拖后了十分钟，不过在后面补上了。没想到是双重密码，pdf
-的密码是一开始给的。</p>
-<p>解压包的密码是 <code>biu#2019miss</code>，是不是在暗示错过了 2019
-年？（2019刚好疫情开始捏。）</p>
-<p>pdf 的密码是 <code>solo@2022</code>，是不是暗示 2022
-年单身啊呜呜。</p>
-<p>先看一遍题。T1 感觉可做，T2 是啥啊，名字倒是挺好听的。T3
-一眼图论，一眼要跑 Tarjan，一眼我不会。T4 一眼大数据结构，一眼不会。</p>
-<p>然后感觉先看看 T1。然后就想到可以对于每列 <span
-class="math inline">\(j\)</span> 的每行 <span
-class="math inline">\(i\)</span>
-预处理一下最长可以向上延伸多少，然后就可以想到对于每行 <span
-class="math inline">\(i\)</span>
-维护最多可以向右延伸多少，然后就可以想到统计。但是是 <span
-class="math inline">\(O(n^4)(假设n,m同阶)\)</span> 的。</p>
-<p>然后稍微一考虑就能想到前缀和优化一下到 <span
-class="math inline">\(O(n^2)\)</span>，然后就过了 <span
-class="math inline">\(114\ 514\)</span> 的大样例。好像也没法对拍，大概是
-<span class="math inline">\(10:00\)</span>，润了。</p>
-<p>然后看了看 T2，感觉是很牛逼的构造，不会。之后 T4
-暴力跑线段树维护最大值 <span class="math inline">\(O(Qn^2\log n)
-8pts\)</span> 跑路了。</p>
-<p>之后一直在 T4 和 T2 纠结，感觉都拿不到分。已经有点慌了。</p>
-<p>然后感觉 T2 <span class="math inline">\(k=2n-2\)</span>
-的部分分好像可做，想了很长时间感觉可以每个分配两种颜色，最后一个栈做闲余栈，写了写过了样例，自己造了几组也过了。</p>
-<p>然后感觉很没有头猪。又一直在想 T2 <span
-class="math inline">\(k=2n-1,n=2\)</span> 的部分分，写了一个 <span
-class="math inline">\(8\)</span> 个 <code>if</code>
-的大分类讨论，一直调不过去。眼看还有 <span
-class="math inline">\(10min\)</span>，先把东西都整理到 E
-盘，然后最后两分钟突然调出来了，过了样例，赶紧复制到文件里。感觉差不多了。</p>
-<p>估分 <span class="math inline">\(100+30+0+8=138pts\)</span>，但是
-T1、T2 都很不稳。</p>
-<p>水杯还落到教室里了，意识到的时候已经走了好几公里了，遂作罢。</p>
-<p>lmt 说能 <span class="math inline">\(255pts\)</span>，结果 T2
-假了，<span class="math inline">\(200pts\)</span> 左右。</p>
-<p>感觉是打的最烂的一次比赛。</p>
-<p>T2 果然是 zrf 投的题啊……果然恶心。</p>
-<p>luogu 测了一下 T1，过了，感觉安心一点了。</p>
-<p>luogu 和 infoj 测了所有的，一分没挂。感觉是打的最好的一次比赛。</p>
-<h1 id="days-later">Days Later</h1>
-<p>T1 挂了，省二。</p>
-]]></content>
-      <categories>
-        <category>随记</category>
-      </categories>
-  </entry>
-  <entry>
     <title>初赛知识点整理</title>
     <url>/Pre/</url>
     <content><![CDATA[<p>NOIP 初赛知识点整理。</p>
@@ -1585,6 +1505,181 @@ class="math inline">\(O(\text{NULL})\)</span></td>
       <categories>
         <category>学习笔记</category>
       </categories>
+  </entry>
+  <entry>
+    <title>NOIP2022 爆零记</title>
+    <url>/NOIP2022/</url>
+    <content><![CDATA[<p>一次愉快的 NOIP，而又是与他们最后的诀别。</p>
+<span id="more"></span>
+<h1 id="day--8">Day -8</h1>
+<p>由于 CSP-S 和高一的同学们脱轨了，因此乖乖回去学
+whk。本来以为没啥希望了，结果晚上 🍬
+一通电话通知居然能去了。非常惊讶。但是一段时间没学 OI
+了，感觉更菜了。就当是体验一下。</p>
+<h1 id="day--7">Day -7</h1>
+<p>要在下午 <span class="math inline">\(17:00\)</span> 之前到平邑，因此
+<span class="math inline">\(14:30\)</span>
+就要走。学校要求交艺术节作品，趁上午写了写结果写挂了，气急败坏。RP--。</p>
+<p>然后下午睡了一路之后来到平邑，住在很豪华的全季酒店，感觉从来没住过如此豪华。酒店临着河（好像叫浚河，祊河支流），还算是河景房，环境非常优美。</p>
+<p>睡得很安稳。</p>
+<h1 id="day--6">Day -6</h1>
+<p>上午 vp 了一下 CF，没切出 F，RP--。</p>
+<p>题目里面有道题叫做 The Humanoid，是 ZTMY 歌名，RP++。</p>
+<p>酒店居然有咖啡机。喝了一杯，好苦。</p>
+<h1 id="day--5">Day -5</h1>
+<p>写了几道线段树，感觉对线段树理解更深了一点。</p>
+<p>写了几篇题解，但是发现自己换硬盘重装系统忘了把 Blog
+文件夹拷过来，只能等 m.2-&gt;usb 买来了在部署了，先写着。</p>
+<p>鸭子可爱捏。</p>
+<p>晚上和 <span class="citation" data-cites="chiptune">@chiptune</span>
+一起 vp 了一场 abc，没切出来 F，自闭了，RP--。</p>
+<h1 id="day--4">Day -4</h1>
+<p>下雨了。</p>
+<p>测了下分院帽，Slytherin。</p>
+<p>下午 vp 了一场 div4，本来想涨涨信心，结果没 AK，自闭了，RP--。</p>
+<p>鸭子给了一首<a class="link" 
+ href="https://music.163.com/#/song?id=557581315" >好听的歌</a>，单循了，RP++。</p>
+<p>感觉自己菜炸了，模板都不会了。</p>
+<p>调整作息，<span class="math inline">\(22:00\)</span>
+就睡了，我真规律。</p>
+<h1 id="day--3">Day -3</h1>
+<p>上午敲了敲板子，愣神。</p>
+<p>感觉自己没救了。</p>
+<p>鸭子又给了一首<a class="link" 
+ href="https://music.163.com/#/song?id=1347630432" >好听的歌</a>，单循了，但是没有
+VIP，气得我满地乱爬。于是从 B 站下载音频上传到云盘，我真聪明。</p>
+<p>写了个攒 RP 的程序，开始跑了。</p>
+<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>; i; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%lld, %lld, RP++\n&quot;</span>, i, <span class="built_in">clock</span>());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>梦神锐评：“你是真无聊。”</p>
+<p>晚上头巨疼。不知道为什么。疼死我了。于是早早睡了。</p>
+<p>有点后怕，别上考场再头疼。</p>
+<h1 id="day--2">Day -2</h1>
+<p>🍬 给了一场 GMOJ 的比赛，难炸了，只拿了 B 题 20pts 暴力分。</p>
+<p>查询小w精神状态，结果为：就你还想打 NOIP？</p>
+<p>出考场了，5考场。</p>
+<p>测了一下 mbti，ENFJ-A。</p>
+<p>下午被精度给整自闭了。但是美婷姐姐理我了，很开心，RP++。</p>
+<p>写游记了。</p>
+<h1 id="day--1">Day -1</h1>
+<p>考前最后一天。上午意识到这一点有些紧张。</p>
+<p>然后就肆无忌惮地摆了一天。看了看KMP、逆元，感觉还可以。</p>
+<p>一直到晚上🍬开了个会，希望明天不要自闭吧。</p>
+<p>鸭子请了一杯奶茶，芋泥+珍珠，很好喝。</p>
+<p>领了前瞻的 300 原石，抽了一下，没想到 16
+抽就出了卢老爷，根据运气守恒定律，感觉明天会寄。</p>
+<p>早点睡觉吧。还是有点紧张。</p>
+<h1 id="day-1">Day 1</h1>
+<p>早上六点起床，早饭没吃凉的，吃的不多，有点担心会不会饿。但是实际上并没有。</p>
+<p>然后就坐（站）着大巴去 pyyz。终于见到 ss,lz1,lzy,zzk,lmt
+了，很开心。</p>
+<p>带着手机去结果根本没查码。</p>
+<p>上考场先把快读和对拍敲了，结果两个都没用到。</p>
+<p>考试还有个小风波，一开始给的密码不对，后来又给了，导致拖后了十分钟，不过在后面补上了。没想到是双重密码，pdf
+的密码是一开始给的。</p>
+<p>解压包的密码是 <code>biu#2019miss</code>，是不是在暗示错过了 2019
+年？（2019刚好疫情开始捏。）</p>
+<p>pdf 的密码是 <code>solo@2022</code>，是不是暗示 2022
+年单身啊呜呜。</p>
+<p>先看一遍题。T1 感觉可做，T2 是啥啊，名字倒是挺好听的。T3
+一眼图论，一眼要跑 Tarjan，一眼我不会。T4 一眼大数据结构，一眼不会。</p>
+<p>然后感觉先看看 T1。然后就想到可以对于每列 <span
+class="math inline">\(j\)</span> 的每行 <span
+class="math inline">\(i\)</span>
+预处理一下最长可以向上延伸多少，然后就可以想到对于每行 <span
+class="math inline">\(i\)</span>
+维护最多可以向右延伸多少，然后就可以想到统计。但是是 <span
+class="math inline">\(O(n^4)(假设n,m同阶)\)</span> 的。</p>
+<p>然后稍微一考虑就能想到前缀和优化一下到 <span
+class="math inline">\(O(n^2)\)</span>，然后就过了 <span
+class="math inline">\(114\ 514\)</span> 的大样例。好像也没法对拍，大概是
+<span class="math inline">\(10:00\)</span>，润了。</p>
+<p>然后看了看 T2，感觉是很牛逼的构造，不会。之后 T4
+暴力跑线段树维护最大值 <span class="math inline">\(O(Qn^2\log n)
+8pts\)</span> 跑路了。</p>
+<p>之后一直在 T4 和 T2 纠结，感觉都拿不到分。已经有点慌了。</p>
+<p>然后感觉 T2 <span class="math inline">\(k=2n-2\)</span>
+的部分分好像可做，想了很长时间感觉可以每个分配两种颜色，最后一个栈做闲余栈，写了写过了样例，自己造了几组也过了。</p>
+<p>然后感觉很没有头猪。又一直在想 T2 <span
+class="math inline">\(k=2n-1,n=2\)</span> 的部分分，写了一个 <span
+class="math inline">\(8\)</span> 个 <code>if</code>
+的大分类讨论，一直调不过去。眼看还有 <span
+class="math inline">\(10min\)</span>，先把东西都整理到 E
+盘，然后最后两分钟突然调出来了，过了样例，赶紧复制到文件里。感觉差不多了。</p>
+<p>估分 <span class="math inline">\(100+30+0+8=138pts\)</span>，但是
+T1、T2 都很不稳。</p>
+<p>水杯还落到教室里了，意识到的时候已经走了好几公里了，遂作罢。</p>
+<p>lmt 说能 <span class="math inline">\(255pts\)</span>，结果 T2
+假了，<span class="math inline">\(200pts\)</span> 左右。</p>
+<p>感觉是打的最烂的一次比赛。</p>
+<p>T2 果然是 zrf 投的题啊……果然恶心。</p>
+<p>luogu 测了一下 T1，过了，感觉安心一点了。</p>
+<p>luogu 和 infoj 测了所有的，一分没挂。感觉是打的最好的一次比赛。</p>
+<h1 id="days-later">Days Later</h1>
+<p>T1 挂了，省二。</p>
+]]></content>
+      <categories>
+        <category>随记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>概率论学习笔记（NJU）</title>
+    <url>/Probability-Theory/</url>
+    <content><![CDATA[<p>南京大学本科课程概率论。</p>
+<span id="more"></span>
+<h1 id="全概率公式">全概率公式</h1>
+<p>记 <span class="math inline">\(A_i,B\)</span> 为事件，<span
+class="math inline">\(B\)</span> 为结果，<span
+class="math inline">\(A_i\)</span> 为条件，则有全概率公式：</p>
+<p><span class="math display">\[
+P(B)=\sum\limits_{i=1}^{n}P(BA_i)=\sum\limits_{i=1}^{n}P(A_i)P(B|A_i)
+\]</span></p>
+<p>其中，<span class="math inline">\(P(AB)\)</span> 表示满足条件 <span
+class="math inline">\(A\land B\)</span> 的概率，<span
+class="math inline">\(P(B|A)\)</span> 表示条件 <span
+class="math inline">\(A\)</span> 下发生 <span
+class="math inline">\(B\)</span> 的概率。</p>
+<h1 id="贝叶斯公式">贝叶斯公式</h1>
+<p>遵循上述约定，若有 <span
+class="math inline">\(P(B)&gt;0\)</span>，则有贝叶斯公式：</p>
+<p><span class="math display">\[
+P(A_i|B)=\dfrac{P(A_iB)}{P(B)}=\dfrac{P(A_i)P(B|A_i)}{\sum\limits_{j=1}^{n}P(A_j)P(B|A_j)}
+\]</span></p>
+<p>其中 <span class="math inline">\(P(A|B)\)</span> 表示事件 <span
+class="math inline">\(B\)</span> 由 <span
+class="math inline">\(A\)</span> 引发的概率。</p>
+<p>特别地，若 <span class="math inline">\(n=1\)</span>，则有：</p>
+<p><span class="math display">\[
+P(A|B)=\dfrac{P(AB)}{P(B)}=\dfrac{P(A)P(B|A)}{P(A)P(B|A)+P(\overline{A})P(B|\overline{A})}
+\]</span></p>
+<p>其中 <span class="math inline">\(\overline{A}\)</span> 表示 <span
+class="math inline">\(A\)</span> 的反事件。</p>
+<p>全概率公式和贝叶斯公式均需要得知 <span
+class="math inline">\(P(A_i)\)</span> 与 <span
+class="math inline">\(P(B|A_i)\)</span>，不同之处在于全概率公式是通过这些概率推出
+<span class="math inline">\(B\)</span>
+的概率，即由因推果。而贝叶斯公式则是在已知 <span
+class="math inline">\(B\)</span> 发生的概率下，求出 <span
+class="math inline">\(A_i\)</span> 对其的影响，即由果推因。</p>
+<p>由此观之，全概率公式与贝叶斯公式呈现因果颠倒的关系。</p>
+<p>我们称 <span class="math inline">\(P(A_i)\)</span> 为先验概率，称
+<span class="math inline">\(P(A_i|B)\)</span> 为后验概率，<span
+class="math inline">\(P(B)\)</span> 为证据概率，<span
+class="math inline">\(P(B|A_i)\)</span>
+为似然度，则贝叶斯公式可用下式表示：</p>
+<p><span class="math display">\[
+\text{后验概率}=\dfrac{\text{先验概率}}{\text{证据概率}}\times
+\text{似然度}
+\]</span></p>
+<p>许多算法为提高后验概率，会尽量提高似然度。</p>
+<p>贝叶斯公式存在的争议：先验概率可能不存在或者存在主观性。</p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>概率论</tag>
+        <tag>数学</tag>
+      </tags>
   </entry>
   <entry>
     <title>初赛知识点整理第2版</title>
@@ -2274,63 +2369,87 @@ class="math inline">\(O(\max\{value\})\)</span></td>
       </categories>
   </entry>
   <entry>
-    <title>概率论学习笔记（NJU）</title>
-    <url>/Probability-Theory/</url>
-    <content><![CDATA[<p>南京大学本科课程概率论。</p>
+    <title>Prüfer 序列学习笔记</title>
+    <url>/Prufer/</url>
+    <content><![CDATA[<p>如何优美地数树 ~ Prüfer 序列学习笔记</p>
 <span id="more"></span>
-<h1 id="全概率公式">全概率公式</h1>
-<p>记 <span class="math inline">\(A_i,B\)</span> 为事件，<span
-class="math inline">\(B\)</span> 为结果，<span
-class="math inline">\(A_i\)</span> 为条件，则有全概率公式：</p>
-<p><span class="math display">\[
-P(B)=\sum\limits_{i=1}^{n}P(BA_i)=\sum\limits_{i=1}^{n}P(A_i)P(B|A_i)
-\]</span></p>
-<p>其中，<span class="math inline">\(P(AB)\)</span> 表示满足条件 <span
-class="math inline">\(A\land B\)</span> 的概率，<span
-class="math inline">\(P(B|A)\)</span> 表示条件 <span
-class="math inline">\(A\)</span> 下发生 <span
-class="math inline">\(B\)</span> 的概率。</p>
-<h1 id="贝叶斯公式">贝叶斯公式</h1>
-<p>遵循上述约定，若有 <span
-class="math inline">\(P(B)&gt;0\)</span>，则有贝叶斯公式：</p>
-<p><span class="math display">\[
-P(A_i|B)=\dfrac{P(A_iB)}{P(B)}=\dfrac{P(A_i)P(B|A_i)}{\sum\limits_{j=1}^{n}P(A_j)P(B|A_j)}
-\]</span></p>
-<p>其中 <span class="math inline">\(P(A|B)\)</span> 表示事件 <span
-class="math inline">\(B\)</span> 由 <span
-class="math inline">\(A\)</span> 引发的概率。</p>
-<p>特别地，若 <span class="math inline">\(n=1\)</span>，则有：</p>
-<p><span class="math display">\[
-P(A|B)=\dfrac{P(AB)}{P(B)}=\dfrac{P(A)P(B|A)}{P(A)P(B|A)+P(\overline{A})P(B|\overline{A})}
-\]</span></p>
-<p>其中 <span class="math inline">\(\overline{A}\)</span> 表示 <span
-class="math inline">\(A\)</span> 的反事件。</p>
-<p>全概率公式和贝叶斯公式均需要得知 <span
-class="math inline">\(P(A_i)\)</span> 与 <span
-class="math inline">\(P(B|A_i)\)</span>，不同之处在于全概率公式是通过这些概率推出
-<span class="math inline">\(B\)</span>
-的概率，即由因推果。而贝叶斯公式则是在已知 <span
-class="math inline">\(B\)</span> 发生的概率下，求出 <span
-class="math inline">\(A_i\)</span> 对其的影响，即由果推因。</p>
-<p>由此观之，全概率公式与贝叶斯公式呈现因果颠倒的关系。</p>
-<p>我们称 <span class="math inline">\(P(A_i)\)</span> 为先验概率，称
-<span class="math inline">\(P(A_i|B)\)</span> 为后验概率，<span
-class="math inline">\(P(B)\)</span> 为证据概率，<span
-class="math inline">\(P(B|A_i)\)</span>
-为似然度，则贝叶斯公式可用下式表示：</p>
-<p><span class="math display">\[
-\text{后验概率}=\dfrac{\text{先验概率}}{\text{证据概率}}\times
-\text{似然度}
-\]</span></p>
-<p>许多算法为提高后验概率，会尽量提高似然度。</p>
-<p>贝叶斯公式存在的争议：先验概率可能不存在或者存在主观性。</p>
+<h1 id="prüfer-序列">Prüfer 序列</h1>
+<p>首先定义<strong>无向树的 Prüfer 序列</strong>：</p>
+<p>对于一颗无向树，考虑按照下列步骤建立 Prüfer 序列：</p>
+<ol type="1">
+<li>删去当前编号最小的叶子节点，并在序列中加入其父亲节点；</li>
+<li>重复 <span class="math inline">\(n-2\)</span>
+次直到剩下两个节点。</li>
+</ol>
+<p>最终得到的序列就是该无向树的 Prüfer 序列。</p>
+<p>用堆暴力构造是 <span class="math inline">\(O(n\log n)\)</span>
+的，有一个线性构造办法：</p>
+<p>记录指针 <span class="math inline">\(p\)</span> 和每个点的度数 <span
+class="math inline">\(\deg_i\)</span>，按照以下步骤建立序列：</p>
+<ol type="1">
+<li>若 <span class="math inline">\(p\)</span> 为叶子节点，删除节点 <span
+class="math inline">\(p\)</span>（不改变指针 <span
+class="math inline">\(p\)</span> 的位置）；</li>
+<li>判断是否产生新的叶子节点。若产生，则判断新叶子节点编号 <span
+class="math inline">\(q\)</span> 与 <span
+class="math inline">\(p\)</span> 的大小关系。若 <span
+class="math inline">\(q&lt;p\)</span>，则立即删除 <span
+class="math inline">\(q\)</span>，重复步骤 <span
+class="math inline">\(2\)</span>；否则不进行操作；</li>
+<li>自增 <span class="math inline">\(p\)</span> 直到变为步骤 <span
+class="math inline">\(1\)</span>。</li>
+</ol>
+<p>正确性是显然的，时间复杂度 <span
+class="math inline">\(O(n)\)</span>。</p>
+<p>根据 Prüfer 序列可以唯一地重建树。方法与建立类似。</p>
+<p>Prüfer
+序列实际上与无向树构成了<strong>双射关系</strong>，用处就是数树。</p>
+<p>性质：结点 <span class="math inline">\(i\)</span>
+在序列中出现的次数是 <span class="math inline">\(\deg_i-1\)</span>。</p>
+<h1 id="cayley-公式">Cayley 公式</h1>
+<p><strong>Cayley 公式</strong>：<span class="math inline">\(n\)</span>
+个标号点形成的树的数量为 <span
+class="math inline">\(n^{n-2}\)</span>。</p>
+<p>等价于：完全图 <span class="math inline">\(K_n\)</span>
+的生成树个数为 <span class="math inline">\(n^{n-2}\)</span>。</p>
+<p>用 Prüfer 序列可以方便地证明 Cayley 公式.</p>
+<p>证明：任意一个长度为 <span class="math inline">\(n-2\)</span>
+的，值域为 <span class="math inline">\([1,n]\)</span> 的 Prüfer
+序列都是原图的一棵生成树。证毕。</p>
+<h1 id="广义-cayley-公式">广义 Cayley 公式</h1>
+<p><strong>广义 Cayley 公式</strong>：<span
+class="math inline">\(n\)</span> 个标号点形成一个有 <span
+class="math inline">\(k\)</span> 颗树的森林，使给定的 <span
+class="math inline">\(k\)</span> 个点中任两点不属于同一棵树的方案数为
+<span class="math inline">\(k\cdot n^{n-k-1}\)</span>。</p>
+<p>证明：不妨钦定给定的 <span class="math inline">\(k\)</span>
+个点分别为 <span class="math inline">\(k\)</span>
+颗树的根。我们建立一个虚根 <span
+class="math inline">\(I\)</span>，钦定其编号为 <span
+class="math inline">\(n+1\)</span>，并分别钦定 <span
+class="math inline">\(k\)</span> 个点编号为 <span
+class="math inline">\(n-k+1\sim n\)</span>。</p>
+<p>由于 Prüfer 序列每次删叶子节点，因此这 <span
+class="math inline">\(k\)</span>
+个点一定是最后被删除的，并且加入序列的数一定是 <span
+class="math inline">\(n+1\)</span>。也就是说，Prüfer 序列最后 <span
+class="math inline">\(k-1\)</span> 个点一定是 <span
+class="math inline">\(n+1\)</span>。</p>
+<p>编号为 <span class="math inline">\(n-k-2\)</span>
+的节点，其父亲一定只能是这 <span class="math inline">\(k\)</span>
+个点。剩余的 <span class="math inline">\(n-k-1\)</span>
+个点，其父亲可以是 <span class="math inline">\([1,n]\)</span>
+中任意节点。</p>
+<p>因此最终的方案数就是 <span class="math inline">\(k\cdot
+n^{n-k-1}\)</span>。</p>
 ]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
       <tags>
-        <tag>概率论</tag>
         <tag>数学</tag>
+        <tag>组合数学</tag>
+        <tag>图论</tag>
       </tags>
   </entry>
   <entry>
@@ -3786,124 +3905,5 @@ Code(Tap)
       <categories>
         <category>题解</category>
       </categories>
-  </entry>
-  <entry>
-    <title>CF442D Adam and Tree</title>
-    <url>/CF442D/</url>
-    <content><![CDATA[<p>有生之年独立做出来的黑题（至少现在是）。</p>
-<span id="more"></span>
-<p>首先，一定有一种最优情况使得一条颜色的路径不会同时包含某个节点的多于一个儿子。</p>
-<p>证明：如果有存在同时包含某个节点多于一个儿子的路径，那么由于我们只关心某个节点到根节点的颜色数量，而不关心总颜色数量，因此将这条路径拆成两条即可。</p>
-<p>然后考虑设 <span class="math inline">\(f_u\)</span> 表示以 <span
-class="math inline">\(u\)</span>
-为根的子树，包括其连向父亲的那条边的最优解。</p>
-<p>考虑到我们现在要给 <span class="math inline">\(u\rightarrow
-fa_u\)</span>
-染色，那么我们应当将其染成儿子的最大值的颜色。因为这样一定可以尽量减少对答案的贡献。那么儿子的次大值就会加上
-<span class="math inline">\(1\)</span>。因此我们同时维护最大值 <span
-class="math inline">\(max1\)</span>，次大值 <span
-class="math inline">\(max2\)</span>，可以得到转移方程：</p>
-<p><span class="math display">\[
-f_u=\max\{max1_u, max2_u+1\}
-\]</span></p>
-<p>考虑这样暴力转移是 <span class="math inline">\(O(n)\)</span>
-的，总时间复杂度 <span class="math inline">\(O(n^2)\)</span>。</p>
-<p>我们加入这样一个优化：如果加入一个节点，向上更新的过程中，发现已经无法更新该节点，那么就直接停止更新。这样的时间复杂度是
-<span class="math inline">\(O(n\log n)\)</span> 的。</p>
-<p>为什么呢？因为可以发现，我们每次更新的一定是一条链。而我们染色的过程类似于重链剖分，一个节点到根的过程经过的链的数量是
-<span class="math inline">\(O(\log n)\)</span> 的，因此总时间复杂度
-<span class="math inline">\(O(n\log n)\)</span>。</p>
-<div class="highlight-container" data-rel="Cpp"><figure class="iseeu highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(u == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span>(max1[fa[u]] &lt; f[u])</span><br><span class="line">    &#123;</span><br><span class="line">        max2[fa[u]] = max1[fa[u]];</span><br><span class="line">        max1[fa[u]] = f[u];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(max2[fa[u]] &lt; f[u])</span><br><span class="line">    &#123;</span><br><span class="line">        max2[fa[u]] = f[u];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> ans = <span class="built_in">max</span>(max1[fa[u]], max2[fa[u]] + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(f[fa[u]] == ans) <span class="keyword">return</span>;</span><br><span class="line">    f[fa[u]] = ans;</span><br><span class="line">    <span class="built_in">dfs</span>(fa[u]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">read</span>(n);</span><br><span class="line">    f[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n + <span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        f[i] = <span class="number">1</span>;</span><br><span class="line">        fa[i] = <span class="built_in">read</span>();</span><br><span class="line">        <span class="built_in">dfs</span>(i);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, max1[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Prüfer 序列学习笔记</title>
-    <url>/Prufer/</url>
-    <content><![CDATA[<p>如何优美地数树 ~ Prüfer 序列学习笔记</p>
-<span id="more"></span>
-<h1 id="prüfer-序列">Prüfer 序列</h1>
-<p>首先定义<strong>无向树的 Prüfer 序列</strong>：</p>
-<p>对于一颗无向树，考虑按照下列步骤建立 Prüfer 序列：</p>
-<ol type="1">
-<li>删去当前编号最小的叶子节点，并在序列中加入其父亲节点；</li>
-<li>重复 <span class="math inline">\(n-2\)</span>
-次直到剩下两个节点。</li>
-</ol>
-<p>最终得到的序列就是该无向树的 Prüfer 序列。</p>
-<p>用堆暴力构造是 <span class="math inline">\(O(n\log n)\)</span>
-的，有一个线性构造办法：</p>
-<p>记录指针 <span class="math inline">\(p\)</span> 和每个点的度数 <span
-class="math inline">\(\deg_i\)</span>，按照以下步骤建立序列：</p>
-<ol type="1">
-<li>若 <span class="math inline">\(p\)</span> 为叶子节点，删除节点 <span
-class="math inline">\(p\)</span>（不改变指针 <span
-class="math inline">\(p\)</span> 的位置）；</li>
-<li>判断是否产生新的叶子节点。若产生，则判断新叶子节点编号 <span
-class="math inline">\(q\)</span> 与 <span
-class="math inline">\(p\)</span> 的大小关系。若 <span
-class="math inline">\(q&lt;p\)</span>，则立即删除 <span
-class="math inline">\(q\)</span>，重复步骤 <span
-class="math inline">\(2\)</span>；否则不进行操作；</li>
-<li>自增 <span class="math inline">\(p\)</span> 直到变为步骤 <span
-class="math inline">\(1\)</span>。</li>
-</ol>
-<p>正确性是显然的，时间复杂度 <span
-class="math inline">\(O(n)\)</span>。</p>
-<p>根据 Prüfer 序列可以唯一地重建树。方法与建立类似。</p>
-<p>Prüfer
-序列实际上与无向树构成了<strong>双射关系</strong>，用处就是数树。</p>
-<p>性质：结点 <span class="math inline">\(i\)</span>
-在序列中出现的次数是 <span class="math inline">\(\deg_i-1\)</span>。</p>
-<h1 id="cayley-公式">Cayley 公式</h1>
-<p><strong>Cayley 公式</strong>：<span class="math inline">\(n\)</span>
-个标号点形成的树的数量为 <span
-class="math inline">\(n^{n-2}\)</span>。</p>
-<p>等价于：完全图 <span class="math inline">\(K_n\)</span>
-的生成树个数为 <span class="math inline">\(n^{n-2}\)</span>。</p>
-<p>用 Prüfer 序列可以方便地证明 Cayley 公式.</p>
-<p>证明：任意一个长度为 <span class="math inline">\(n-2\)</span>
-的，值域为 <span class="math inline">\([1,n]\)</span> 的 Prüfer
-序列都是原图的一棵生成树。证毕。</p>
-<h1 id="广义-cayley-公式">广义 Cayley 公式</h1>
-<p><strong>广义 Cayley 公式</strong>：<span
-class="math inline">\(n\)</span> 个标号点形成一个有 <span
-class="math inline">\(k\)</span> 颗树的森林，使给定的 <span
-class="math inline">\(k\)</span> 个点中任两点不属于同一棵树的方案数为
-<span class="math inline">\(k\cdot n^{n-k-1}\)</span>。</p>
-<p>证明：不妨钦定给定的 <span class="math inline">\(k\)</span>
-个点分别为 <span class="math inline">\(k\)</span>
-颗树的根。我们建立一个虚根 <span
-class="math inline">\(I\)</span>，钦定其编号为 <span
-class="math inline">\(n+1\)</span>，并分别钦定 <span
-class="math inline">\(k\)</span> 个点编号为 <span
-class="math inline">\(n-k+1\sim n\)</span>。</p>
-<p>由于 Prüfer 序列每次删叶子节点，因此这 <span
-class="math inline">\(k\)</span>
-个点一定是最后被删除的，并且加入序列的数一定是 <span
-class="math inline">\(n+1\)</span>。也就是说，Prüfer 序列最后 <span
-class="math inline">\(k-1\)</span> 个点一定是 <span
-class="math inline">\(n+1\)</span>。</p>
-<p>编号为 <span class="math inline">\(n-k-2\)</span>
-的节点，其父亲一定只能是这 <span class="math inline">\(k\)</span>
-个点。剩余的 <span class="math inline">\(n-k-1\)</span>
-个点，其父亲可以是 <span class="math inline">\([1,n]\)</span>
-中任意节点。</p>
-<p>因此最终的方案数就是 <span class="math inline">\(k\cdot
-n^{n-k-1}\)</span>。</p>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-      <tags>
-        <tag>数学</tag>
-        <tag>组合数学</tag>
-        <tag>图论</tag>
-      </tags>
   </entry>
 </search>
