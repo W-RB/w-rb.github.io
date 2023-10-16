@@ -18,15 +18,15 @@
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="青春是罪恶，是谎言。——《我的青春恋爱物语果然有问题》 目前进度：\(2&#x2F;24\)。">
+        <meta name="description" content="青春是罪恶，是谎言。——《我的青春恋爱物语果然有问题》 目前进度：\(6&#x2F;24\)。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络流 24 题">
 <meta property="og:url" content="http://summace.cc/24-Problems-of-Network-Flow/index.html">
 <meta property="og:site_name" content="夏花盛开，佑浅浅而归">
-<meta property="og:description" content="青春是罪恶，是谎言。——《我的青春恋爱物语果然有问题》 目前进度：\(2&#x2F;24\)。">
+<meta property="og:description" content="青春是罪恶，是谎言。——《我的青春恋爱物语果然有问题》 目前进度：\(6&#x2F;24\)。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-10-13T10:07:33.399Z">
+<meta property="article:modified_time" content="2023-10-16T03:12:44.838Z">
 <meta property="article:author" content="夏佑">
 <meta property="article:tag" content="网络流">
 <meta property="article:tag" content="图论">
@@ -390,8 +390,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-13 18:07:33</span>
-            <span class="mobile">2023-10-13 18:07:33</span>
+            <span class="desktop">2023-10-16 11:12:44</span>
+            <span class="mobile">2023-10-16 11:12:44</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -433,12 +433,12 @@
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>551 字</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>860 字</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>1 分钟</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>3 分钟</span>
         </span>
     
     
@@ -458,7 +458,7 @@
 
         <div class="article-content markdown-body">
             <p>青春是罪恶，是谎言。——《我的青春恋爱物语果然有问题》</p>
-<p>目前进度：<span class="math inline">\(2/24\)</span>。</p>
+<p>目前进度：<span class="math inline">\(6/24\)</span>。</p>
 <span id="more"></span>
 <h1 id="负载平衡问题">负载平衡问题</h1>
 <p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4016" >Link</a></p>
@@ -502,8 +502,7 @@ class="math inline">\(S\)</span>
 的出流和我们加的这些边流量相等，因此这几条边一定会跑满，最终最大流就是
 <span class="math inline">\(\sum
 a_i\)</span>，此时的最小费用就是答案。</p>
-<h1
-id="飞行员配对方案问题二分图最大匹配">飞行员配对方案问题（二分图最大匹配）</h1>
+<h1 id="飞行员配对方案问题">飞行员配对方案问题</h1>
 <p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2756" >Link</a></p>
 <p>这个题是经典模板——二分图最大匹配。</p>
 <p>考虑如此建模：二分图内部的边，左部点向右部点连容量为 <span
@@ -514,6 +513,45 @@ class="math inline">\(T\)</span>，每个右部点向其连流量为 <span
 class="math inline">\(1\)</span> 的边。跑出最大流即可。</p>
 <p>至于输出方案，则找出来残量为 <span class="math inline">\(0\)</span>
 的边即可。</p>
+<h1 id="分配问题">分配问题</h1>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4014" >Link</a></p>
+<p>二分图最大权匹配/二分图最小权匹配。</p>
+<p>和上一题一样建模，只不过加上费用即可。最后跑一遍最小费用最大流和最大费用最大流即可。</p>
+<h1 id="运输问题">运输问题</h1>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4015" >Link</a></p>
+<p><span class="math inline">\(S\)</span> 连左部点费用 <span
+class="math inline">\(0\)</span>，容量 <span
+class="math inline">\(a_i\)</span>，右部点连 <span
+class="math inline">\(T\)</span> 费用 <span
+class="math inline">\(0\)</span>，容量 <span
+class="math inline">\(b_i\)</span>，左右部点间连 <span
+class="math inline">\(a\rightarrow b\)</span> 容量 <span
+class="math inline">\(+\infty\)</span>，代价 <span
+class="math inline">\(c_{a,b}\)</span>。</p>
+<p>跑最小费用最大流和最大费用最大流即可。</p>
+<h1 id="圆桌问题">圆桌问题</h1>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3254" >Link</a></p>
+<p>左部点为 <span class="math inline">\(m\)</span> 个单位，右部点为
+<span class="math inline">\(n\)</span> 个桌子。</p>
+<p>超级源点 <span class="math inline">\(S\)</span> 向左部点连容量为
+<span class="math inline">\(r_i\)</span> 的边，右部点向超级汇点 <span
+class="math inline">\(T\)</span> 连容量为 <span
+class="math inline">\(c_i\)</span> 的边，左右部点连容量为 <span
+class="math inline">\(1\)</span> 的边。</p>
+<p>跑最大流即可。</p>
+<p>根据前面几个题可以总结一些不成熟的经验：点权的限制可以通过源/汇点与其连边的容量限制。</p>
+<h1 id="试题库问题">试题库问题</h1>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2763" >Link</a></p>
+<p>左部点为 <span class="math inline">\(n\)</span> 个试题，右部点为
+<span class="math inline">\(k\)</span> 个类型。</p>
+<p>超级源点 <span class="math inline">\(S\)</span> 向左部点连容量为
+<span class="math inline">\(1\)</span> 的边，右部点向超级汇点 <span
+class="math inline">\(T\)</span> 连容量为 <span
+class="math inline">\(k_i\)</span>（<span
+class="math inline">\(i\)</span> 类型所需题数）的边。</p>
+<p>左右部点之间按照类型连容量为 <span class="math inline">\(1\)</span>
+的边。</p>
+<p>跑最大流即可。</p>
 
         </div>
 
@@ -528,7 +566,7 @@ class="math inline">\(1\)</span> 的边。跑出最大流即可。</p>
         
             <li>
                 <strong>更新于
-                    :</strong> 2023-10-13 18:07:33
+                    :</strong> 2023-10-16 11:12:44
             </li>
         
         <li>
@@ -568,6 +606,21 @@ class="math inline">\(1\)</span> 的边。跑出最大流即可。</p>
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/CF875F/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">CF875F Royal Questions</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
@@ -597,7 +650,7 @@ class="math inline">\(1\)</span> 的边。跑出最大流即可。</p>
     <div class="post-toc">
         <div class="toc-title">此页目录</div>
         <div class="page-title">网络流 24 题</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%B9%B3%E8%A1%A1%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">负载平衡问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A3%9E%E8%A1%8C%E5%91%98%E9%85%8D%E5%AF%B9%E6%96%B9%E6%A1%88%E9%97%AE%E9%A2%98%E4%BA%8C%E5%88%86%E5%9B%BE%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D"><span class="nav-number">2.</span> <span class="nav-text">飞行员配对方案问题（二分图最大匹配）</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%B9%B3%E8%A1%A1%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">负载平衡问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A3%9E%E8%A1%8C%E5%91%98%E9%85%8D%E5%AF%B9%E6%96%B9%E6%A1%88%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">飞行员配对方案问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">分配问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E8%BE%93%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">运输问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%86%E6%A1%8C%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">圆桌问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%95%E9%A2%98%E5%BA%93%E9%97%AE%E9%A2%98"><span class="nav-number">6.</span> <span class="nav-text">试题库问题</span></a></li></ol>
 
     </div>
 </div>
